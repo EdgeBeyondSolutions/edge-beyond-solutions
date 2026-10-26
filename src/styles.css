@@ -1,0 +1,133 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Instrument Serif", serif;
+  --font-sans: "Space Grotesk", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --radius-lg: var(--radius);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--background);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--primary);
+  --color-pain: var(--pain);
+}
+
+:root {
+  --radius: 1rem;
+  --background: oklch(0.14 0.01 250);
+  --foreground: oklch(0.96 0.01 100);
+  --card: oklch(0.18 0.012 250);
+  --primary: oklch(0.9 0.2 125);          /* edge lime */
+  --primary-foreground: oklch(0.14 0.01 250);
+  --secondary: oklch(0.22 0.012 250);
+  --muted: oklch(0.2 0.01 250);
+  --muted-foreground: oklch(0.66 0.015 250);
+  --accent: oklch(0.78 0.13 210);          /* beyond cyan */
+  --pain: oklch(0.65 0.17 30);
+  --destructive: oklch(0.6 0.22 27);
+  --border: oklch(1 0 0 / 9%);
+  --gradient-edge: linear-gradient(100deg, var(--primary), var(--accent));
+  --glow: 0 0 80px -10px color-mix(in oklab, var(--primary) 55%, transparent);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  body { background: var(--background); color: var(--foreground); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--primary); color: var(--primary-foreground); }
+}
+
+@utility text-edge {
+  background: var(--gradient-edge);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+@utility bg-edge { background: var(--gradient-edge); }
+@utility shadow-glow { box-shadow: var(--glow); }
+@utility grain {
+  position: relative;
+  &::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: .05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+@utility horizon {
+  background:
+    radial-gradient(60% 50% at 50% 100%, color-mix(in oklab, var(--primary) 35%, transparent), transparent 70%),
+    radial-gradient(40% 40% at 80% 90%, color-mix(in oklab, var(--accent) 30%, transparent), transparent 70%);
+}
+@utility grid-lines {
+  background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+@utility reveal {
+  opacity: 0; transform: translateY(32px); transition: opacity 1s cubic-bezier(.2,.7,.2,1), transform 1s cubic-bezier(.2,.7,.2,1);
+  &.in { opacity: 1; transform: none; }
+}
+
+/* --- 3D holographic glass system --- */
+@utility glass {
+  background: linear-gradient(160deg, oklch(1 0 0 / 6%), oklch(1 0 0 / 1.5%));
+  backdrop-filter: blur(26px) saturate(160%);
+  border: 1px solid oklch(1 0 0 / 14%);
+  box-shadow:
+    0 30px 70px -30px oklch(0 0 0 / 70%),
+    inset 0 1px 0 oklch(1 0 0 / 18%),
+    inset 0 -1px 0 oklch(1 0 0 / 5%);
+}
+@utility glass-edge {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(160deg, oklch(1 0 0 / 8%), oklch(1 0 0 / 2%)) padding-box,
+    linear-gradient(140deg, color-mix(in oklab, var(--primary) 70%, transparent), oklch(1 0 0 / 10%) 40%, color-mix(in oklab, var(--accent) 70%, transparent)) border-box;
+  backdrop-filter: blur(18px) saturate(150%);
+  box-shadow:
+    0 30px 80px -30px oklch(0 0 0 / 75%),
+    0 0 60px -20px color-mix(in oklab, var(--accent) 45%, transparent),
+    inset 0 1px 0 oklch(1 0 0 / 16%);
+}
+@utility tilt-scene { perspective: 1400px; }
+@utility tilt-panel {
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 8deg)) rotateY(var(--ry, -12deg));
+  transition: transform 0.25s ease-out;
+}
+@utility layer-1 { transform: translateZ(30px); }
+@utility layer-2 { transform: translateZ(60px); }
+@utility layer-3 { transform: translateZ(90px); }
+@utility holo-beam {
+  background:
+    linear-gradient(180deg, transparent, color-mix(in oklab, var(--accent) 22%, transparent) 45%, transparent),
+    linear-gradient(180deg, transparent, color-mix(in oklab, var(--primary) 14%, transparent) 60%, transparent);
+  filter: blur(2px);
+}
+@utility floor-glow {
+  background: radial-gradient(50% 60% at 50% 50%, color-mix(in oklab, var(--accent) 28%, transparent), transparent 70%);
+  filter: blur(30px);
+}
+
+@keyframes rise { from { transform: translateY(0) } 50% { transform: translateY(-14px) } to { transform: translateY(0) } }
+@keyframes float-y { from { transform: translateY(0) } 50% { transform: translateY(-12px) } to { transform: translateY(0) } }
+@utility animate-float { animation: float-y 7s ease-in-out infinite; }
+@utility animate-float-slow { animation: float-y 10s ease-in-out infinite; }
+@keyframes marquee { to { transform: translateX(-50%) } }
+@keyframes pulse-line { 0%,100% { opacity: .3 } 50% { opacity: 1 } }
+@utility animate-rise { animation: rise 6s ease-in-out infinite; }
+@utility animate-marquee { animation: marquee 30s linear infinite; }
+@utility animate-pulse-line { animation: pulse-line 3s ease-in-out infinite; }

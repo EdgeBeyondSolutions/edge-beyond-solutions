@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://edgebeyond.solutions/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://edgebeyond.solutions/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://edgebeyond.solutions/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://edgebeyond.solutions/"/>
+  </url>
+  <url>
+    <loc>https://edgebeyond.solutions/es/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://edgebeyond.solutions/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://edgebeyond.solutions/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://edgebeyond.solutions/"/>
+  </url>
+  <url>
+    <loc>https://edgebeyond.solutions/privacy-policy.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://edgebeyond.solutions/privacy-policy.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://edgebeyond.solutions/es/privacy-policy.html"/>
+  </url>
+  <url>
+    <loc>https://edgebeyond.solutions/terms-of-service.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://edgebeyond.solutions/terms-of-service.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://edgebeyond.solutions/es/terms-of-service.html"/>
+  </url>
+  <url>
+    <loc>https://edgebeyond.solutions/es/privacy-policy.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://edgebeyond.solutions/privacy-policy.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://edgebeyond.solutions/es/privacy-policy.html"/>
+  </url>
+  <url>
+    <loc>https://edgebeyond.solutions/es/terms-of-service.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://edgebeyond.solutions/terms-of-service.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://edgebeyond.solutions/es/terms-of-service.html"/>
+  </url>
+</urlset>
