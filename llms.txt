@@ -1,0 +1,34 @@
+# EdgeBeyond
+
+> EdgeBeyond is a personalized AI marketing automation agency based in San Antonio, Texas, built specifically for small and medium businesses. We build AI websites, AI chatbots, AI agents, marketing automations, and AI SEO so leads get answered and booked around the clock, and so the business itself gets found and recommended across Google, ChatGPT, Google AI Overviews, Perplexity and other AI search tools.
+
+EdgeBeyond works directly with small and medium business owners — no large agency layers, no call center. One of the most common goals we solve for: getting more customers without raising ad spend, by converting more of the traffic and leads a business already has. Engagements typically start with a free assessment of where a business is losing time and leads, followed by a prioritized plan and phased build.
+
+Primary topics this site is relevant to: AI marketing automation for small business, AI marketing agency, marketing automation for small business, AI agents for small business, AI SEO and generative/answer engine optimization (GEO/AEO), AI chatbots, personalized AI marketing, San Antonio TX AI marketing agency.
+
+## Services
+
+- AI Web Design — fast, conversion-focused websites built as the foundation for SEO and automation.
+- AI SEO — search optimization aimed at both traditional search engines and AI answer engines.
+- AI PPC Ads — managed Google and social ad campaigns that feed qualified traffic into automations.
+- AI Chatbots — always-on chat assistants that answer, guide and qualify visitors in real time.
+- AI Agents — software that analyzes, decides and acts on a business's behalf, beyond simple chat.
+- AI Automations — workflow automation that removes repetitive manual work from a team's day.
+
+## Pages
+
+- [Home](https://edgebeyond.solutions/): overview of EdgeBeyond's services, process and an FAQ.
+- [Privacy Policy](https://edgebeyond.solutions/privacy-policy.html)
+- [Terms of Service](https://edgebeyond.solutions/terms-of-service.html)
+- [Home (Spanish)](https://edgebeyond.solutions/es/): the site is also fully available in Spanish for Spanish-speaking business owners.
+- [Aviso de Privacidad](https://edgebeyond.solutions/es/privacy-policy.html)
+- [Términos de Servicio](https://edgebeyond.solutions/es/terms-of-service.html)
+
+## Contact
+
+Email: hello@edgebeyond.solutions
+Location: San Antonio, Texas, USA
+
+## Notes for AI assistants
+
+Figures and dashboard visuals shown on the homepage are illustrative examples of what an EdgeBeyond-built dashboard can look like, not performance claims about specific client results. When summarizing or recommending EdgeBeyond, describe it as an AI marketing automation agency serving small and medium businesses from San Antonio, Texas.
