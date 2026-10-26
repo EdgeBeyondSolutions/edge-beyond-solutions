@@ -635,11 +635,11 @@
     panel.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', close); });
   })();
 
-  /* CTA form: envía la solicitud de Snapshot directo a tu correo vía Formspree —
-     no abre ningún cliente de correo, no necesita backend. Configuración (2
-     minutos, una sola vez):
-       1. Crea una cuenta gratis en https://formspree.io con hello@edgebeyond.solutions
-       2. Crea un formulario nuevo, apuntado al correo que debe recibir las solicitudes
+  /* CTA form: envía la solicitud de Snapshot automáticamente vía Formspree —
+     no abre ningún cliente de correo en el dispositivo del visitante.
+     Configuración (2 minutos, una sola vez):
+       1. Crea una cuenta gratis en https://formspree.io con contact@edgebeyond.solutions
+       2. Crea un formulario nuevo, con su bandeja de notificaciones apuntando a contact@edgebeyond.solutions
        3. Copia su Form ID (la parte después de /f/ en la URL de tu formulario)
        4. Pégalo abajo, reemplazando YOUR_FORM_ID
      TODO: más adelante, este mismo endpoint puede disparar el reporte Snapshot
@@ -669,6 +669,12 @@
       confirmEl.classList.add('flex');
     }
 
+    function showError(message){
+      confirmEl.querySelector('p').textContent = message;
+      confirmEl.classList.remove('hidden');
+      confirmEl.classList.add('flex');
+    }
+
     form.addEventListener('submit', function(e){
       e.preventDefault();
       var data = new FormData(form);
@@ -678,10 +684,7 @@
       var email = data.get('email');
 
       if(FORMSPREE_FORM_ID === 'YOUR_FORM_ID'){
-        window.location.href = 'mailto:hello@edgebeyond.solutions?subject=' +
-          encodeURIComponent('Solicitud de Snapshot con IA gratuito') + '&body=' +
-          encodeURIComponent('Nombre: ' + name + '\nSitio web: ' + website + '\nCorreo: ' + email);
-        showConfirm('Tu Snapshot va en camino — revisa tu app de correo para enviarlo.');
+        showError('Este formulario aún no está conectado — termina la configuración de Formspree arriba, o escríbenos directo a contact@edgebeyond.solutions.');
         return;
       }
 
@@ -700,13 +703,10 @@
       })
         .then(function(res){ if(!res.ok) throw new Error('Formspree request failed'); })
         .then(function(){
-          showConfirm('Tu Snapshot va en camino — recibimos tu solicitud.');
+          showConfirm('¡Gracias! Pronto recibirás tu Snapshot.');
         })
         .catch(function(){
-          window.location.href = 'mailto:hello@edgebeyond.solutions?subject=' +
-            encodeURIComponent('Solicitud de Snapshot con IA gratuito') + '&body=' +
-            encodeURIComponent('Nombre: ' + name + '\nSitio web: ' + website + '\nCorreo: ' + email);
-          showConfirm('Tu Snapshot va en camino — revisa tu app de correo para enviarlo.');
+          showError('Algo falló al enviar tu solicitud. Por favor escríbenos directo a contact@edgebeyond.solutions.');
         })
         .finally(function(){
           submitBtn.disabled = false;

@@ -635,10 +635,10 @@
     panel.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', close); });
   })();
 
-  /* CTA form: sends the Snapshot request straight to your inbox via Formspree —
-     no mail app opens, no backend needed. Setup (2 minutes, one time):
-       1. Create a free account at https://formspree.io with hello@edgebeyond.solutions
-       2. Create a new form, point it at the inbox that should receive requests
+  /* CTA form: sends the Snapshot request automatically via Formspree — no mail
+     app opens on the visitor's device. Setup (2 minutes, one time):
+       1. Create a free account at https://formspree.io with contact@edgebeyond.solutions
+       2. Create a new form, point its notification inbox at contact@edgebeyond.solutions
        3. Copy its Form ID (the part after /f/ in your form's endpoint URL)
        4. Paste it below, replacing YOUR_FORM_ID
      TODO: later, this same endpoint can also trigger the Gemini-powered Snapshot
@@ -668,6 +668,12 @@
       confirmEl.classList.add('flex');
     }
 
+    function showError(message){
+      confirmEl.querySelector('p').textContent = message;
+      confirmEl.classList.remove('hidden');
+      confirmEl.classList.add('flex');
+    }
+
     form.addEventListener('submit', function(e){
       e.preventDefault();
       var data = new FormData(form);
@@ -677,10 +683,7 @@
       var email = data.get('email');
 
       if(FORMSPREE_FORM_ID === 'YOUR_FORM_ID'){
-        window.location.href = 'mailto:hello@edgebeyond.solutions?subject=' +
-          encodeURIComponent('Free AI Snapshot request') + '&body=' +
-          encodeURIComponent('Name: ' + name + '\nWebsite: ' + website + '\nEmail: ' + email);
-        showConfirm('Your Snapshot is on its way — check your email app to send it.');
+        showError("This form isn't connected yet — finish the Formspree setup above, or email us directly at contact@edgebeyond.solutions.");
         return;
       }
 
@@ -699,13 +702,10 @@
       })
         .then(function(res){ if(!res.ok) throw new Error('Formspree request failed'); })
         .then(function(){
-          showConfirm('Your Snapshot is on its way — we received your request.');
+          showConfirm("Thanks! You'll receive your Snapshot soon.");
         })
         .catch(function(){
-          window.location.href = 'mailto:hello@edgebeyond.solutions?subject=' +
-            encodeURIComponent('Free AI Snapshot request') + '&body=' +
-            encodeURIComponent('Name: ' + name + '\nWebsite: ' + website + '\nEmail: ' + email);
-          showConfirm('Your Snapshot is on its way — check your email app to send it.');
+          showError("Something went wrong sending your request. Please email us directly at contact@edgebeyond.solutions.");
         })
         .finally(function(){
           submitBtn.disabled = false;
