@@ -645,7 +645,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       }
     }
     window.addEventListener('scroll', onScroll, { passive: true });
-    apply();
+    requestAnimationFrame(apply); // defer the initial scrollY read off the critical render path
   })();
 
   /* mobile nav toggle */
