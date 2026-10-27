@@ -35,7 +35,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="apple-touch-icon" href="../logo-mark-512.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@300;400;500;600&display=swap">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@300;400;500;600&display=swap"></noscript>
 <link rel="stylesheet" href="../styles.css">
 
 <script type="application/ld+json">
@@ -567,14 +569,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }, { threshold: 0.15 });
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
 
-  /* useCardTilt: subtle 3D tilt on every .tilt-card, site-wide */
+  /* useCardTilt: subtle 3D tilt on every .tilt-card, site-wide.
+     rAF-batched: the layout read (getBoundingClientRect) and the style write
+     happen together on the next frame instead of synchronously on every raw
+     pointermove, which avoids forcing a layout on each mouse tick. */
   document.querySelectorAll('.tilt-card').forEach(function(el){
+    var pending = null;
+    var scheduled = false;
     el.addEventListener('pointermove', function(e){
-      var r = el.getBoundingClientRect();
-      var x = (e.clientX - r.left) / r.width - 0.5;
-      var y = (e.clientY - r.top) / r.height - 0.5;
-      el.style.setProperty('--ry', (x * 7) + 'deg');
-      el.style.setProperty('--rx', (-y * 7) + 'deg');
+      pending = e;
+      if(!scheduled){
+        scheduled = true;
+        requestAnimationFrame(function(){
+          var r = el.getBoundingClientRect();
+          var x = (pending.clientX - r.left) / r.width - 0.5;
+          var y = (pending.clientY - r.top) / r.height - 0.5;
+          el.style.setProperty('--ry', (x * 7) + 'deg');
+          el.style.setProperty('--rx', (-y * 7) + 'deg');
+          scheduled = false;
+        });
+      }
     });
     el.addEventListener('pointerleave', function(){
       el.style.setProperty('--ry', '0deg');
@@ -582,17 +596,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   });
 
-  /* hero HoloPanel: its own dedicated tilt-scene pointer handling */
+  /* hero HoloPanel: its own dedicated tilt-scene pointer handling (same rAF batching) */
   (function(){
     var scene = document.getElementById('holoScene');
     var panel = document.getElementById('holoPanel');
     if(!scene || !panel) return;
+    var pending = null;
+    var scheduled = false;
     scene.addEventListener('pointermove', function(e){
-      var r = panel.getBoundingClientRect();
-      var x = (e.clientX - r.left) / r.width - 0.5;
-      var y = (e.clientY - r.top) / r.height - 0.5;
-      panel.style.setProperty('--ry', (-10 + x * 14) + 'deg');
-      panel.style.setProperty('--rx', (8 - y * 12) + 'deg');
+      pending = e;
+      if(!scheduled){
+        scheduled = true;
+        requestAnimationFrame(function(){
+          var r = panel.getBoundingClientRect();
+          var x = (pending.clientX - r.left) / r.width - 0.5;
+          var y = (pending.clientY - r.top) / r.height - 0.5;
+          panel.style.setProperty('--ry', (-10 + x * 14) + 'deg');
+          panel.style.setProperty('--rx', (8 - y * 12) + 'deg');
+          scheduled = false;
+        });
+      }
     });
     scene.addEventListener('pointerleave', function(){
       panel.style.setProperty('--ry', '-10deg');
@@ -600,12 +623,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   })();
 
-  /* nav glass-on-scroll */
+  /* nav glass-on-scroll — rAF-batched so scrolling doesn't force sync layout on every event */
   (function(){
     var nav = document.getElementById('siteNav');
-    function f(){ nav.classList.toggle('glass', window.scrollY > 40); nav.classList.toggle('border-x-0', window.scrollY > 40); nav.classList.toggle('border-t-0', window.scrollY > 40); }
-    window.addEventListener('scroll', f);
-    f();
+    var scrolled = false;
+    var ticking = false;
+    function apply(){
+      var shouldBeScrolled = window.scrollY > 40;
+      if(shouldBeScrolled !== scrolled){
+        scrolled = shouldBeScrolled;
+        nav.classList.toggle('glass', scrolled);
+        nav.classList.toggle('border-x-0', scrolled);
+        nav.classList.toggle('border-t-0', scrolled);
+      }
+      ticking = false;
+    }
+    function onScroll(){
+      if(!ticking){
+        requestAnimationFrame(apply);
+        ticking = true;
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    apply();
   })();
 
   /* mobile nav toggle */
