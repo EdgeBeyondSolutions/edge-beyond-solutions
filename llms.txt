@@ -14,6 +14,7 @@ Primary topics this site is relevant to: AI marketing automation for small busin
 - AI Chatbots — always-on chat assistants that answer, guide and qualify visitors in real time.
 - AI Agents — software that analyzes, decides and acts on a business's behalf, beyond simple chat.
 - AI Automations — workflow automation that removes repetitive manual work from a team's day.
+- AI Social Media — posts planned, written and scheduled across channels with AI.
 
 ## Pages
 
