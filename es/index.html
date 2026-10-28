@@ -588,15 +588,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      rootMargin delays the trigger until the element is well inside the lower
      part of the viewport, so the fade+rise actually plays out where the eye
      can see it while scrolling, instead of firing the instant it peeks in.
-     The hero's own content is never gated behind scroll — it reveals
-     immediately on load regardless of viewport height/zoom, since a visitor
-     should never have to scroll to see the primary heading and CTA. */
+     The hero's own content is never gated behind scroll — regardless of
+     viewport height/zoom it always plays its fade+rise a beat after load,
+     staggered slightly per element, instead of waiting on an observer. */
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in'); });
   }, { rootMargin: '0px 0px -12% 0px', threshold: 0 });
+  var heroReveals = [];
   document.querySelectorAll('.reveal').forEach(function(el){
-    if(el.closest('#hero')){ el.classList.add('in'); } else { io.observe(el); }
+    if(el.closest('#hero')){ heroReveals.push(el); } else { io.observe(el); }
   });
+  setTimeout(function(){
+    heroReveals.forEach(function(el, i){
+      el.style.transitionDelay = (i * 100) + 'ms';
+      el.classList.add('in');
+    });
+  }, 1000);
 
   /* strike-on-scroll: each .strike-item gets struck through, one at a time,
      as it crosses the middle band of the viewport while scrolling. */
