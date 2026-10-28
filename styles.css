@@ -1160,10 +1160,10 @@
       color: var(--primary);
     }
   }
-  .placeholder\:text-foreground\/50::placeholder {
+  .placeholder\:text-foreground\/70::placeholder {
     color: var(--foreground);
     @supports (color: color-mix(in lab, red, red)) {
-      color: color-mix(in oklab, var(--foreground) 50%, transparent);
+      color: color-mix(in oklab, var(--foreground) 70%, transparent);
     }
   }
   .last\:border-0:last-child {

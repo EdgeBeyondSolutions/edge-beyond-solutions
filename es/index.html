@@ -502,14 +502,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <form id="roadmapForm" class="reveal glass-edge mx-auto mt-12 max-w-2xl rounded-3xl p-2 text-left">
       <div id="roadmapStep1" class="flex flex-col gap-2 sm:flex-row sm:items-center">
         <label class="sr-only" for="roadmapName">Tu nombre</label>
-        <input id="roadmapName" name="name" type="text" required placeholder="Tu nombre" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/50">
+        <input id="roadmapName" name="name" type="text" required placeholder="Tu nombre" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/70">
+        <label class="sr-only" for="roadmapEmail">Correo electrónico</label>
+        <input id="roadmapEmail" name="email" type="email" required placeholder="tu@negocio.com" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/70">
         <button type="button" id="roadmapNextBtn" class="shrink-0 rounded-full bg-primary px-6 py-3 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Obtén mi Snapshot →</button>
       </div>
       <div id="roadmapStep2" class="hidden flex-col gap-2 sm:flex-row sm:items-center">
-        <label class="sr-only" for="roadmapWebsite">URL del sitio web</label>
-        <input id="roadmapWebsite" name="website" type="text" inputmode="url" autocapitalize="off" autocorrect="off" required placeholder="tunegocio.com" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/50">
-        <label class="sr-only" for="roadmapEmail">Correo electrónico</label>
-        <input id="roadmapEmail" name="email" type="email" required placeholder="tu@negocio.com" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/50">
+        <label class="sr-only" for="roadmapWebsite">Sitio web o nombre del negocio</label>
+        <input id="roadmapWebsite" name="website" type="text" inputmode="url" autocapitalize="off" autocorrect="off" required placeholder="tunegocio.com" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/70">
         <button type="submit" class="shrink-0 rounded-full bg-primary px-6 py-3 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Enviar →</button>
       </div>
       <div id="roadmapConfirm" class="hidden items-center justify-center gap-2 px-5 py-3 text-center">
@@ -722,11 +722,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     var step2 = document.getElementById('roadmapStep2');
     var confirmEl = document.getElementById('roadmapConfirm');
     var nameInput = document.getElementById('roadmapName');
+    var emailInput = document.getElementById('roadmapEmail');
     var nextBtn = document.getElementById('roadmapNextBtn');
     var submitBtn = step2.querySelector('button[type="submit"]');
 
     nextBtn.addEventListener('click', function(){
       if(!nameInput.reportValidity()) return;
+      if(!emailInput.reportValidity()) return;
       step1.classList.add('hidden');
       step2.classList.remove('hidden');
       step2.classList.add('flex');
