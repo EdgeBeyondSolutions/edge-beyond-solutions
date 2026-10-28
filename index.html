@@ -31,7 +31,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="AI Marketing Automation for Small Business | San Antonio, TX | EdgeBeyond">
 <meta name="twitter:description" content="Personalized AI marketing automation for small and medium businesses — AI websites, AI agents, chatbots and AI SEO built in San Antonio, TX.">
 <meta name="twitter:image" content="https://edgebeyond.solutions/logo-mark-512.png">
-<link rel="icon" href="./favicon.ico" type="image/x-icon">
+<link rel="icon" href="./favicon.ico?v=2" type="image/x-icon">
 <link rel="apple-touch-icon" href="./logo-mark-512.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -587,11 +587,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   /* useReveal: IntersectionObserver adds "in" to .reveal els.
      rootMargin delays the trigger until the element is well inside the lower
      part of the viewport, so the fade+rise actually plays out where the eye
-     can see it while scrolling, instead of firing the instant it peeks in. */
+     can see it while scrolling, instead of firing the instant it peeks in.
+     Anything already visible in the initial viewport (hero content) is
+     revealed immediately instead, so it doesn't wait on a scroll nudge. */
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in'); });
   }, { rootMargin: '0px 0px -12% 0px', threshold: 0 });
-  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  document.querySelectorAll('.reveal').forEach(function(el){
+    if(el.getBoundingClientRect().top < window.innerHeight){
+      el.classList.add('in');
+    } else {
+      io.observe(el);
+    }
+  });
 
   /* strike-on-scroll: each .strike-item gets struck through, one at a time,
      as it crosses the middle band of the viewport while scrolling. */
