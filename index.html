@@ -510,6 +510,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div id="roadmapStep2" class="hidden flex-col gap-2 sm:flex-row sm:items-center">
         <label class="sr-only" for="roadmapWebsite">Website or business name</label>
         <input id="roadmapWebsite" name="website" type="text" inputmode="url" autocapitalize="off" autocorrect="off" required placeholder="Your website or business name" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/70">
+        <label class="sr-only" for="roadmapCity">City / State (optional)</label>
+        <input id="roadmapCity" name="city" type="text" placeholder="City / State (optional)" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/70">
         <button type="submit" class="shrink-0 rounded-full bg-primary px-6 py-3 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Send →</button>
       </div>
       <div id="roadmapConfirm" class="hidden items-center justify-center gap-2 px-5 py-3 text-center">
@@ -759,13 +761,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       confirmEl.classList.add('flex');
     }
 
+    var MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/i6fu1jayv5f5urj7eohdmjtgudo5lqv9';
+
     form.addEventListener('submit', function(e){
       e.preventDefault();
       var data = new FormData(form);
       var name = data.get('name');
       var website = data.get('website').trim();
-      if(website && !/^https?:\/\//i.test(website)) website = 'https://' + website;
+      var looksLikeDomain = website && !/\s/.test(website) && /\.[a-z]{2,}/i.test(website);
+      if(looksLikeDomain && !/^https?:\/\//i.test(website)) website = 'https://' + website;
       var email = data.get('email');
+      var city = (data.get('city') || '').trim();
 
       if(FORMSPREE_FORM_ID === 'YOUR_FORM_ID'){
         showError("This form isn't connected yet — finish the Formspree setup above, or email us directly at contact@edgebeyond.solutions.");
@@ -775,6 +781,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending…';
 
+      var nameParts = name.trim().split(/\s+/);
+      var firstName = nameParts[0];
+      var lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : nameParts[0];
+
+      /* Fire-and-forget: sends the lead to Make (Snapshot scenario) so the AI
+         report pipeline (Gemini -> Zoho CRM -> Google Docs -> email) kicks off.
+         Doesn't block or affect the Formspree confirmation below — if Make is
+         briefly down, the visitor still gets their "thanks" message and you
+         still get the Formspree notification either way. */
+      fetch(MAKE_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          form_title: 'Business Evaluation Form',
+          name_1_first_name: firstName,
+          name_1_last_name: lastName,
+          email_1: email,
+          url_1: website,
+          text_4: city,
+          entry_time: new Date().toISOString()
+        })
+      }).catch(function(){ /* best-effort; Formspree below is the reliable path */ });
+
       fetch('https://formspree.io/f/' + FORMSPREE_FORM_ID, {
         method: 'POST',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
@@ -782,6 +811,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           name: name,
           website: website,
           email: email,
+          city: city,
           _subject: 'Free AI Snapshot request — ' + name
         })
       })
