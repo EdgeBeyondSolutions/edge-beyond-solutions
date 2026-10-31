@@ -724,16 +724,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     panel.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', close); });
   })();
 
-  /* CTA form: sends the Snapshot request automatically via Formspree — no mail
-     app opens on the visitor's device. Setup (2 minutes, one time):
-       1. Create a free account at https://formspree.io with contact@edgebeyond.solutions
-       2. Create a new form, point its notification inbox at contact@edgebeyond.solutions
-       3. Copy its Form ID (the part after /f/ in your form's endpoint URL)
-       4. Paste it below, replacing YOUR_FORM_ID
-     TODO: later, this same endpoint can also trigger the Gemini-powered Snapshot
-     report via a Formspree webhook or Zapier/Make automation. */
+  /* CTA form: sends the Snapshot request directly to the Make webhook —
+     no mail app opens on the visitor's device, no third-party form service
+     in between. Make (Snapshot scenario) picks it up and runs the full
+     pipeline: Zoho CRM lead -> Gemini report -> email to the visitor. */
   (function(){
-    var FORMSPREE_FORM_ID = 'mqpppgaq';
     var form = document.getElementById('roadmapForm');
     var step1 = document.getElementById('roadmapStep1');
     var step2 = document.getElementById('roadmapStep2');
@@ -777,11 +772,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       var email = data.get('email');
       var city = (data.get('city') || '').trim();
 
-      if(FORMSPREE_FORM_ID === 'YOUR_FORM_ID'){
-        showError("This form isn't connected yet — finish the Formspree setup above, or email us directly at contact@edgebeyond.solutions.");
-        return;
-      }
-
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending…';
 
@@ -789,11 +779,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       var firstName = nameParts[0];
       var lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : nameParts[0];
 
-      /* Fire-and-forget: sends the lead to Make (Snapshot scenario) so the AI
-         report pipeline (Gemini -> Zoho CRM -> Google Docs -> email) kicks off.
-         Doesn't block or affect the Formspree confirmation below — if Make is
-         briefly down, the visitor still gets their "thanks" message and you
-         still get the Formspree notification either way. */
       fetch(MAKE_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain' },
@@ -806,24 +791,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           text_4: city,
           entry_time: new Date().toISOString()
         })
-      }).catch(function(err){ console.error('Make webhook failed:', err); });
-
-      fetch('https://formspree.io/f/' + FORMSPREE_FORM_ID, {
-        method: 'POST',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: name,
-          website: website,
-          email: email,
-          city: city,
-          _subject: 'Free AI Snapshot request — ' + name
-        })
       })
-        .then(function(res){ if(!res.ok) throw new Error('Formspree request failed'); })
+        .then(function(res){ if(!res.ok) throw new Error('Webhook request failed'); })
         .then(function(){
           showConfirm("Thanks! You'll receive your Snapshot soon.");
         })
-        .catch(function(){
+        .catch(function(err){
+          console.error('Make webhook failed:', err);
           showError("Something went wrong sending your request. Please email us directly at contact@edgebeyond.solutions.");
         })
         .finally(function(){
