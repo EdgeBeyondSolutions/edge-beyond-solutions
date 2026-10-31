@@ -793,7 +793,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
          still get the Formspree notification either way. */
       fetch(MAKE_WEBHOOK_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({
           form_title: 'Business Evaluation Form',
           name_1_first_name: firstName,
@@ -803,7 +803,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           text_4: city,
           entry_time: new Date().toISOString()
         })
-      }).catch(function(){ /* best-effort; Formspree below is the reliable path */ });
+      }).catch(function(err){ console.error('Make webhook failed:', err); });
 
       fetch('https://formspree.io/f/' + FORMSPREE_FORM_ID, {
         method: 'POST',
