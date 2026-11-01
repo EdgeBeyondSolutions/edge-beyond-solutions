@@ -503,20 +503,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="reveal font-mono text-xs uppercase tracking-[0.3em] text-primary">Chapter 05 · Yours</p>
     <h2 class="reveal mt-8 font-display text-6xl leading-none tracking-tight md:text-8xl">Write the ending <em class="text-edge not-italic">you deserve.</em></h2>
     <p class="reveal mx-auto mt-8 max-w-lg text-lg text-muted-foreground">Get your free AI Snapshot. Delivered to your inbox. No strings.</p>
-    <form id="roadmapForm" class="reveal glass-edge mx-auto mt-12 max-w-2xl rounded-3xl p-2 text-left">
-      <div id="roadmapStep1" class="flex flex-col gap-2 sm:flex-row sm:items-center">
+    <form id="roadmapForm" class="reveal glass-edge mx-auto mt-12 max-w-3xl rounded-3xl p-3 text-left">
+      <div id="roadmapStep1" class="flex flex-col gap-3 sm:flex-row sm:items-center">
         <label class="sr-only" for="roadmapName">Your name</label>
-        <input id="roadmapName" name="name" type="text" required placeholder="Your name" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/70">
+        <input id="roadmapName" name="name" type="text" required placeholder="Your name" class="min-w-0 flex-1 rounded-full bg-white/5 px-6 py-4 text-base text-foreground outline-none placeholder:text-foreground/70">
         <label class="sr-only" for="roadmapEmail">Email</label>
-        <input id="roadmapEmail" name="email" type="email" required placeholder="Your email" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/70">
-        <button type="button" id="roadmapNextBtn" class="shrink-0 rounded-full bg-primary px-6 py-3 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Get My Snapshot →</button>
+        <input id="roadmapEmail" name="email" type="email" required placeholder="Your email" class="min-w-0 flex-1 rounded-full bg-white/5 px-6 py-4 text-base text-foreground outline-none placeholder:text-foreground/70">
+        <label class="sr-only" for="roadmapWebsite">Website (optional)</label>
+        <input id="roadmapWebsite" name="website" type="text" inputmode="url" autocapitalize="off" autocorrect="off" placeholder="Your website (optional)" class="min-w-0 flex-1 rounded-full bg-white/5 px-6 py-4 text-base text-foreground outline-none placeholder:text-foreground/70">
+        <button type="button" id="roadmapNextBtn" class="shrink-0 rounded-full bg-primary px-7 py-4 text-base font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Get My Snapshot →</button>
       </div>
-      <div id="roadmapStep2" class="hidden flex-col gap-2 sm:flex-row sm:items-center">
-        <label class="sr-only" for="roadmapWebsite">Website or business name</label>
-        <input id="roadmapWebsite" name="website" type="text" inputmode="url" autocapitalize="off" autocorrect="off" required placeholder="Your website or business name" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/70">
-        <label class="sr-only" for="roadmapCity">City / State (optional)</label>
-        <input id="roadmapCity" name="city" type="text" placeholder="City / State (optional)" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/70">
-        <button type="submit" class="shrink-0 rounded-full bg-primary px-6 py-3 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Send →</button>
+      <div id="roadmapStep2" class="hidden flex-col gap-3 sm:flex-row sm:items-center">
+        <label class="sr-only" for="roadmapBusiness">Business name</label>
+        <input id="roadmapBusiness" name="business" type="text" required placeholder="Business name" class="min-w-0 flex-1 rounded-full bg-white/5 px-6 py-4 text-base text-foreground outline-none placeholder:text-foreground/70">
+        <label class="sr-only" for="roadmapCity">City (optional)</label>
+        <input id="roadmapCity" name="city" type="text" placeholder="City (optional)" class="min-w-0 flex-1 rounded-full bg-white/5 px-6 py-4 text-base text-foreground outline-none placeholder:text-foreground/70">
+        <label class="sr-only" for="roadmapCountry">Country (optional)</label>
+        <input id="roadmapCountry" name="country" type="text" placeholder="Country (optional)" class="min-w-0 flex-1 rounded-full bg-white/5 px-6 py-4 text-base text-foreground outline-none placeholder:text-foreground/70">
+        <button type="submit" class="shrink-0 rounded-full bg-primary px-7 py-4 text-base font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Send →</button>
       </div>
       <div id="roadmapConfirm" class="hidden items-center justify-center gap-2 px-5 py-3 text-center">
         <span class="text-primary">✦</span>
@@ -744,7 +748,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       step1.classList.add('hidden');
       step2.classList.remove('hidden');
       step2.classList.add('flex');
-      document.getElementById('roadmapWebsite').focus();
+      document.getElementById('roadmapBusiness').focus();
     });
 
     function showConfirm(message){
@@ -761,16 +765,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     var MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/ocamwkybvh30qty7ui6i2ebqy0fye8l0';
+    var FORMSPREE_URL = 'https://formspree.io/f/mqpppgaq';
 
     form.addEventListener('submit', function(e){
       e.preventDefault();
+
+      /* Formspree backup: fires alongside the Make webhook as a parallel
+         notification path, never blocking or affecting the confirmation UI —
+         Make -> Zoho -> Gemini -> email is the real pipeline. */
+      fetch(FORMSPREE_URL, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      }).catch(function(err){ console.error('Formspree backup failed:', err); });
       var data = new FormData(form);
       var name = data.get('name');
-      var website = data.get('website').trim();
+      var website = (data.get('website') || '').trim();
       var looksLikeDomain = website && !/\s/.test(website) && /\.[a-z]{2,}/i.test(website);
       if(looksLikeDomain && !/^https?:\/\//i.test(website)) website = 'https://' + website;
       var email = data.get('email');
+      var business = (data.get('business') || '').trim();
       var city = (data.get('city') || '').trim();
+      var country = (data.get('country') || '').trim();
 
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending…';
@@ -788,7 +804,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           name_1_last_name: lastName,
           email_1: email,
           url_1: website,
+          business_name: business,
           text_4: city,
+          country: country,
           entry_time: new Date().toISOString()
         })
       })
