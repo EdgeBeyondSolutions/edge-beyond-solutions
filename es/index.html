@@ -503,24 +503,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="reveal font-mono text-xs uppercase tracking-[0.3em] text-primary">Capítulo 05 · El tuyo</p>
     <h2 class="reveal mt-8 font-display text-6xl leading-none tracking-tight md:text-8xl">Escribe el final <em class="text-edge not-italic">que mereces.</em></h2>
     <p class="reveal mx-auto mt-8 max-w-lg text-lg text-muted-foreground">Obtén tu Snapshot con IA, gratis. Directo a tu correo. Sin compromisos.</p>
-    <form id="roadmapForm" class="reveal glass-edge mx-auto mt-12 max-w-3xl rounded-3xl p-3 text-left">
-      <div id="roadmapStep1" class="flex flex-col gap-3 sm:flex-row sm:items-center">
+    <form id="roadmapForm" class="reveal glass-edge mx-auto mt-12 max-w-2xl rounded-3xl p-2 text-left">
+      <div id="roadmapStep1" class="flex flex-col gap-2 sm:flex-row sm:items-center">
         <label class="sr-only" for="roadmapName">Tu nombre</label>
-        <input id="roadmapName" name="name" type="text" required placeholder="Tu nombre" class="min-w-0 flex-1 rounded-full bg-white/5 px-6 py-4 text-base text-foreground outline-none placeholder:text-foreground/70">
+        <input id="roadmapName" name="name" type="text" required placeholder="Tu nombre" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/70">
         <label class="sr-only" for="roadmapEmail">Correo electrónico</label>
-        <input id="roadmapEmail" name="email" type="email" required placeholder="Tu correo" class="min-w-0 flex-1 rounded-full bg-white/5 px-6 py-4 text-base text-foreground outline-none placeholder:text-foreground/70">
-        <label class="sr-only" for="roadmapWebsite">Sitio web (opcional)</label>
-        <input id="roadmapWebsite" name="website" type="text" inputmode="url" autocapitalize="off" autocorrect="off" placeholder="Tu sitio web (opcional)" class="min-w-0 flex-1 rounded-full bg-white/5 px-6 py-4 text-base text-foreground outline-none placeholder:text-foreground/70">
-        <button type="button" id="roadmapNextBtn" class="shrink-0 rounded-full bg-primary px-7 py-4 text-base font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Obtén mi Snapshot →</button>
+        <input id="roadmapEmail" name="email" type="email" required placeholder="Tu correo" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/70">
+        <button type="button" id="roadmapNextBtn1" class="shrink-0 rounded-full bg-primary px-6 py-3 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Obtén mi Snapshot →</button>
       </div>
-      <div id="roadmapStep2" class="hidden flex-col gap-3 sm:flex-row sm:items-center">
+      <div id="roadmapStep2" class="hidden flex-col gap-2 sm:flex-row sm:items-center">
+        <label class="sr-only" for="roadmapWebsite">Sitio web (opcional)</label>
+        <input id="roadmapWebsite" name="website" type="text" inputmode="url" autocapitalize="off" autocorrect="off" placeholder="Tu sitio web (opcional)" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/70">
         <label class="sr-only" for="roadmapBusiness">Nombre del negocio</label>
-        <input id="roadmapBusiness" name="business" type="text" required placeholder="Nombre del negocio" class="min-w-0 flex-1 rounded-full bg-white/5 px-6 py-4 text-base text-foreground outline-none placeholder:text-foreground/70">
+        <input id="roadmapBusiness" name="business" type="text" required placeholder="Nombre del negocio" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/70">
+        <button type="button" id="roadmapNextBtn2" class="shrink-0 rounded-full bg-primary px-6 py-3 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Siguiente →</button>
+      </div>
+      <div id="roadmapStep3" class="hidden flex-col gap-2 sm:flex-row sm:items-center">
         <label class="sr-only" for="roadmapCity">Ciudad (opcional)</label>
-        <input id="roadmapCity" name="city" type="text" placeholder="Ciudad (opcional)" class="min-w-0 flex-1 rounded-full bg-white/5 px-6 py-4 text-base text-foreground outline-none placeholder:text-foreground/70">
+        <input id="roadmapCity" name="city" type="text" placeholder="Ciudad (opcional)" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/70">
         <label class="sr-only" for="roadmapCountry">País (opcional)</label>
-        <input id="roadmapCountry" name="country" type="text" placeholder="País (opcional)" class="min-w-0 flex-1 rounded-full bg-white/5 px-6 py-4 text-base text-foreground outline-none placeholder:text-foreground/70">
-        <button type="submit" class="shrink-0 rounded-full bg-primary px-7 py-4 text-base font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Enviar →</button>
+        <input id="roadmapCountry" name="country" type="text" placeholder="País (opcional)" class="min-w-0 flex-1 rounded-full bg-white/5 px-5 py-3 text-foreground outline-none placeholder:text-foreground/70">
+        <button type="submit" class="shrink-0 rounded-full bg-primary px-6 py-3 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Enviar →</button>
       </div>
       <div id="roadmapConfirm" class="hidden items-center justify-center gap-2 px-5 py-3 text-center">
         <span class="text-primary">✦</span>
@@ -737,23 +740,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     var form = document.getElementById('roadmapForm');
     var step1 = document.getElementById('roadmapStep1');
     var step2 = document.getElementById('roadmapStep2');
+    var step3 = document.getElementById('roadmapStep3');
     var confirmEl = document.getElementById('roadmapConfirm');
     var nameInput = document.getElementById('roadmapName');
     var emailInput = document.getElementById('roadmapEmail');
-    var nextBtn = document.getElementById('roadmapNextBtn');
-    var submitBtn = step2.querySelector('button[type="submit"]');
+    var businessInput = document.getElementById('roadmapBusiness');
+    var nextBtn1 = document.getElementById('roadmapNextBtn1');
+    var nextBtn2 = document.getElementById('roadmapNextBtn2');
+    var submitBtn = step3.querySelector('button[type="submit"]');
 
-    nextBtn.addEventListener('click', function(){
+    nextBtn1.addEventListener('click', function(){
       if(!nameInput.reportValidity()) return;
       if(!emailInput.reportValidity()) return;
       step1.classList.add('hidden');
       step2.classList.remove('hidden');
       step2.classList.add('flex');
-      document.getElementById('roadmapBusiness').focus();
+      document.getElementById('roadmapWebsite').focus();
+    });
+
+    nextBtn2.addEventListener('click', function(){
+      if(!businessInput.reportValidity()) return;
+      step2.classList.add('hidden');
+      step3.classList.remove('hidden');
+      step3.classList.add('flex');
+      document.getElementById('roadmapCity').focus();
     });
 
     function showConfirm(message){
-      step2.classList.add('hidden');
+      step3.classList.add('hidden');
       confirmEl.querySelector('p').textContent = message;
       confirmEl.classList.remove('hidden');
       confirmEl.classList.add('flex');
@@ -766,19 +780,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     var MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/ocamwkybvh30qty7ui6i2ebqy0fye8l0';
-    var FORMSPREE_URL = 'https://formspree.io/f/mqpppgaq';
 
     form.addEventListener('submit', function(e){
       e.preventDefault();
-
-      /* Respaldo Formspree: se dispara junto al webhook de Make como ruta
-         paralela de notificación, sin bloquear ni afectar la confirmación —
-         Make -> Zoho -> Gemini -> correo sigue siendo el pipeline real. */
-      fetch(FORMSPREE_URL, {
-        method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: new FormData(form)
-      }).catch(function(err){ console.error('Formspree backup failed:', err); });
       var data = new FormData(form);
       var name = data.get('name');
       var website = (data.get('website') || '').trim();
