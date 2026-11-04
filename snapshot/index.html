@@ -187,7 +187,8 @@
       <div class="score-ring">
         <svg width="184" height="184" viewBox="0 0 184 184">
           <circle cx="92" cy="92" r="82" fill="none" stroke="var(--border)" stroke-width="12"/>
-          <circle id="scoreArc" cx="92" cy="92" r="82" fill="none" stroke="var(--primary)" stroke-width="12" stroke-linecap="round" stroke-dasharray="515" stroke-dashoffset="515"/>
+          <circle id="scoreArc" cx="92" cy="92" r="82" fill="none" stroke="url(#ringGrad)" stroke-width="12" stroke-linecap="round" stroke-dasharray="515" stroke-dashoffset="515"/>
+          <defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="var(--primary)"/><stop offset="100%" stop-color="var(--accent)"/></linearGradient></defs>
         </svg>
         <div class="score-num">
           <span class="font-display text-6xl" id="scoreNumber">0</span>
@@ -349,39 +350,26 @@
     };
   }
 
-  function colorForRatio(ratio){
-    if(ratio < 0.4) return 'oklch(0.6 0.22 27)';
-    if(ratio < 0.7) return 'oklch(0.84 0.17 85)';
-    return 'oklch(0.9 0.2 125)';
-  }
-
   function renderResults(){
     var total = totalScore();
     var circumference = 515;
     var ratio = total/22;
     var offset = circumference - ratio*circumference;
-    var color = colorForRatio(ratio);
     document.getElementById('scoreArc').style.strokeDashoffset = offset;
-    document.getElementById('scoreArc').style.stroke = color;
     document.getElementById('scoreNumber').textContent = total;
-    document.getElementById('scoreNumber').style.color = color;
 
     var tier = tierFor(total);
     var tierEl = document.getElementById('tierTitle');
     tierEl.textContent = tier.title;
-    tierEl.style.backgroundColor = color;
+    tierEl.style.backgroundColor = 'var(--primary)';
     tierEl.style.color = '#141b24';
     document.getElementById('tierBody').textContent = tier.body;
 
     [1,2,3,4,5].forEach(function(p){
       var s = pillarScore(p);
       var max = PILLAR_COUNTS[p];
-      var pRatio = s/max;
-      var pColor = colorForRatio(pRatio);
-      document.getElementById('bar-'+p).style.width = (pRatio*100) + '%';
-      document.getElementById('bar-'+p).style.background = pColor;
+      document.getElementById('bar-'+p).style.width = (s/max*100) + '%';
       document.getElementById('barnum-'+p).textContent = s + '/' + max;
-      document.getElementById('barnum-'+p).style.color = pColor;
       var isStrong = s >= Math.ceil(max * 0.8);
       document.getElementById('rec-'+p).textContent = isStrong ? PILLAR_RECS[p].strong : PILLAR_RECS[p].weak;
     });
