@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Digital Presence &amp; AI-Readiness Audit | EdgeBeyond</title>
+<meta name="description" content="Answer 22 quick questions across 5 pillars and get your Digital Presence & AI-Readiness score instantly — plus the full PDF guide sent to your inbox.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://edgebeyond.solutions/snapshot/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EdgeBeyond">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Free Digital Presence & AI-Readiness Audit | EdgeBeyond">
+<meta property="og:description" content="Answer 22 quick questions across 5 pillars and get your Digital Presence & AI-Readiness score instantly — plus the full PDF guide sent to your inbox.">
+<meta property="og:url" content="https://edgebeyond.solutions/snapshot/">
+<meta property="og:image" content="https://edgebeyond.solutions/logo-mark-512.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Free Digital Presence & AI-Readiness Audit | EdgeBeyond">
+<meta name="twitter:description" content="Answer 22 quick questions across 5 pillars and get your Digital Presence & AI-Readiness score instantly — plus the full PDF guide sent to your inbox.">
+<meta name="twitter:image" content="https://edgebeyond.solutions/logo-mark-512.png">
+<link rel="icon" href="../favicon.ico?v=2" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body{background:var(--background); color:var(--foreground);}
+  .step{display:none;}
+  .step.active{display:block;}
+  .q-card{display:flex; align-items:flex-start; gap:14px; padding:16px 18px; border-radius:14px; cursor:pointer; user-select:none; transition:border-color .15s, background-color .15s;}
+  .q-box{flex-shrink:0; width:22px; height:22px; border-radius:6px; margin-top:1px; display:flex; align-items:center; justify-content:center; transition:background-color .15s, border-color .15s;}
+  .q-box svg{opacity:0; transition:opacity .1s;}
+  .q-card.checked .q-box svg{opacity:1;}
+  .progress-track{height:4px; border-radius:100px; background:var(--border); overflow:hidden;}
+  .progress-fill{height:100%; background:var(--gradient-edge); border-radius:100px; transition:width .35s ease;}
+  .pillar-dot{width:8px; height:8px; border-radius:100px; background:var(--border);}
+  .pillar-dot.done{background:var(--primary);}
+  .pillar-dot.now{background:var(--accent);}
+  .score-ring{position:relative; width:168px; height:168px; margin:0 auto;}
+  .score-ring svg{transform:rotate(-90deg);}
+  .score-num{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column;}
+  .bar-row{display:grid; grid-template-columns:140px 1fr 46px; align-items:center; gap:14px;}
+  .bar-track{height:8px; border-radius:100px; background:var(--muted); overflow:hidden;}
+  .bar-fill{height:100%; border-radius:100px; background:var(--gradient-edge);}
+</style>
+</head>
+<body class="grain overflow-x-clip">
+
+<div class="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
+  <div class="absolute inset-0 horizon opacity-50"></div>
+  <div class="holo-beam absolute left-[12%] top-0 h-full w-24 -skew-x-12 opacity-25"></div>
+  <div class="holo-beam absolute right-[14%] top-0 h-full w-16 skew-x-6 opacity-20"></div>
+</div>
+
+<header class="mx-auto flex max-w-3xl items-center justify-between px-6 py-8">
+  <a href="../" class="flex items-center gap-2.5" aria-label="EdgeBeyond">
+    <picture><source srcset="../logo-mark-color.webp" type="image/webp"><img src="../logo-mark-color.png" alt="" aria-hidden="true" class="h-6 w-8 shrink-0 object-contain"></picture>
+    <span class="text-lg font-medium tracking-tight">Edge<span class="text-edge">Beyond</span></span>
+  </a>
+  <a href="../" class="font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground">← Back to site</a>
+</header>
+
+<main class="mx-auto max-w-3xl px-6 pb-32">
+
+  <!-- ===================== STEP 0 — INTRO ===================== -->
+  <section id="step-intro" class="step active">
+    <p class="font-mono text-xs uppercase tracking-[0.3em] text-primary">Free Interactive Audit · 5 Minutes</p>
+    <h1 class="mt-6 font-display text-5xl leading-[1.03] tracking-tight md:text-6xl">What does your next customer see <em class="text-edge not-italic">before they call you?</em></h1>
+    <p class="mt-6 max-w-xl text-lg text-muted-foreground">Answer 22 quick yes/no questions across 5 pillars of your digital presence. Get your score instantly on screen, plus the full written guide sent straight to your inbox.</p>
+    <button type="button" id="startBtn" class="mt-10 rounded-full bg-primary px-8 py-4 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Start the audit →</button>
+    <p class="mt-4 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">No credit card. No obligation. Takes about 5 minutes.</p>
+  </section>
+
+  <!-- ===================== QUIZ SHELL ===================== -->
+  <section id="step-quiz" class="step">
+    <div class="flex items-center gap-2" id="pillarDots">
+      <span class="pillar-dot" data-dot="1"></span>
+      <span class="pillar-dot" data-dot="2"></span>
+      <span class="pillar-dot" data-dot="3"></span>
+      <span class="pillar-dot" data-dot="4"></span>
+      <span class="pillar-dot" data-dot="5"></span>
+    </div>
+    <div class="progress-track mt-4"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+    <!-- Pillar 1 -->
+    <div class="quiz-pillar mt-10" data-pillar="1">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pillar 01 · Website</p>
+      <h2 class="mt-2 font-display text-3xl">First Impression &amp; Conversion</h2>
+      <div class="mt-6 flex flex-col gap-3">
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Your site loads in under 3 seconds on mobile data, not just office Wi-Fi.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>A first-time visitor can tell what you do and where you're located without scrolling.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>There's a way to reach you that isn't just a phone number — a form, chat, or booking link.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>The design doesn't look like it was built more than 3-4 years ago.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Someone on a phone can tap to call you in a single tap — no pinching, no zooming.</span></label>
+      </div>
+    </div>
+
+    <!-- Pillar 2 -->
+    <div class="quiz-pillar mt-10 hidden" data-pillar="2">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pillar 02 · Google Business Profile</p>
+      <h2 class="mt-2 font-display text-3xl">Local Trust Signal</h2>
+      <div class="mt-6 flex flex-col gap-3">
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Your Google Business Profile is claimed and verified under your control.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>You have more than 10 reviews.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Your average rating is 4.5 stars or higher.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>You've responded to your most recent reviews — the good ones and the bad ones.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>You've added new photos in the last 90 days.</span></label>
+      </div>
+    </div>
+
+    <!-- Pillar 3 -->
+    <div class="quiz-pillar mt-10 hidden" data-pillar="3">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pillar 03 · Social Proof</p>
+      <h2 class="mt-2 font-display text-3xl">Reviews &amp; Activity</h2>
+      <div class="mt-6 flex flex-col gap-3">
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Your best reviews are visible somewhere other than Google — your site, social, or both.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>At least one of your social profiles has posted in the last 30 days.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>You have at least one video or photo testimonial from a real customer, not just text.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>You know which single platform your actual customers use most — and you're active there.</span></label>
+      </div>
+    </div>
+
+    <!-- Pillar 4 -->
+    <div class="quiz-pillar mt-10 hidden" data-pillar="4">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pillar 04 · Listings</p>
+      <h2 class="mt-2 font-display text-3xl">Name, Address, Phone Consistency</h2>
+      <div class="mt-6 flex flex-col gap-3">
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Your business name, address and phone number match exactly across Google, Yelp, Facebook and Apple Maps.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>You've personally checked your listings in the last 12 months.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>An old, closed, or incorrect listing isn't still showing up when someone searches your name.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Your website URL is correct everywhere it appears.</span></label>
+      </div>
+    </div>
+
+    <!-- Pillar 5 -->
+    <div class="quiz-pillar mt-10 hidden" data-pillar="5">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pillar 05 · The one most checklists skip</p>
+      <h2 class="mt-2 font-display text-3xl">Response Speed &amp; AI Readiness</h2>
+      <div class="mt-6 flex flex-col gap-3">
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>A new website inquiry gets a response within 5 minutes, at any hour — not just during business hours.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>A missed call automatically triggers a follow-up text, instead of simply going unanswered.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>A prospect can book or schedule without needing to call during business hours.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>You can say, with a real number, how many leads you lost last month simply because nobody answered in time.</span></label>
+      </div>
+    </div>
+
+    <div class="mt-10 flex items-center justify-between">
+      <button type="button" id="quizBackBtn" class="font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground">← Back</button>
+      <button type="button" id="quizNextBtn" class="rounded-full bg-primary px-7 py-3.5 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Next →</button>
+    </div>
+  </section>
+
+  <!-- ===================== STEP — CONTACT CAPTURE ===================== -->
+  <section id="step-contact" class="step">
+    <p class="font-mono text-xs uppercase tracking-[0.3em] text-primary">Last step</p>
+    <h2 class="mt-4 font-display text-4xl">Where should we send your results?</h2>
+    <p class="mt-4 max-w-lg text-muted-foreground">We'll show your score on this screen right now, and email the full PDF guide to the address below.</p>
+
+    <form id="contactForm" class="mt-10 flex flex-col gap-4 max-w-lg">
+      <input id="cName" name="name" type="text" required placeholder="Your name" class="rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
+      <input id="cEmail" name="email" type="email" required placeholder="Your email" class="rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
+      <input id="cBusiness" name="business" type="text" required placeholder="Business name" class="rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
+      <input id="cWebsite" name="website" type="text" inputmode="url" autocapitalize="off" autocorrect="off" placeholder="Your website (optional)" class="rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
+      <div class="flex gap-4">
+        <input id="cCity" name="city" type="text" placeholder="City (optional)" class="flex-1 rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
+        <input id="cCountry" name="country" type="text" placeholder="Country (optional)" class="flex-1 rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
+      </div>
+      <button type="submit" id="contactSubmitBtn" class="mt-2 rounded-full bg-primary px-7 py-4 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">See my results →</button>
+    </form>
+    <button type="button" id="contactBackBtn" class="mt-5 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground">← Back to questions</button>
+  </section>
+
+  <!-- ===================== STEP — RESULTS ===================== -->
+  <section id="step-results" class="step">
+    <p class="font-mono text-xs uppercase tracking-[0.3em] text-primary" id="resultsEyebrow">Your results</p>
+    <h2 class="mt-4 font-display text-4xl" id="resultsHeadline">Here's where you stand</h2>
+
+    <div class="glass-edge mt-10 rounded-3xl p-8 md:p-10">
+      <div class="score-ring">
+        <svg width="168" height="168" viewBox="0 0 168 168">
+          <circle cx="84" cy="84" r="74" fill="none" stroke="var(--border)" stroke-width="12"/>
+          <circle id="scoreArc" cx="84" cy="84" r="74" fill="none" stroke="url(#ringGrad)" stroke-width="12" stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465"/>
+          <defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="var(--primary)"/><stop offset="100%" stop-color="var(--accent)"/></linearGradient></defs>
+        </svg>
+        <div class="score-num">
+          <span class="font-display text-5xl" id="scoreNumber">0</span>
+          <span class="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">of 22</span>
+        </div>
+      </div>
+      <p class="mt-6 text-center text-lg" id="tierTitle"></p>
+      <p class="mt-2 text-center text-muted-foreground max-w-md mx-auto" id="tierBody"></p>
+
+      <div class="mt-10 flex flex-col gap-5">
+        <div><div class="bar-row"><span class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Website</span><div class="bar-track"><div class="bar-fill" id="bar-1" style="width:0%"></div></div><span class="font-mono text-xs text-right" id="barnum-1">0/5</span></div><p class="mt-2 text-sm text-muted-foreground" id="rec-1"></p></div>
+        <div><div class="bar-row"><span class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Google Profile</span><div class="bar-track"><div class="bar-fill" id="bar-2" style="width:0%"></div></div><span class="font-mono text-xs text-right" id="barnum-2">0/5</span></div><p class="mt-2 text-sm text-muted-foreground" id="rec-2"></p></div>
+        <div><div class="bar-row"><span class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Social Proof</span><div class="bar-track"><div class="bar-fill" id="bar-3" style="width:0%"></div></div><span class="font-mono text-xs text-right" id="barnum-3">0/4</span></div><p class="mt-2 text-sm text-muted-foreground" id="rec-3"></p></div>
+        <div><div class="bar-row"><span class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Listings</span><div class="bar-track"><div class="bar-fill" id="bar-4" style="width:0%"></div></div><span class="font-mono text-xs text-right" id="barnum-4">0/4</span></div><p class="mt-2 text-sm text-muted-foreground" id="rec-4"></p></div>
+        <div><div class="bar-row"><span class="font-mono text-xs uppercase tracking-widest text-muted-foreground">AI Readiness</span><div class="bar-track"><div class="bar-fill" id="bar-5" style="width:0%"></div></div><span class="font-mono text-xs text-right" id="barnum-5">0/4</span></div><p class="mt-2 text-sm text-muted-foreground" id="rec-5"></p></div>
+      </div>
+    </div>
+
+    <div class="mt-10 flex flex-col items-center gap-4 text-center">
+      <p class="text-muted-foreground" id="emailNotice">📩 Your full PDF guide is on its way to your inbox.</p>
+      <a href="https://calendar.app.google/AyRxZ548Lk8ce19u7" target="_blank" rel="noopener" class="rounded-full bg-primary px-8 py-4 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Book a free 30-minute walkthrough</a>
+      <p class="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Want the personalized version, graded on your actual business? Ask us about the full Digital Presence Snapshot.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="mx-auto max-w-3xl px-6 pb-16 text-center font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+  EdgeBeyond Solutions · San Antonio, TX · <a href="mailto:contact@edgebeyond.solutions" class="hover:text-foreground">contact@edgebeyond.solutions</a>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/2q9klldpjd2n8mnnt3dusnijox6h31jd';
+  var FORM_KEY = 'ebys-audit-4d2a91cf6e0b';
+
+  var PILLAR_COUNTS = {1:5, 2:5, 3:4, 4:4, 5:4};
+  var PILLAR_NAMES = {1:'Website', 2:'Google Business Profile', 3:'Social Proof', 4:'Listings', 5:'AI Readiness'};
+  var currentPillar = 1;
+  var checks = {}; // checks["1-0"] = true
+
+  var steps = {
+    intro: document.getElementById('step-intro'),
+    quiz: document.getElementById('step-quiz'),
+    contact: document.getElementById('step-contact'),
+    results: document.getElementById('step-results')
+  };
+
+  function showStep(name){
+    Object.keys(steps).forEach(function(k){ steps[k].classList.toggle('active', k === name); });
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  document.getElementById('startBtn').addEventListener('click', function(){
+    showStep('quiz');
+    renderPillar(1);
+  });
+
+  function renderPillar(n){
+    document.querySelectorAll('.quiz-pillar').forEach(function(el){
+      el.classList.toggle('hidden', Number(el.getAttribute('data-pillar')) !== n);
+    });
+    document.querySelectorAll('.pillar-dot').forEach(function(dot){
+      var d = Number(dot.getAttribute('data-dot'));
+      dot.classList.toggle('done', d < n);
+      dot.classList.toggle('now', d === n);
+    });
+    var totalDone = (n - 1);
+    document.getElementById('progressFill').style.width = (totalDone / 5 * 100) + '%';
+    document.getElementById('quizBackBtn').style.visibility = n === 1 ? 'hidden' : 'visible';
+    document.getElementById('quizNextBtn').textContent = n === 5 ? 'See results →' : 'Next →';
+  }
+
+  // wire up checkbox cards
+  document.querySelectorAll('.quiz-pillar').forEach(function(pillarEl){
+    var p = pillarEl.getAttribute('data-pillar');
+    var cards = pillarEl.querySelectorAll('.q-card');
+    cards.forEach(function(card, idx){
+      card.addEventListener('click', function(){
+        var key = p + '-' + idx;
+        checks[key] = !checks[key];
+        card.classList.toggle('checked', checks[key]);
+        card.style.borderColor = checks[key] ? 'var(--primary)' : '';
+        card.style.backgroundColor = checks[key] ? 'color-mix(in oklab, var(--primary) 10%, transparent)' : '';
+      });
+    });
+  });
+
+  document.getElementById('quizNextBtn').addEventListener('click', function(){
+    if(currentPillar < 5){
+      currentPillar++;
+      renderPillar(currentPillar);
+    } else {
+      showStep('contact');
+    }
+  });
+  document.getElementById('quizBackBtn').addEventListener('click', function(){
+    if(currentPillar > 1){
+      currentPillar--;
+      renderPillar(currentPillar);
+    }
+  });
+  document.getElementById('contactBackBtn').addEventListener('click', function(){
+    currentPillar = 5;
+    renderPillar(5);
+    showStep('quiz');
+  });
+
+  function pillarScore(p){
+    var total = PILLAR_COUNTS[p];
+    var count = 0;
+    for(var i=0; i<total; i++){ if(checks[p+'-'+i]) count++; }
+    return count;
+  }
+
+  function totalScore(){
+    var sum = 0;
+    [1,2,3,4,5].forEach(function(p){ sum += pillarScore(p); });
+    return sum;
+  }
+
+  var PILLAR_RECS = {
+    1: {
+      strong: "Your website is doing its job as a first impression — keep an eye on load speed as you add content.",
+      weak: "Priority fix: tighten your homepage so a visitor knows what you do, where you are, and how to reach you in 5 seconds — this is the single highest-leverage page on the audit."
+    },
+    2: {
+      strong: "Your Google Business Profile is a working trust signal — keep responding to new reviews and posting photos.",
+      weak: "Priority fix: claim or clean up your Google Business Profile and actively collect reviews — this is usually the fastest, cheapest win available."
+    },
+    3: {
+      strong: "Your reputation is visible beyond Google, which most competitors never manage.",
+      weak: "Priority fix: pull your best reviews onto your own site and social channels, and post something — anything — in the next 30 days."
+    },
+    4: {
+      strong: "Your business information is consistent across the places people look you up.",
+      weak: "Priority fix: audit your listings on Google, Yelp, Facebook and Apple Maps for mismatched name, address or phone — inconsistency quietly hurts your ranking."
+    },
+    5: {
+      strong: "You're responding fast enough to actually convert the leads you're already generating.",
+      weak: "Priority fix: this is almost always the highest-ROI fix on the list — an automated instant-response system (AI agent, missed-call text-back) recovers leads you're currently losing silently."
+    }
+  };
+
+  function tierFor(score){
+    if(score <= 7) return {
+      title: 'Foundational gaps',
+      body: "Prospects are very likely leaving before they ever reach your phone. Every item above is fixable — start with Website and Google Business Profile, they carry the most weight in a first impression."
+    };
+    if(score <= 15) return {
+      title: 'Solid foundation, real room to grow',
+      body: "You're ahead of a meaningful share of local competitors. The highest-leverage next step is usually AI Readiness — most businesses in this range are still losing leads to slow response time."
+    };
+    return {
+      title: 'Ahead of most competitors',
+      body: "Your fundamentals are in order. The opportunity now is compounding that advantage — turning consistent presence into automated, always-on response that converts more of the traffic you're already earning."
+    };
+  }
+
+  function renderResults(){
+    var total = totalScore();
+    var circumference = 465;
+    var offset = circumference - (total/22)*circumference;
+    document.getElementById('scoreArc').style.strokeDashoffset = offset;
+    document.getElementById('scoreNumber').textContent = total;
+
+    var tier = tierFor(total);
+    document.getElementById('tierTitle').textContent = tier.title;
+    document.getElementById('tierBody').textContent = tier.body;
+
+    [1,2,3,4,5].forEach(function(p){
+      var s = pillarScore(p);
+      var max = PILLAR_COUNTS[p];
+      document.getElementById('bar-'+p).style.width = (s/max*100) + '%';
+      document.getElementById('barnum-'+p).textContent = s + '/' + max;
+      var isStrong = s >= Math.ceil(max * 0.8);
+      document.getElementById('rec-'+p).textContent = isStrong ? PILLAR_RECS[p].strong : PILLAR_RECS[p].weak;
+    });
+  }
+
+  document.getElementById('contactForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var submitBtn = document.getElementById('contactSubmitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    var name = document.getElementById('cName').value.trim();
+    var email = document.getElementById('cEmail').value.trim();
+    var business = document.getElementById('cBusiness').value.trim();
+    var website = document.getElementById('cWebsite').value.trim();
+    var looksLikeDomain = website && !/\s/.test(website) && /\.[a-z]{2,}/i.test(website);
+    if(looksLikeDomain && !/^https?:\/\//i.test(website)) website = 'https://' + website;
+    var city = document.getElementById('cCity').value.trim();
+    var country = document.getElementById('cCountry').value.trim();
+
+    var nameParts = name.split(/\s+/);
+    var firstName = nameParts[0];
+    var lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : nameParts[0];
+
+    var total = totalScore();
+    var tier = tierFor(total);
+
+    var payload = {
+      form_key: FORM_KEY,
+      form_title: 'Digital Presence & AI-Readiness Audit',
+      lang: 'en',
+      name_1_first_name: firstName,
+      name_1_last_name: lastName,
+      email_1: email,
+      url_1: website,
+      business_name: business,
+      text_4: city,
+      country: country,
+      entry_time: new Date().toISOString(),
+      score_total: total,
+      score_tier: tier.title,
+      score_website: pillarScore(1),
+      score_gbp: pillarScore(2),
+      score_social: pillarScore(3),
+      score_listings: pillarScore(4),
+      score_ai: pillarScore(5)
+    };
+
+    renderResults();
+    showStep('results');
+
+    fetch(MAKE_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function(res){ if(!res.ok) throw new Error('Webhook failed'); })
+      .catch(function(err){
+        console.error('Audit webhook failed:', err);
+        document.getElementById('emailNotice').textContent = "We saved your results, but couldn't confirm email delivery. If it doesn't arrive, email us at contact@edgebeyond.solutions.";
+      })
+      .finally(function(){
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'See my results →';
+      });
+  });
+})();
+</script>
+</body>
+</html>

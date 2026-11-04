@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>La Auditoría de Presencia Digital y Preparación para IA — EdgeBeyond</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#06090d; --fg:#f3f2eb;
+    --primary:#578200; --accent:#00758c;
+    --primary-bright:#c0f447; --accent-bright:#22cde5;
+    --pain:#e45e4d;
+    --ink:#141b24; --muted:#474e55;
+    --card:#f7f9fa; --border:#dbdee1;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:"Space Grotesk",system-ui,sans-serif; color:var(--ink); background:#fff; font-size:13.5px; line-height:1.55;}
+  .page{width:816px; min-height:1056px; padding:72px 64px; position:relative; page-break-after:always;}
+  .page:last-child{page-break-after:auto;}
+  .display{font-family:"Instrument Serif",serif;}
+  .mono{font-family:"JetBrains Mono",monospace;}
+
+  /* ---------- COVER ---------- */
+  .cover{background:var(--bg); color:var(--fg); display:flex; flex-direction:column; justify-content:space-between;}
+  .cover .eyebrow{font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.25em; text-transform:uppercase; color:#8c939b;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand img{height:28px; width:auto;}
+  .brand span{font-weight:500; font-size:19px; letter-spacing:-0.01em;}
+  .brand .beyond{background:linear-gradient(100deg,var(--primary-bright),var(--accent-bright)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .cover h1{font-family:"Instrument Serif",serif; font-size:52px; line-height:1.08; margin-top:140px; max-width:640px;}
+  .cover h1 em{font-style:italic; background:linear-gradient(100deg,var(--primary-bright),var(--accent-bright)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .cover .sub{margin-top:28px; max-width:460px; font-size:16px; color:#cfc7b9;}
+  .cover .footer-row{display:flex; justify-content:space-between; align-items:flex-end; font-family:"JetBrains Mono",monospace; font-size:10.5px; color:#8c939b; letter-spacing:.05em;}
+
+  /* ---------- CONTENT PAGES ---------- */
+  .kicker{font-family:"JetBrains Mono",monospace; font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted);}
+  h2.page-title{font-family:"Instrument Serif",serif; font-size:34px; margin-top:8px; line-height:1.15;}
+  p.lede{margin-top:16px; font-size:15px; color:#2d343c; max-width:600px;}
+  .rule{height:1px; background:var(--border); margin:28px 0;}
+
+  .pillar-head{display:flex; align-items:baseline; gap:18px;}
+  .pillar-num{font-family:"Instrument Serif",serif; font-size:52px; color:var(--border); line-height:1;}
+  .pillar-title{font-family:"Instrument Serif",serif; font-size:26px; line-height:1.15;}
+  .pillar-tag{font-family:"JetBrains Mono",monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); margin-bottom:4px; display:block;}
+  .pillar-intro{margin-top:18px; font-size:13.5px; color:#2d343c; max-width:620px;}
+
+  .checklist{margin-top:26px; display:flex; flex-direction:column; gap:14px;}
+  .check-item{display:flex; align-items:flex-start; gap:14px; padding:14px 18px; background:var(--card); border:1px solid var(--border); border-radius:10px;}
+  .box{flex-shrink:0; width:18px; height:18px; border:1.6px solid var(--ink); border-radius:4px; margin-top:1px;}
+  .check-text{font-size:13.5px; color:var(--ink);}
+
+  .cost-callout{margin-top:22px; padding:16px 20px; border-left:3px solid var(--pain); background:#fdf1ef; border-radius:0 8px 8px 0;}
+  .cost-callout .label{font-family:"JetBrains Mono",monospace; font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--pain); display:block; margin-bottom:6px;}
+  .cost-callout p{font-size:13px; color:#5c2a22;}
+
+  .page-footer{position:absolute; bottom:40px; left:64px; right:64px; display:flex; justify-content:space-between; font-family:"JetBrains Mono",monospace; font-size:9.5px; color:#9aa0a6; letter-spacing:.08em;}
+
+  /* ---------- SCORING PAGE ---------- */
+  .tier{margin-top:20px; padding:20px 22px; border-radius:10px; border:1px solid var(--border);}
+  .tier .range{font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent);}
+  .tier h3{font-family:"Instrument Serif",serif; font-size:21px; margin-top:6px;}
+  .tier p{margin-top:8px; font-size:13px; color:#2d343c;}
+
+  /* ---------- CTA PAGE ---------- */
+  .cta-page{background:var(--bg); color:var(--fg); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;}
+  .cta-page h2{font-family:"Instrument Serif",serif; font-size:36px; max-width:580px; line-height:1.18;}
+  .cta-page h2 em{font-style:italic; background:linear-gradient(100deg,var(--primary-bright),var(--accent-bright)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .cta-page p{margin-top:20px; max-width:480px; color:#cfc7b9; font-size:14.5px;}
+  .cta-badge{margin-top:34px; display:inline-block; padding:12px 28px; border-radius:100px; background:var(--primary-bright); color:#141b24; font-weight:600; font-size:14px;}
+  .cta-sub{margin-top:18px; font-family:"JetBrains Mono",monospace; font-size:11px; color:#8c939b; letter-spacing:.05em;}
+</style>
+</head>
+<body>
+
+<!-- ============ PÁGINA 1 — PORTADA ============ -->
+<section class="page cover">
+  <div>
+    <div class="brand">
+      <img src="../logo-mark-color.png" alt="">
+      <span>Edge<span class="beyond">Beyond</span></span>
+    </div>
+    <p class="eyebrow" style="margin-top:72px;">Autoevaluación Gratis · 10 Minutos</p>
+    <h1>La Auditoría de Presencia Digital <em>y Preparación para IA</em></h1>
+    <p class="sub">Lo que ve tu próximo cliente antes de siquiera llamarte — cinco puntos que deciden si confía lo suficiente en ti para contactarte, incluyendo el que la mayoría de las agencias no te va a mencionar.</p>
+  </div>
+  <div class="footer-row">
+    <span>EDGEBEYOND SOLUTIONS</span>
+    <span>SAN ANTONIO, TX · EDGEBEYOND.SOLUTIONS</span>
+  </div>
+</section>
+
+<!-- ============ PÁGINA 2 — CÓMO USARLA ============ -->
+<section class="page">
+  <p class="kicker">Antes de empezar</p>
+  <h2 class="page-title">Cómo usar esta auditoría</h2>
+  <p class="lede">Esto no es un texto para leer — es un autodiagnóstico. Revisa los cinco pilares a continuación y marca cada afirmación que sea honestamente cierta para tu negocio en este momento. Al final, sumas tus marcas y ves exactamente dónde estás parado.</p>
+
+  <div class="rule"></div>
+
+  <p class="lede" style="max-width:640px;">Cada pilar cubre algo específico que un prospecto evalúa — muchas veces sin darse cuenta — en los sesenta segundos entre encontrar tu negocio y decidir si te contacta. Ninguno de estos puntos requiere un programador, una agencia ni presupuesto. Requieren cinco minutos de honestidad.</p>
+
+  <p class="lede" style="max-width:640px; margin-top:20px;">El quinto pilar es distinto a lo que encontrarías en un checklist de marketing típico. Es el área donde la mayoría de los negocios pequeños pierden más ingresos, y el que casi nadie se autoevalúa.</p>
+
+  <div class="cost-callout" style="margin-top:40px; border-left-color:var(--accent); background:#eef8fa;">
+    <span class="label" style="color:var(--accent);">Una nota sobre la honestidad</span>
+    <p style="color:#143a42;">Esto solo funciona si eres preciso. Marcar una casilla porque es "más o menos cierta" o "cierta para una versión vieja del sitio" le quita el sentido al ejercicio. Califícate como lo haría un desconocido que busca tu negocio esta noche.</p>
+  </div>
+
+  <div class="page-footer"><span>EDGEBEYOND · AUDITORÍA DE PRESENCIA DIGITAL Y PREPARACIÓN PARA IA</span><span>02</span></div>
+</section>
+
+<!-- ============ PÁGINA 3 — PILAR 1: SITIO WEB ============ -->
+<section class="page">
+  <div class="pillar-head">
+    <span class="pillar-num">01</span>
+    <div>
+      <span class="pillar-tag">Pilar uno</span>
+      <div class="pillar-title">Sitio Web — Primera Impresión y Conversión</div>
+    </div>
+  </div>
+  <p class="pillar-intro">Tu sitio web es el único empleado que trabaja 24 horas al día — pero solo si realmente hace el trabajo. La mayoría de los sitios de negocios pequeños pierden prospectos en los primeros cinco segundos, mucho antes de que alguien lea una sola palabra.</p>
+
+  <div class="checklist">
+    <div class="check-item"><div class="box"></div><div class="check-text">Tu sitio carga en menos de 3 segundos con datos móviles, no solo con el wifi de la oficina.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Un visitante por primera vez puede saber qué haces y dónde estás ubicado sin hacer scroll.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Hay una forma de contactarte que no sea solo un número de teléfono — un formulario, chat, o enlace para agendar.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">El diseño no se ve como si se hubiera hecho hace más de 3-4 años.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Alguien desde su celular puede llamarte con un solo toque — sin hacer zoom ni pellizcar la pantalla.</div></div>
+  </div>
+
+  <div class="cost-callout">
+    <span class="label">Costo de una casilla sin marcar</span>
+    <p>Cada una es una razón específica y nombrable por la que un prospecto se va de tu sitio y llama al siguiente resultado de la página — una razón que nunca aparece en ningún reporte, porque nunca te dijeron por qué.</p>
+  </div>
+
+  <div class="page-footer"><span>EDGEBEYOND · AUDITORÍA DE PRESENCIA DIGITAL Y PREPARACIÓN PARA IA</span><span>03</span></div>
+</section>
+
+<!-- ============ PÁGINA 4 — PILAR 2: GOOGLE BUSINESS PROFILE ============ -->
+<section class="page">
+  <div class="pillar-head">
+    <span class="pillar-num">02</span>
+    <div>
+      <span class="pillar-tag">Pilar dos</span>
+      <div class="pillar-title">Google Business Profile — Señal de Confianza Local</div>
+    </div>
+  </div>
+  <p class="pillar-intro">En casi toda búsqueda local, tu perfil de Google Business se ve antes que tu sitio web — a veces en lugar de él. Frecuentemente es el factor individual más grande para que alguien decida llamarte.</p>
+
+  <div class="checklist">
+    <div class="check-item"><div class="box"></div><div class="check-text">Tu perfil de Google Business está reclamado y verificado bajo tu control.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Tienes más de 10 reseñas.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Tu calificación promedio es de 4.5 estrellas o más.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Has respondido tus reseñas más recientes — tanto las buenas como las malas.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Has agregado fotos nuevas en los últimos 90 días.</div></div>
+  </div>
+
+  <div class="cost-callout">
+    <span class="label">Costo de una casilla sin marcar</span>
+    <p>Un perfil sin reclamar o desactualizado no solo rinde menos — le indica activamente a alguien que está comparando tres negocios en la misma búsqueda que "este negocio tal vez ya no está operando".</p>
+  </div>
+
+  <div class="page-footer"><span>EDGEBEYOND · AUDITORÍA DE PRESENCIA DIGITAL Y PREPARACIÓN PARA IA</span><span>04</span></div>
+</section>
+
+<!-- ============ PÁGINA 5 — PILAR 3: PRUEBA SOCIAL ============ -->
+<section class="page">
+  <div class="pillar-head">
+    <span class="pillar-num">03</span>
+    <div>
+      <span class="pillar-tag">Pilar tres</span>
+      <div class="pillar-title">Prueba Social — Reseñas y Actividad</div>
+    </div>
+  </div>
+  <p class="pillar-intro">Las reseñas de cinco estrellas son uno de los activos más valiosos que tiene un negocio pequeño — pero solo si realmente se ven en el momento en que alguien está decidiendo si confiar en ti.</p>
+
+  <div class="checklist">
+    <div class="check-item"><div class="box"></div><div class="check-text">Tus mejores reseñas son visibles en algún lugar además de Google — tu sitio, redes sociales, o ambos.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Al menos uno de tus perfiles sociales ha publicado en los últimos 30 días.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Tienes al menos un testimonio en video o foto de un cliente real, no solo texto.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Sabes cuál es la única plataforma que más usan tus clientes reales — y estás activo ahí.</div></div>
+  </div>
+
+  <div class="cost-callout">
+    <span class="label">Costo de una casilla sin marcar</span>
+    <p>Una reputación de cinco estrellas que vive solo en Google, sin actividad reciente en ningún otro lado, se percibe como inactiva para un prospecto que revisa tus redes antes de llamarte.</p>
+  </div>
+
+  <div class="page-footer"><span>EDGEBEYOND · AUDITORÍA DE PRESENCIA DIGITAL Y PREPARACIÓN PARA IA</span><span>05</span></div>
+</section>
+
+<!-- ============ PÁGINA 6 — PILAR 4: DIRECTORIOS ============ -->
+<section class="page">
+  <div class="pillar-head">
+    <span class="pillar-num">04</span>
+    <div>
+      <span class="pillar-tag">Pilar cuatro</span>
+      <div class="pillar-title">Consistencia de Directorios — Nombre, Dirección, Teléfono</div>
+    </div>
+  </div>
+  <p class="pillar-intro">Google, Yelp, Apple Maps, Bing y los directorios de tu industria tienen cada uno su propia copia de la información de tu negocio. Cuando no coinciden entre sí, se genera fricción — y a veces mandan a la gente al número equivocado.</p>
+
+  <div class="checklist">
+    <div class="check-item"><div class="box"></div><div class="check-text">El nombre, dirección y teléfono de tu negocio coinciden exactamente en Google, Yelp, Facebook y Apple Maps.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Has revisado tus directorios personalmente en los últimos 12 meses.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Un listado viejo, cerrado o incorrecto no sigue apareciendo cuando alguien busca tu nombre.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">La URL de tu sitio web está correcta en todos los lugares donde aparece.</div></div>
+  </div>
+
+  <div class="cost-callout">
+    <span class="label">Costo de una casilla sin marcar</span>
+    <p>Un número de teléfono equivocado o un listado duplicado no solo se ve poco profesional — los buscadores interpretan la inconsistencia como una señal en tu contra, posicionando silenciosamente mejor a competidores consistentes.</p>
+  </div>
+
+  <div class="page-footer"><span>EDGEBEYOND · AUDITORÍA DE PRESENCIA DIGITAL Y PREPARACIÓN PARA IA</span><span>06</span></div>
+</section>
+
+<!-- ============ PÁGINA 7 — PILAR 5: PREPARACIÓN PARA IA ============ -->
+<section class="page">
+  <div class="pillar-head">
+    <span class="pillar-num">05</span>
+    <div>
+      <span class="pillar-tag">Pilar cinco · El que la mayoría de los checklists se salta</span>
+      <div class="pillar-title">Velocidad de Respuesta y Preparación para IA</div>
+    </div>
+  </div>
+  <p class="pillar-intro">Un sitio perfecto y un perfil de cinco estrellas igual pierden la venta si nadie — o nada — responde lo suficientemente rápido. El cliente de hoy espera una respuesta en minutos, no al siguiente día hábil, a cualquier hora que esté buscando.</p>
+
+  <div class="checklist">
+    <div class="check-item"><div class="box"></div><div class="check-text">Una nueva consulta desde tu sitio web recibe respuesta en menos de 5 minutos, a cualquier hora — no solo en horario de oficina.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Una llamada perdida dispara automáticamente un mensaje de texto de seguimiento, en vez de simplemente quedar sin respuesta.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Un prospecto puede agendar sin necesidad de llamar en horario de oficina.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Puedes decir, con un número real, cuántos leads perdiste el mes pasado simplemente porque nadie contestó a tiempo.</div></div>
+  </div>
+
+  <div class="cost-callout">
+    <span class="label">Costo de una casilla sin marcar</span>
+    <p>Este es el pilar con la línea más directa hacia ingresos perdidos — y el que un agente de IA o una automatización arregla más rápido, porque no es un problema de contenido, es un problema de tiempo de respuesta.</p>
+  </div>
+
+  <div class="page-footer"><span>EDGEBEYOND · AUDITORÍA DE PRESENCIA DIGITAL Y PREPARACIÓN PARA IA</span><span>07</span></div>
+</section>
+
+<!-- ============ PÁGINA 8 — RESULTADOS ============ -->
+<section class="page">
+  <p class="kicker">Tus resultados</p>
+  <h2 class="page-title">Suma tus casillas marcadas</h2>
+  <p class="lede">Cuenta cada casilla que honestamente marcaste en los cinco pilares (22 en total) y encuentra tu rango abajo.</p>
+
+  <div class="tier">
+    <span class="range">0 – 7 marcadas</span>
+    <h3>Brechas fundamentales</h3>
+    <p>Es muy probable que los prospectos se estén yendo antes de siquiera llegar a tu teléfono. La buena noticia: cada punto de arriba es solucionable, y la mayoría no cuesta nada más que tiempo. Empieza con el Pilar 1 y el Pilar 2 — son los que más pesan en la primera impresión de un prospecto.</p>
+  </div>
+  <div class="tier">
+    <span class="range">8 – 15 marcadas</span>
+    <h3>Base sólida, con espacio real para crecer</h3>
+    <p>Estás por delante de una buena parte de tus competidores locales, pero hay fugas específicas e identificables que te están costando leads — generalmente concentradas en uno o dos pilares, no repartidas parejo. El siguiente paso de mayor impacto suele ser el Pilar 5: la mayoría de los negocios en este rango todavía pierden leads por tiempo de respuesta lento.</p>
+  </div>
+  <div class="tier">
+    <span class="range">16 – 22 marcadas</span>
+    <h3>Por delante de la mayoría de tus competidores</h3>
+    <p>Tus fundamentos están en orden. En esta etapa, la oportunidad deja de ser corregir brechas y pasa a multiplicar una ventaja — convertir una presencia consistente en respuesta automatizada y siempre activa que convierte más del tráfico que ya estás generando.</p>
+  </div>
+
+  <div class="page-footer"><span>EDGEBEYOND · AUDITORÍA DE PRESENCIA DIGITAL Y PREPARACIÓN PARA IA</span><span>08</span></div>
+</section>
+
+<!-- ============ PÁGINA 9 — CTA ============ -->
+<section class="page cta-page">
+  <p class="eyebrow">¿Quieres ver exactamente dónde estás parado?</p>
+  <h2>Esta autoevaluación te dice <em>qué</em> buscar. Un Digital Presence Snapshot te muestra <em>exactamente qué hay</em>.</h2>
+  <p>Construimos una auditoría completa y basada en evidencia de tu negocio específico — tu sitio web real, tu perfil real de Google, tus reseñas reales — calificada pilar por pilar, con las cinco correcciones de mayor impacto ordenadas según cuánto te cuesta ignorarlas.</p>
+  <div class="cta-badge">Agenda una llamada gratis de 30 minutos</div>
+  <p class="cta-sub">EDGEBEYOND.SOLUTIONS · CONTACT@EDGEBEYOND.SOLUTIONS</p>
+</section>
+
+</body>
+</html>

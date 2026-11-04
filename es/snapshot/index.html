@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Auditoría Gratis de Presencia Digital e IA | EdgeBeyond</title>
+<meta name="description" content="Responde 22 preguntas rápidas en 5 pilares y obtén tu puntaje de Presencia Digital y Preparación para IA al instante — más la guía completa en PDF a tu correo.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://edgebeyond.solutions/es/snapshot/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EdgeBeyond">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Auditoría Gratis de Presencia Digital e IA | EdgeBeyond">
+<meta property="og:description" content="Responde 22 preguntas rápidas en 5 pilares y obtén tu puntaje de Presencia Digital y Preparación para IA al instante — más la guía completa en PDF a tu correo.">
+<meta property="og:url" content="https://edgebeyond.solutions/es/snapshot/">
+<meta property="og:image" content="https://edgebeyond.solutions/logo-mark-512.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Auditoría Gratis de Presencia Digital e IA | EdgeBeyond">
+<meta name="twitter:description" content="Responde 22 preguntas rápidas en 5 pilares y obtén tu puntaje de Presencia Digital y Preparación para IA al instante — más la guía completa en PDF a tu correo.">
+<meta name="twitter:image" content="https://edgebeyond.solutions/logo-mark-512.png">
+<link rel="icon" href="../../favicon.ico?v=2" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body{background:var(--background); color:var(--foreground);}
+  .step{display:none;}
+  .step.active{display:block;}
+  .q-card{display:flex; align-items:flex-start; gap:14px; padding:16px 18px; border-radius:14px; cursor:pointer; user-select:none; transition:border-color .15s, background-color .15s;}
+  .q-box{flex-shrink:0; width:22px; height:22px; border-radius:6px; margin-top:1px; display:flex; align-items:center; justify-content:center; transition:background-color .15s, border-color .15s;}
+  .q-box svg{opacity:0; transition:opacity .1s;}
+  .q-card.checked .q-box svg{opacity:1;}
+  .progress-track{height:4px; border-radius:100px; background:var(--border); overflow:hidden;}
+  .progress-fill{height:100%; background:var(--gradient-edge); border-radius:100px; transition:width .35s ease;}
+  .pillar-dot{width:8px; height:8px; border-radius:100px; background:var(--border);}
+  .pillar-dot.done{background:var(--primary);}
+  .pillar-dot.now{background:var(--accent);}
+  .score-ring{position:relative; width:168px; height:168px; margin:0 auto;}
+  .score-ring svg{transform:rotate(-90deg);}
+  .score-num{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column;}
+  .bar-row{display:grid; grid-template-columns:140px 1fr 46px; align-items:center; gap:14px;}
+  .bar-track{height:8px; border-radius:100px; background:var(--muted); overflow:hidden;}
+  .bar-fill{height:100%; border-radius:100px; background:var(--gradient-edge);}
+</style>
+</head>
+<body class="grain overflow-x-clip">
+
+<div class="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
+  <div class="absolute inset-0 horizon opacity-50"></div>
+  <div class="holo-beam absolute left-[12%] top-0 h-full w-24 -skew-x-12 opacity-25"></div>
+  <div class="holo-beam absolute right-[14%] top-0 h-full w-16 skew-x-6 opacity-20"></div>
+</div>
+
+<header class="mx-auto flex max-w-3xl items-center justify-between px-6 py-8">
+  <a href="../" class="flex items-center gap-2.5" aria-label="EdgeBeyond">
+    <picture><source srcset="../../logo-mark-color.webp" type="image/webp"><img src="../../logo-mark-color.png" alt="" aria-hidden="true" class="h-6 w-8 shrink-0 object-contain"></picture>
+    <span class="text-lg font-medium tracking-tight">Edge<span class="text-edge">Beyond</span></span>
+  </a>
+  <a href="../" class="font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground">← Volver al sitio</a>
+</header>
+
+<main class="mx-auto max-w-3xl px-6 pb-32">
+
+  <!-- ===================== PASO 0 — INTRO ===================== -->
+  <section id="step-intro" class="step active">
+    <p class="font-mono text-xs uppercase tracking-[0.3em] text-primary">Auditoría Interactiva Gratis · 5 Minutos</p>
+    <h1 class="mt-6 font-display text-5xl leading-[1.03] tracking-tight md:text-6xl">¿Qué ve tu próximo cliente <em class="text-edge not-italic">antes de llamarte?</em></h1>
+    <p class="mt-6 max-w-xl text-lg text-muted-foreground">Responde 22 preguntas rápidas de sí/no en 5 pilares de tu presencia digital. Obtén tu puntaje al instante en pantalla, más la guía completa enviada directo a tu correo.</p>
+    <button type="button" id="startBtn" class="mt-10 rounded-full bg-primary px-8 py-4 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Comenzar la auditoría →</button>
+    <p class="mt-4 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Sin tarjeta de crédito. Sin compromiso. Toma unos 5 minutos.</p>
+  </section>
+
+  <!-- ===================== CUESTIONARIO ===================== -->
+  <section id="step-quiz" class="step">
+    <div class="flex items-center gap-2" id="pillarDots">
+      <span class="pillar-dot" data-dot="1"></span>
+      <span class="pillar-dot" data-dot="2"></span>
+      <span class="pillar-dot" data-dot="3"></span>
+      <span class="pillar-dot" data-dot="4"></span>
+      <span class="pillar-dot" data-dot="5"></span>
+    </div>
+    <div class="progress-track mt-4"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+    <!-- Pilar 1 -->
+    <div class="quiz-pillar mt-10" data-pillar="1">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pilar 01 · Sitio Web</p>
+      <h2 class="mt-2 font-display text-3xl">Primera Impresión y Conversión</h2>
+      <div class="mt-6 flex flex-col gap-3">
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Tu sitio carga en menos de 3 segundos con datos móviles, no solo con el wifi de la oficina.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Un visitante por primera vez puede saber qué haces y dónde estás ubicado sin hacer scroll.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Hay una forma de contactarte que no sea solo un número de teléfono — un formulario, chat, o enlace para agendar.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>El diseño no se ve como si se hubiera hecho hace más de 3-4 años.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Alguien desde su celular puede llamarte con un solo toque — sin hacer zoom ni pellizcar la pantalla.</span></label>
+      </div>
+    </div>
+
+    <!-- Pilar 2 -->
+    <div class="quiz-pillar mt-10 hidden" data-pillar="2">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pilar 02 · Google Business Profile</p>
+      <h2 class="mt-2 font-display text-3xl">Señal de Confianza Local</h2>
+      <div class="mt-6 flex flex-col gap-3">
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Tu perfil de Google Business está reclamado y verificado bajo tu control.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Tienes más de 10 reseñas.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Tu calificación promedio es de 4.5 estrellas o más.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Has respondido tus reseñas más recientes — tanto las buenas como las malas.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Has agregado fotos nuevas en los últimos 90 días.</span></label>
+      </div>
+    </div>
+
+    <!-- Pilar 3 -->
+    <div class="quiz-pillar mt-10 hidden" data-pillar="3">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pilar 03 · Prueba Social</p>
+      <h2 class="mt-2 font-display text-3xl">Reseñas y Actividad</h2>
+      <div class="mt-6 flex flex-col gap-3">
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Tus mejores reseñas son visibles en algún lugar además de Google — tu sitio, redes sociales, o ambos.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Al menos uno de tus perfiles sociales ha publicado en los últimos 30 días.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Tienes al menos un testimonio en video o foto de un cliente real, no solo texto.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Sabes cuál es la única plataforma que más usan tus clientes reales — y estás activo ahí.</span></label>
+      </div>
+    </div>
+
+    <!-- Pilar 4 -->
+    <div class="quiz-pillar mt-10 hidden" data-pillar="4">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pilar 04 · Directorios</p>
+      <h2 class="mt-2 font-display text-3xl">Consistencia de Nombre, Dirección y Teléfono</h2>
+      <div class="mt-6 flex flex-col gap-3">
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>El nombre, dirección y teléfono de tu negocio coinciden exactamente en Google, Yelp, Facebook y Apple Maps.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Has revisado tus directorios personalmente en los últimos 12 meses.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Un listado viejo, cerrado o incorrecto no sigue apareciendo cuando alguien busca tu nombre.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>La URL de tu sitio web está correcta en todos los lugares donde aparece.</span></label>
+      </div>
+    </div>
+
+    <!-- Pilar 5 -->
+    <div class="quiz-pillar mt-10 hidden" data-pillar="5">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pilar 05 · El que casi nadie evalúa</p>
+      <h2 class="mt-2 font-display text-3xl">Velocidad de Respuesta y Preparación para IA</h2>
+      <div class="mt-6 flex flex-col gap-3">
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Una nueva consulta desde tu sitio web recibe respuesta en menos de 5 minutos, a cualquier hora — no solo en horario de oficina.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Una llamada perdida dispara automáticamente un mensaje de texto de seguimiento, en vez de quedar sin respuesta.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Un prospecto puede agendar sin necesidad de llamar en horario de oficina.</span></label>
+        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Puedes decir, con un número real, cuántos leads perdiste el mes pasado simplemente porque nadie contestó a tiempo.</span></label>
+      </div>
+    </div>
+
+    <div class="mt-10 flex items-center justify-between">
+      <button type="button" id="quizBackBtn" class="font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground">← Atrás</button>
+      <button type="button" id="quizNextBtn" class="rounded-full bg-primary px-7 py-3.5 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Siguiente →</button>
+    </div>
+  </section>
+
+  <!-- ===================== PASO — CAPTURA DE DATOS ===================== -->
+  <section id="step-contact" class="step">
+    <p class="font-mono text-xs uppercase tracking-[0.3em] text-primary">Último paso</p>
+    <h2 class="mt-4 font-display text-4xl">¿A dónde enviamos tus resultados?</h2>
+    <p class="mt-4 max-w-lg text-muted-foreground">Te mostramos tu puntaje en esta pantalla ahora mismo, y te enviamos la guía completa en PDF al correo que nos dejes.</p>
+
+    <form id="contactForm" class="mt-10 flex flex-col gap-4 max-w-lg">
+      <input id="cName" name="name" type="text" required placeholder="Tu nombre" class="rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
+      <input id="cEmail" name="email" type="email" required placeholder="Tu correo" class="rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
+      <input id="cBusiness" name="business" type="text" required placeholder="Nombre del negocio" class="rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
+      <input id="cWebsite" name="website" type="text" inputmode="url" autocapitalize="off" autocorrect="off" placeholder="Tu sitio web (opcional)" class="rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
+      <div class="flex gap-4">
+        <input id="cCity" name="city" type="text" placeholder="Ciudad (opcional)" class="flex-1 rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
+        <input id="cCountry" name="country" type="text" placeholder="País (opcional)" class="flex-1 rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
+      </div>
+      <button type="submit" id="contactSubmitBtn" class="mt-2 rounded-full bg-primary px-7 py-4 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Ver mis resultados →</button>
+    </form>
+    <button type="button" id="contactBackBtn" class="mt-5 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground">← Volver a las preguntas</button>
+  </section>
+
+  <!-- ===================== PASO — RESULTADOS ===================== -->
+  <section id="step-results" class="step">
+    <p class="font-mono text-xs uppercase tracking-[0.3em] text-primary" id="resultsEyebrow">Tus resultados</p>
+    <h2 class="mt-4 font-display text-4xl" id="resultsHeadline">Esto es lo que encontramos</h2>
+
+    <div class="glass-edge mt-10 rounded-3xl p-8 md:p-10">
+      <div class="score-ring">
+        <svg width="168" height="168" viewBox="0 0 168 168">
+          <circle cx="84" cy="84" r="74" fill="none" stroke="var(--border)" stroke-width="12"/>
+          <circle id="scoreArc" cx="84" cy="84" r="74" fill="none" stroke="url(#ringGrad)" stroke-width="12" stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465"/>
+          <defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="var(--primary)"/><stop offset="100%" stop-color="var(--accent)"/></linearGradient></defs>
+        </svg>
+        <div class="score-num">
+          <span class="font-display text-5xl" id="scoreNumber">0</span>
+          <span class="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">de 22</span>
+        </div>
+      </div>
+      <p class="mt-6 text-center text-lg" id="tierTitle"></p>
+      <p class="mt-2 text-center text-muted-foreground max-w-md mx-auto" id="tierBody"></p>
+
+      <div class="mt-10 flex flex-col gap-5">
+        <div><div class="bar-row"><span class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Sitio Web</span><div class="bar-track"><div class="bar-fill" id="bar-1" style="width:0%"></div></div><span class="font-mono text-xs text-right" id="barnum-1">0/5</span></div><p class="mt-2 text-sm text-muted-foreground" id="rec-1"></p></div>
+        <div><div class="bar-row"><span class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Perfil de Google</span><div class="bar-track"><div class="bar-fill" id="bar-2" style="width:0%"></div></div><span class="font-mono text-xs text-right" id="barnum-2">0/5</span></div><p class="mt-2 text-sm text-muted-foreground" id="rec-2"></p></div>
+        <div><div class="bar-row"><span class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Prueba Social</span><div class="bar-track"><div class="bar-fill" id="bar-3" style="width:0%"></div></div><span class="font-mono text-xs text-right" id="barnum-3">0/4</span></div><p class="mt-2 text-sm text-muted-foreground" id="rec-3"></p></div>
+        <div><div class="bar-row"><span class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Directorios</span><div class="bar-track"><div class="bar-fill" id="bar-4" style="width:0%"></div></div><span class="font-mono text-xs text-right" id="barnum-4">0/4</span></div><p class="mt-2 text-sm text-muted-foreground" id="rec-4"></p></div>
+        <div><div class="bar-row"><span class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Preparación IA</span><div class="bar-track"><div class="bar-fill" id="bar-5" style="width:0%"></div></div><span class="font-mono text-xs text-right" id="barnum-5">0/4</span></div><p class="mt-2 text-sm text-muted-foreground" id="rec-5"></p></div>
+      </div>
+    </div>
+
+    <div class="mt-10 flex flex-col items-center gap-4 text-center">
+      <p class="text-muted-foreground" id="emailNotice">📩 Tu guía completa en PDF va en camino a tu correo.</p>
+      <a href="https://calendar.app.google/AyRxZ548Lk8ce19u7" target="_blank" rel="noopener" class="rounded-full bg-primary px-8 py-4 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Agenda una llamada gratis de 30 minutos</a>
+      <p class="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">¿Quieres la versión personalizada, calificada sobre tu negocio real? Pregúntanos por el Digital Presence Snapshot completo.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="mx-auto max-w-3xl px-6 pb-16 text-center font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+  EdgeBeyond Solutions · San Antonio, TX · <a href="mailto:contact@edgebeyond.solutions" class="hover:text-foreground">contact@edgebeyond.solutions</a>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/2q9klldpjd2n8mnnt3dusnijox6h31jd';
+  var FORM_KEY = 'ebys-audit-4d2a91cf6e0b';
+
+  var PILLAR_COUNTS = {1:5, 2:5, 3:4, 4:4, 5:4};
+  var currentPillar = 1;
+  var checks = {};
+
+  var steps = {
+    intro: document.getElementById('step-intro'),
+    quiz: document.getElementById('step-quiz'),
+    contact: document.getElementById('step-contact'),
+    results: document.getElementById('step-results')
+  };
+
+  function showStep(name){
+    Object.keys(steps).forEach(function(k){ steps[k].classList.toggle('active', k === name); });
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  document.getElementById('startBtn').addEventListener('click', function(){
+    showStep('quiz');
+    renderPillar(1);
+  });
+
+  function renderPillar(n){
+    document.querySelectorAll('.quiz-pillar').forEach(function(el){
+      el.classList.toggle('hidden', Number(el.getAttribute('data-pillar')) !== n);
+    });
+    document.querySelectorAll('.pillar-dot').forEach(function(dot){
+      var d = Number(dot.getAttribute('data-dot'));
+      dot.classList.toggle('done', d < n);
+      dot.classList.toggle('now', d === n);
+    });
+    var totalDone = (n - 1);
+    document.getElementById('progressFill').style.width = (totalDone / 5 * 100) + '%';
+    document.getElementById('quizBackBtn').style.visibility = n === 1 ? 'hidden' : 'visible';
+    document.getElementById('quizNextBtn').textContent = n === 5 ? 'Ver resultados →' : 'Siguiente →';
+  }
+
+  document.querySelectorAll('.quiz-pillar').forEach(function(pillarEl){
+    var p = pillarEl.getAttribute('data-pillar');
+    var cards = pillarEl.querySelectorAll('.q-card');
+    cards.forEach(function(card, idx){
+      card.addEventListener('click', function(){
+        var key = p + '-' + idx;
+        checks[key] = !checks[key];
+        card.classList.toggle('checked', checks[key]);
+        card.style.borderColor = checks[key] ? 'var(--primary)' : '';
+        card.style.backgroundColor = checks[key] ? 'color-mix(in oklab, var(--primary) 10%, transparent)' : '';
+      });
+    });
+  });
+
+  document.getElementById('quizNextBtn').addEventListener('click', function(){
+    if(currentPillar < 5){
+      currentPillar++;
+      renderPillar(currentPillar);
+    } else {
+      showStep('contact');
+    }
+  });
+  document.getElementById('quizBackBtn').addEventListener('click', function(){
+    if(currentPillar > 1){
+      currentPillar--;
+      renderPillar(currentPillar);
+    }
+  });
+  document.getElementById('contactBackBtn').addEventListener('click', function(){
+    currentPillar = 5;
+    renderPillar(5);
+    showStep('quiz');
+  });
+
+  function pillarScore(p){
+    var total = PILLAR_COUNTS[p];
+    var count = 0;
+    for(var i=0; i<total; i++){ if(checks[p+'-'+i]) count++; }
+    return count;
+  }
+
+  function totalScore(){
+    var sum = 0;
+    [1,2,3,4,5].forEach(function(p){ sum += pillarScore(p); });
+    return sum;
+  }
+
+  var PILLAR_RECS = {
+    1: {
+      strong: "Tu sitio web está cumpliendo su función como primera impresión — vigila la velocidad de carga conforme agregues contenido.",
+      weak: "Corrección prioritaria: ajusta tu página principal para que un visitante sepa qué haces, dónde estás y cómo contactarte en 5 segundos — es la página de mayor impacto en toda la auditoría."
+    },
+    2: {
+      strong: "Tu perfil de Google Business es una señal de confianza que funciona — sigue respondiendo reseñas nuevas y publicando fotos.",
+      weak: "Corrección prioritaria: reclama o limpia tu perfil de Google Business y recolecta reseñas activamente — suele ser la victoria más rápida y barata disponible."
+    },
+    3: {
+      strong: "Tu reputación es visible más allá de Google, algo que la mayoría de tus competidores nunca logra.",
+      weak: "Corrección prioritaria: lleva tus mejores reseñas a tu propio sitio y redes sociales, y publica algo — lo que sea — en los próximos 30 días."
+    },
+    4: {
+      strong: "La información de tu negocio es consistente en los lugares donde la gente te busca.",
+      weak: "Corrección prioritaria: revisa tus directorios en Google, Yelp, Facebook y Apple Maps buscando nombre, dirección o teléfono que no coincidan — la inconsistencia perjudica tu posicionamiento silenciosamente."
+    },
+    5: {
+      strong: "Estás respondiendo lo suficientemente rápido para convertir los leads que ya estás generando.",
+      weak: "Corrección prioritaria: esta es casi siempre la corrección de mayor retorno de toda la lista — un sistema de respuesta instantánea automatizado (agente de IA, texto de seguimiento a llamadas perdidas) recupera leads que hoy estás perdiendo en silencio."
+    }
+  };
+
+  function tierFor(score){
+    if(score <= 7) return {
+      title: 'Brechas fundamentales',
+      body: "Es muy probable que los prospectos se estén yendo antes de siquiera llegar a tu teléfono. Cada punto de arriba es solucionable — empieza por Sitio Web y Perfil de Google, son los que más pesan en una primera impresión."
+    };
+    if(score <= 15) return {
+      title: 'Base sólida, con espacio real para crecer',
+      body: "Estás por delante de una buena parte de tus competidores locales. El siguiente paso de mayor impacto suele ser Preparación para IA — la mayoría de los negocios en este rango todavía pierden leads por tiempo de respuesta lento."
+    };
+    return {
+      title: 'Por delante de la mayoría de tus competidores',
+      body: "Tus fundamentos están en orden. La oportunidad ahora es multiplicar esa ventaja — convertir una presencia consistente en respuesta automatizada y siempre activa que convierta más del tráfico que ya estás generando."
+    };
+  }
+
+  function renderResults(){
+    var total = totalScore();
+    var circumference = 465;
+    var offset = circumference - (total/22)*circumference;
+    document.getElementById('scoreArc').style.strokeDashoffset = offset;
+    document.getElementById('scoreNumber').textContent = total;
+
+    var tier = tierFor(total);
+    document.getElementById('tierTitle').textContent = tier.title;
+    document.getElementById('tierBody').textContent = tier.body;
+
+    [1,2,3,4,5].forEach(function(p){
+      var s = pillarScore(p);
+      var max = PILLAR_COUNTS[p];
+      document.getElementById('bar-'+p).style.width = (s/max*100) + '%';
+      document.getElementById('barnum-'+p).textContent = s + '/' + max;
+      var isStrong = s >= Math.ceil(max * 0.8);
+      document.getElementById('rec-'+p).textContent = isStrong ? PILLAR_RECS[p].strong : PILLAR_RECS[p].weak;
+    });
+  }
+
+  document.getElementById('contactForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var submitBtn = document.getElementById('contactSubmitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando…';
+
+    var name = document.getElementById('cName').value.trim();
+    var email = document.getElementById('cEmail').value.trim();
+    var business = document.getElementById('cBusiness').value.trim();
+    var website = document.getElementById('cWebsite').value.trim();
+    var looksLikeDomain = website && !/\s/.test(website) && /\.[a-z]{2,}/i.test(website);
+    if(looksLikeDomain && !/^https?:\/\//i.test(website)) website = 'https://' + website;
+    var city = document.getElementById('cCity').value.trim();
+    var country = document.getElementById('cCountry').value.trim();
+
+    var nameParts = name.split(/\s+/);
+    var firstName = nameParts[0];
+    var lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : nameParts[0];
+
+    var total = totalScore();
+    var tier = tierFor(total);
+
+    var payload = {
+      form_key: FORM_KEY,
+      form_title: 'Digital Presence & AI-Readiness Audit',
+      lang: 'es',
+      name_1_first_name: firstName,
+      name_1_last_name: lastName,
+      email_1: email,
+      url_1: website,
+      business_name: business,
+      text_4: city,
+      country: country,
+      entry_time: new Date().toISOString(),
+      score_total: total,
+      score_tier: tier.title,
+      score_website: pillarScore(1),
+      score_gbp: pillarScore(2),
+      score_social: pillarScore(3),
+      score_listings: pillarScore(4),
+      score_ai: pillarScore(5)
+    };
+
+    renderResults();
+    showStep('results');
+
+    fetch(MAKE_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function(res){ if(!res.ok) throw new Error('Webhook failed'); })
+      .catch(function(err){
+        console.error('Audit webhook failed:', err);
+        document.getElementById('emailNotice').textContent = "Guardamos tus resultados, pero no pudimos confirmar el envío del correo. Si no llega, escríbenos a contact@edgebeyond.solutions.";
+      })
+      .finally(function(){
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Ver mis resultados →';
+      });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Digital Presence & AI-Readiness Audit — EdgeBeyond</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#06090d; --fg:#f3f2eb;
+    --primary:#578200; --accent:#00758c;
+    --primary-bright:#c0f447; --accent-bright:#22cde5;
+    --pain:#e45e4d;
+    --ink:#141b24; --muted:#474e55;
+    --card:#f7f9fa; --border:#dbdee1;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:"Space Grotesk",system-ui,sans-serif; color:var(--ink); background:#fff; font-size:13.5px; line-height:1.55;}
+  .page{width:816px; min-height:1056px; padding:72px 64px; position:relative; page-break-after:always;}
+  .page:last-child{page-break-after:auto;}
+  .display{font-family:"Instrument Serif",serif;}
+  .mono{font-family:"JetBrains Mono",monospace;}
+
+  /* ---------- COVER ---------- */
+  .cover{background:var(--bg); color:var(--fg); display:flex; flex-direction:column; justify-content:space-between;}
+  .cover .eyebrow{font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.25em; text-transform:uppercase; color:#8c939b;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand img{height:28px; width:auto;}
+  .brand span{font-weight:500; font-size:19px; letter-spacing:-0.01em;}
+  .brand .beyond{background:linear-gradient(100deg,var(--primary-bright),var(--accent-bright)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .cover h1{font-family:"Instrument Serif",serif; font-size:58px; line-height:1.05; margin-top:140px; max-width:620px;}
+  .cover h1 em{font-style:italic; background:linear-gradient(100deg,var(--primary-bright),var(--accent-bright)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .cover .sub{margin-top:28px; max-width:460px; font-size:16px; color:#cfc7b9;}
+  .cover .footer-row{display:flex; justify-content:space-between; align-items:flex-end; font-family:"JetBrains Mono",monospace; font-size:10.5px; color:#8c939b; letter-spacing:.05em;}
+
+  /* ---------- CONTENT PAGES ---------- */
+  .kicker{font-family:"JetBrains Mono",monospace; font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted);}
+  h2.page-title{font-family:"Instrument Serif",serif; font-size:34px; margin-top:8px; line-height:1.15;}
+  p.lede{margin-top:16px; font-size:15px; color:#2d343c; max-width:600px;}
+  .rule{height:1px; background:var(--border); margin:28px 0;}
+
+  .pillar-head{display:flex; align-items:baseline; gap:18px;}
+  .pillar-num{font-family:"Instrument Serif",serif; font-size:52px; color:var(--border); line-height:1;}
+  .pillar-title{font-family:"Instrument Serif",serif; font-size:28px; line-height:1.1;}
+  .pillar-tag{font-family:"JetBrains Mono",monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); margin-bottom:4px; display:block;}
+  .pillar-intro{margin-top:18px; font-size:13.5px; color:#2d343c; max-width:620px;}
+
+  .checklist{margin-top:26px; display:flex; flex-direction:column; gap:14px;}
+  .check-item{display:flex; align-items:flex-start; gap:14px; padding:14px 18px; background:var(--card); border:1px solid var(--border); border-radius:10px;}
+  .box{flex-shrink:0; width:18px; height:18px; border:1.6px solid var(--ink); border-radius:4px; margin-top:1px;}
+  .check-text{font-size:13.5px; color:var(--ink);}
+
+  .cost-callout{margin-top:22px; padding:16px 20px; border-left:3px solid var(--pain); background:#fdf1ef; border-radius:0 8px 8px 0;}
+  .cost-callout .label{font-family:"JetBrains Mono",monospace; font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--pain); display:block; margin-bottom:6px;}
+  .cost-callout p{font-size:13px; color:#5c2a22;}
+
+  .page-footer{position:absolute; bottom:40px; left:64px; right:64px; display:flex; justify-content:space-between; font-family:"JetBrains Mono",monospace; font-size:9.5px; color:#9aa0a6; letter-spacing:.08em;}
+
+  /* ---------- SCORING PAGE ---------- */
+  .tier{margin-top:20px; padding:20px 22px; border-radius:10px; border:1px solid var(--border);}
+  .tier .range{font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent);}
+  .tier h3{font-family:"Instrument Serif",serif; font-size:21px; margin-top:6px;}
+  .tier p{margin-top:8px; font-size:13px; color:#2d343c;}
+
+  /* ---------- CTA PAGE ---------- */
+  .cta-page{background:var(--bg); color:var(--fg); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;}
+  .cta-page h2{font-family:"Instrument Serif",serif; font-size:40px; max-width:560px; line-height:1.15;}
+  .cta-page h2 em{font-style:italic; background:linear-gradient(100deg,var(--primary-bright),var(--accent-bright)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .cta-page p{margin-top:20px; max-width:480px; color:#cfc7b9; font-size:14.5px;}
+  .cta-badge{margin-top:34px; display:inline-block; padding:12px 28px; border-radius:100px; background:var(--primary-bright); color:#141b24; font-weight:600; font-size:14px;}
+  .cta-sub{margin-top:18px; font-family:"JetBrains Mono",monospace; font-size:11px; color:#8c939b; letter-spacing:.05em;}
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 — COVER ============ -->
+<section class="page cover">
+  <div>
+    <div class="brand">
+      <img src="../logo-mark-color.png" alt="">
+      <span>Edge<span class="beyond">Beyond</span></span>
+    </div>
+    <p class="eyebrow" style="margin-top:72px;">Free Self-Assessment · 10 Minutes</p>
+    <h1>The Digital Presence <em>&amp; AI-Readiness</em> Audit</h1>
+    <p class="sub">What your next customer sees before they ever call you — five checkpoints that decide whether they trust you enough to reach out, including the one most agencies won't mention.</p>
+  </div>
+  <div class="footer-row">
+    <span>EDGEBEYOND SOLUTIONS</span>
+    <span>SAN ANTONIO, TX · EDGEBEYOND.SOLUTIONS</span>
+  </div>
+</section>
+
+<!-- ============ PAGE 2 — HOW TO USE ============ -->
+<section class="page">
+  <p class="kicker">Before you start</p>
+  <h2 class="page-title">How to use this audit</h2>
+  <p class="lede">This isn't a reading exercise — it's a self-diagnostic. Go through all five pillars below and check off every statement that's honestly true for your business right now. At the end, you'll add up your checkmarks and see exactly where you stand.</p>
+
+  <div class="rule"></div>
+
+  <p class="lede" style="max-width:640px;">Each pillar covers a single, specific thing a prospect evaluates — often without realizing it — in the sixty seconds between finding your business and deciding whether to contact you. None of these require a developer, an agency, or a budget to check. They require five honest minutes.</p>
+
+  <p class="lede" style="max-width:640px; margin-top:20px;">The fifth pillar is different from what you'll find in a typical marketing checklist. It's the one area where most small businesses lose the most revenue, and the one almost nobody audits for themselves.</p>
+
+  <div class="cost-callout" style="margin-top:40px; border-left-color:var(--accent); background:#eef8fa;">
+    <span class="label" style="color:var(--accent);">A note on honesty</span>
+    <p style="color:#143a42;">This only works if you're accurate. Checking a box because it's "mostly true" or "true for an old version of the site" defeats the purpose. Grade yourself the way a stranger searching for your business tonight would.</p>
+  </div>
+
+  <div class="page-footer"><span>EDGEBEYOND · DIGITAL PRESENCE &amp; AI-READINESS AUDIT</span><span>02</span></div>
+</section>
+
+<!-- ============ PAGE 3 — PILLAR 1: WEBSITE ============ -->
+<section class="page">
+  <div class="pillar-head">
+    <span class="pillar-num">01</span>
+    <div>
+      <span class="pillar-tag">Pillar one</span>
+      <div class="pillar-title">Website — First Impression &amp; Conversion</div>
+    </div>
+  </div>
+  <p class="pillar-intro">Your website is the only employee that works 24 hours a day — but only if it actually does the job. Most small-business sites lose prospects in the first five seconds, long before anyone reads a word of copy.</p>
+
+  <div class="checklist">
+    <div class="check-item"><div class="box"></div><div class="check-text">Your site loads in under 3 seconds on mobile data, not just office Wi-Fi.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">A first-time visitor can tell what you do and where you're located without scrolling.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">There's a way to reach you that isn't just a phone number — a form, chat, or booking link.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">The design doesn't look like it was built more than 3-4 years ago.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Someone on a phone can tap to call you in a single tap — no pinching, no zooming.</div></div>
+  </div>
+
+  <div class="cost-callout">
+    <span class="label">Cost of an unchecked box</span>
+    <p>Each one is a specific, nameable reason a prospect leaves your site and calls the next result on the page instead — one that never shows up in any report, because they never told you why.</p>
+  </div>
+
+  <div class="page-footer"><span>EDGEBEYOND · DIGITAL PRESENCE &amp; AI-READINESS AUDIT</span><span>03</span></div>
+</section>
+
+<!-- ============ PAGE 4 — PILLAR 2: GBP ============ -->
+<section class="page">
+  <div class="pillar-head">
+    <span class="pillar-num">02</span>
+    <div>
+      <span class="pillar-tag">Pillar two</span>
+      <div class="pillar-title">Google Business Profile — Local Trust Signal</div>
+    </div>
+  </div>
+  <p class="pillar-intro">For almost every local search, your Google Business Profile is seen before your website — sometimes instead of it. It's frequently the single biggest factor in whether someone picks up the phone.</p>
+
+  <div class="checklist">
+    <div class="check-item"><div class="box"></div><div class="check-text">Your Google Business Profile is claimed and verified under your control.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">You have more than 10 reviews.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Your average rating is 4.5 stars or higher.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">You've responded to your most recent reviews — the good ones and the bad ones.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">You've added new photos in the last 90 days.</div></div>
+  </div>
+
+  <div class="cost-callout">
+    <span class="label">Cost of an unchecked box</span>
+    <p>An unclaimed or stale profile doesn't just underperform — it actively signals "this business may not be operating anymore" to someone comparing you against three competitors in the same search.</p>
+  </div>
+
+  <div class="page-footer"><span>EDGEBEYOND · DIGITAL PRESENCE &amp; AI-READINESS AUDIT</span><span>04</span></div>
+</section>
+
+<!-- ============ PAGE 5 — PILLAR 3: SOCIAL PROOF ============ -->
+<section class="page">
+  <div class="pillar-head">
+    <span class="pillar-num">03</span>
+    <div>
+      <span class="pillar-tag">Pillar three</span>
+      <div class="pillar-title">Social Proof — Reviews &amp; Activity</div>
+    </div>
+  </div>
+  <p class="pillar-intro">Five-star reviews are one of the most valuable assets a small business owns — but only if they're actually seen at the moment someone is deciding whether to trust you.</p>
+
+  <div class="checklist">
+    <div class="check-item"><div class="box"></div><div class="check-text">Your best reviews are visible somewhere other than Google — your site, social, or both.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">At least one of your social profiles has posted in the last 30 days.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">You have at least one video or photo testimonial from a real customer, not just text.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">You know which single platform your actual customers use most — and you're active there.</div></div>
+  </div>
+
+  <div class="cost-callout">
+    <span class="label">Cost of an unchecked box</span>
+    <p>A five-star reputation that lives only on Google, with no recent activity anywhere else, reads as inactive to a prospect scrolling your social channels before they call.</p>
+  </div>
+
+  <div class="page-footer"><span>EDGEBEYOND · DIGITAL PRESENCE &amp; AI-READINESS AUDIT</span><span>05</span></div>
+</section>
+
+<!-- ============ PAGE 6 — PILLAR 4: LISTINGS ============ -->
+<section class="page">
+  <div class="pillar-head">
+    <span class="pillar-num">04</span>
+    <div>
+      <span class="pillar-tag">Pillar four</span>
+      <div class="pillar-title">Listings Consistency — Name, Address, Phone</div>
+    </div>
+  </div>
+  <p class="pillar-intro">Google, Yelp, Apple Maps, Bing and industry directories each hold their own copy of your business information. When they disagree with each other, it creates friction — and sometimes sends people to the wrong number entirely.</p>
+
+  <div class="checklist">
+    <div class="check-item"><div class="box"></div><div class="check-text">Your business name, address and phone number match exactly across Google, Yelp, Facebook and Apple Maps.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">You've personally checked your listings in the last 12 months.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">An old, closed, or incorrect listing isn't still showing up when someone searches your name.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">Your website URL is correct everywhere it appears.</div></div>
+  </div>
+
+  <div class="cost-callout">
+    <span class="label">Cost of an unchecked box</span>
+    <p>A mismatched phone number or a duplicate listing doesn't just look unprofessional — search engines read inconsistency as a trust signal against you, quietly ranking consistent competitors above you.</p>
+  </div>
+
+  <div class="page-footer"><span>EDGEBEYOND · DIGITAL PRESENCE &amp; AI-READINESS AUDIT</span><span>06</span></div>
+</section>
+
+<!-- ============ PAGE 7 — PILLAR 5: AI READINESS ============ -->
+<section class="page">
+  <div class="pillar-head">
+    <span class="pillar-num">05</span>
+    <div>
+      <span class="pillar-tag">Pillar five · The one most checklists skip</span>
+      <div class="pillar-title">Response Speed &amp; AI Readiness</div>
+    </div>
+  </div>
+  <p class="pillar-intro">A perfect website and a five-star profile still lose the sale if nobody — or nothing — responds fast enough. Today's customer expects an answer in minutes, not by the next business day, at any hour they happen to be looking.</p>
+
+  <div class="checklist">
+    <div class="check-item"><div class="box"></div><div class="check-text">A new website inquiry gets a response within 5 minutes, at any hour — not just during business hours.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">A missed call automatically triggers a follow-up text, instead of simply going unanswered.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">A prospect can book or schedule without needing to call during business hours.</div></div>
+    <div class="check-item"><div class="box"></div><div class="check-text">You can say, with a real number, how many leads you lost last month simply because nobody answered in time.</div></div>
+  </div>
+
+  <div class="cost-callout">
+    <span class="label">Cost of an unchecked box</span>
+    <p>This is the pillar with the most direct line to lost revenue — and the one an AI agent or automation fixes fastest, because it's not a content problem, it's a response-time problem.</p>
+  </div>
+
+  <div class="page-footer"><span>EDGEBEYOND · DIGITAL PRESENCE &amp; AI-READINESS AUDIT</span><span>07</span></div>
+</section>
+
+<!-- ============ PAGE 8 — SCORING ============ -->
+<section class="page">
+  <p class="kicker">Your results</p>
+  <h2 class="page-title">Add up your checkmarks</h2>
+  <p class="lede">Count every box you honestly checked across all five pillars (22 total) and find your range below.</p>
+
+  <div class="tier">
+    <span class="range">0 – 7 checked</span>
+    <h3>Foundational gaps</h3>
+    <p>Prospects are very likely leaving before they ever reach your phone. The good news: every item above is fixable, and most cost nothing but time. Start with Pillar 1 and Pillar 2 — they carry the most weight in a prospect's first impression.</p>
+  </div>
+  <div class="tier">
+    <span class="range">8 – 15 checked</span>
+    <h3>Solid foundation, real room to grow</h3>
+    <p>You're ahead of a meaningful share of local competitors, but there are specific, identifiable leaks costing you leads — often concentrated in one or two pillars rather than spread evenly. The highest-leverage next step is usually Pillar 5: most businesses in this range are still losing leads to slow response time.</p>
+  </div>
+  <div class="tier">
+    <span class="range">16 – 22 checked</span>
+    <h3>Ahead of most competitors</h3>
+    <p>Your fundamentals are in order. At this stage, the opportunity shifts from fixing gaps to compounding an advantage — turning consistent presence into automated, always-on response that converts more of the traffic you're already earning.</p>
+  </div>
+
+  <div class="page-footer"><span>EDGEBEYOND · DIGITAL PRESENCE &amp; AI-READINESS AUDIT</span><span>08</span></div>
+</section>
+
+<!-- ============ PAGE 9 — CTA ============ -->
+<section class="page cta-page">
+  <p class="eyebrow">Want to see exactly where you stand?</p>
+  <h2>This self-audit tells you <em>what</em> to look for. A Digital Presence Snapshot shows you <em>exactly what's there</em>.</h2>
+  <p>We build a full, evidence-based audit of your specific business — your actual website, your actual Google profile, your actual reviews — graded pillar by pillar, with the five highest-leverage fixes ranked by how much they cost you to ignore.</p>
+  <div class="cta-badge">Book a free 30-minute walkthrough</div>
+  <p class="cta-sub">EDGEBEYOND.SOLUTIONS · CONTACT@EDGEBEYOND.SOLUTIONS</p>
+</section>
+
+</body>
+</html>
