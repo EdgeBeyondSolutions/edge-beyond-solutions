@@ -162,7 +162,7 @@ async function callGemini(env, systemInstruction, history, message) {
   const payload = {
     systemInstruction: { parts: [{ text: systemInstruction }] },
     contents,
-    generationConfig: { temperature: 0.4, maxOutputTokens: 500 },
+    generationConfig: { temperature: 0.4, maxOutputTokens: 2048, thinkingConfig: { thinkingBudget: 0 } },
   };
 
   const res = await fetch(`${GEMINI_URL}?key=${env.GEMINI_API_KEY}`, {
