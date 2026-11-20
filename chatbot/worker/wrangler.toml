@@ -1,0 +1,11 @@
+name = "edgebeyond-chatbot"
+main = "src/index.js"
+compatibility_date = "2026-11-18"
+
+kv_namespaces = [
+  { binding = "CLIENTS", id = "fcf2c59807514a478d8d265d20b51b9f" }
+]
+
+# Secrets (set with `wrangler secret put <NAME>`, never commit real values):
+#   GEMINI_API_KEY   - your Google AI Studio API key
+#   RESEND_API_KEY   - (optional, phase 2) for lead-capture email notifications
