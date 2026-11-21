@@ -102,8 +102,13 @@ async function handleChat(request, env, ctx) {
 
   const { visibleText, lead } = extractLead(geminiReply);
 
-  if (lead && client.leadNotifyEmail && env.RESEND_API_KEY) {
-    ctx.waitUntil(notifyLead(env, client, lead));
+  if (lead) {
+    if (client.zohoWebToLead) {
+      ctx.waitUntil(sendLeadToZoho(client.zohoWebToLead, lead));
+    }
+    if (client.leadNotifyEmail && env.RESEND_API_KEY) {
+      ctx.waitUntil(notifyLead(env, client, lead));
+    }
   }
 
   return new Response(JSON.stringify({ reply: visibleText }), {
@@ -204,6 +209,36 @@ function extractLead(rawText) {
     lead = null;
   }
   return { visibleText, lead };
+}
+
+async function sendLeadToZoho(zohoConfig, lead) {
+  try {
+    const fullName = String(lead.name || "").trim();
+    const spaceIdx = fullName.lastIndexOf(" ");
+    const firstName = spaceIdx > -1 ? fullName.slice(0, spaceIdx) : "";
+    const lastName = spaceIdx > -1 ? fullName.slice(spaceIdx + 1) : (fullName || "Lead");
+
+    const body = new URLSearchParams({
+      xnQsjsdp: zohoConfig.xnQsjsdp,
+      zc_gad: zohoConfig.zcGad || "",
+      xmIwtLD: zohoConfig.xmIwtLD,
+      actionType: zohoConfig.actionType,
+      returnURL: zohoConfig.returnURL,
+      Company: "Website Chatbot",
+      First_Name: firstName,
+      "Last Name": lastName,
+      Email: lead.email || "",
+      Description: `Captured via AI chatbot. ${lead.note || ""} Phone: ${lead.phone || "n/a"}`.trim(),
+    });
+
+    await fetch("https://crm.zoho.com/crm/WebToLeadForm", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: body.toString(),
+    });
+  } catch {
+    // Best-effort; a failed CRM push should never break the chat response.
+  }
 }
 
 async function notifyLead(env, client, lead) {
