@@ -60,6 +60,11 @@
     .eb-msg { max-width: 80%; margin-bottom: 10px; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.4; }
     .eb-msg.bot { background: #eef0f2; color: #141b24; border-bottom-left-radius: 2px; }
     .eb-msg.user { background: ${dark}; color: #f3f2eb; margin-left: auto; border-bottom-right-radius: 2px; }
+    .eb-cta-btn {
+      display: block; width: fit-content; margin: -4px 0 10px; padding: 9px 16px;
+      background: ${primary}; color: ${dark}; font-weight: 700; font-size: 13px;
+      border-radius: 100px; text-decoration: none;
+    }
     .eb-chat-input-row { display: flex; border-top: 1px solid #e3e5e8; padding: 10px; gap: 8px; }
     .eb-chat-input-row input {
       flex: 1; border: 1px solid #e3e5e8; border-radius: 100px; padding: 10px 14px; font-size: 14px; outline: none;
@@ -96,11 +101,27 @@
   const sendBtn = win.querySelector(".eb-chat-input-row button");
   const closeBtn = win.querySelector(".eb-chat-header button");
 
+  const BOOKING_URL_RE = /(https?:\/\/(?:calendar\.app\.google|calendly\.com)\S*)/i;
+
   function addMessage(role, text) {
+    const match = role === "bot" ? text.match(BOOKING_URL_RE) : null;
+    const cleanText = match ? text.replace(match[0], "").replace(/[:\s]+$/, "").trim() : text;
+
     const div = document.createElement("div");
     div.className = `eb-msg ${role}`;
-    div.textContent = text;
+    div.textContent = cleanText;
     messagesEl.appendChild(div);
+
+    if (match) {
+      const btn = document.createElement("a");
+      btn.href = match[1];
+      btn.target = "_blank";
+      btn.rel = "noopener";
+      btn.className = "eb-cta-btn";
+      btn.textContent = "📅 Book a free call";
+      messagesEl.appendChild(btn);
+    }
+
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
 
