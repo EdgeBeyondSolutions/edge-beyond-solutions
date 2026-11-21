@@ -165,21 +165,30 @@ async function callGemini(env, systemInstruction, history, message) {
     generationConfig: { temperature: 0.4, maxOutputTokens: 2048, thinkingConfig: { thinkingBudget: 0 } },
   };
 
-  const res = await fetch(`${GEMINI_URL}?key=${env.GEMINI_API_KEY}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
+  const maxAttempts = 3;
+  let lastError;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    const res = await fetch(`${GEMINI_URL}?key=${env.GEMINI_API_KEY}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
 
-  if (!res.ok) {
+    if (res.ok) {
+      const data = await res.json();
+      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!text) throw new Error("Empty response from Gemini");
+      return text;
+    }
+
     const bodyText = await res.text();
-    throw new Error(`Gemini API error ${res.status}: ${bodyText.slice(0, 300)}`);
-  }
+    lastError = new Error(`Gemini API error ${res.status}: ${bodyText.slice(0, 300)}`);
 
-  const data = await res.json();
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) throw new Error("Empty response from Gemini");
-  return text;
+    const isRetryable = res.status === 503 || res.status === 429;
+    if (!isRetryable || attempt === maxAttempts) break;
+    await new Promise((r) => setTimeout(r, 400 * attempt));
+  }
+  throw lastError;
 }
 
 function extractLead(rawText) {
