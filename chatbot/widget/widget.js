@@ -48,6 +48,7 @@
       height: 500px; max-height: calc(100vh - 140px); background: #fff; border-radius: 16px;
       box-shadow: 0 16px 48px rgba(0,0,0,0.3); display: none; flex-direction: column;
       overflow: hidden; z-index: 999999; font-family: system-ui, sans-serif;
+      color-scheme: light;
     }
     .eb-chat-window.open { display: flex; }
     .eb-chat-header {
@@ -62,6 +63,7 @@
     .eb-chat-input-row { display: flex; border-top: 1px solid #e3e5e8; padding: 10px; gap: 8px; }
     .eb-chat-input-row input {
       flex: 1; border: 1px solid #e3e5e8; border-radius: 100px; padding: 10px 14px; font-size: 14px; outline: none;
+      background: #fff; color: #141b24; caret-color: #141b24; -webkit-text-fill-color: #141b24;
     }
     .eb-chat-input-row button {
       background: ${primary}; border: none; border-radius: 100px; padding: 0 18px; font-weight: 700;
