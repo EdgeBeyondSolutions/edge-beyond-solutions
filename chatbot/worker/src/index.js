@@ -16,8 +16,8 @@
  * Adding a new client later = adding a new KV record. No code changes.
  */
 
-const GEMINI_MODEL = "gemini-3.8-flash";
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+const GEMINI_MODELS = ["gemini-flash-latest", "gemini-3.8-flash"];
+const GEMINI_URL_FOR = (model) => `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 const MAX_HISTORY_TURNS = 8;
 const RATE_LIMIT_PER_MINUTE = 20;
 
@@ -170,14 +170,30 @@ async function callGemini(env, systemInstruction, history, message) {
     generationConfig: { temperature: 0.4, maxOutputTokens: 2048, thinkingConfig: { thinkingBudget: 0 } },
   };
 
-  const maxAttempts = 3;
+  const perAttemptTimeoutMs = 10000;
   let lastError;
-  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    const res = await fetch(`${GEMINI_URL}?key=${env.GEMINI_API_KEY}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+
+  for (let i = 0; i < GEMINI_MODELS.length; i++) {
+    const model = GEMINI_MODELS[i];
+    const isLastModel = i === GEMINI_MODELS.length - 1;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), perAttemptTimeoutMs);
+
+    let res;
+    try {
+      res = await fetch(`${GEMINI_URL_FOR(model)}?key=${env.GEMINI_API_KEY}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        signal: controller.signal,
+      });
+    } catch (err) {
+      clearTimeout(timeoutId);
+      lastError = new Error(`Gemini (${model}) ${err.name === "AbortError" ? "timed out" : "failed"}: ${err.message}`);
+      if (isLastModel) break;
+      continue;
+    }
+    clearTimeout(timeoutId);
 
     if (res.ok) {
       const data = await res.json();
@@ -187,11 +203,10 @@ async function callGemini(env, systemInstruction, history, message) {
     }
 
     const bodyText = await res.text();
-    lastError = new Error(`Gemini API error ${res.status}: ${bodyText.slice(0, 300)}`);
+    lastError = new Error(`Gemini (${model}) API error ${res.status}: ${bodyText.slice(0, 300)}`);
 
     const isRetryable = res.status === 503 || res.status === 429;
-    if (!isRetryable || attempt === maxAttempts) break;
-    await new Promise((r) => setTimeout(r, 400 * attempt));
+    if (!isRetryable || isLastModel) break;
   }
   throw lastError;
 }
