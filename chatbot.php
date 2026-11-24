@@ -66,13 +66,21 @@ if ($action === 'lead') {
         'lang'  => $lang,
         'ip'    => $_SERVER['REMOTE_ADDR'] ?? '',
     ];
+    // Zoho CRM: crea o actualiza el Lead (si está conectado)
+    $lead['zoho'] = eb_zoho_upsert_lead($name, $email, $lead['note'], $lang);
     $leadsFile = defined('EB_LEADS_FILE') ? EB_LEADS_FILE : (__DIR__ . '/leads-private/leads.jsonl');
     @file_put_contents($leadsFile, json_encode($lead, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND | LOCK_EX);
+    $leadEmail = '';
     if (defined('EB_LEAD_EMAIL') && EB_LEAD_EMAIL !== '') {
+        $leadEmail = (string)EB_LEAD_EMAIL;
+    } elseif (defined('EB_LEADS_EMAIL') && EB_LEADS_EMAIL !== '') {
+        $leadEmail = (string)EB_LEADS_EMAIL;
+    }
+    if ($leadEmail !== '') {
         @mail(
-            EB_LEAD_EMAIL,
+            $leadEmail,
             'Nuevo lead del chatbot — EdgeBeyond',
-            "Nombre: {$name}\nCorreo: {$email}\nNota: {$lead['note']}\nIdioma: {$lang}\nFecha: {$lead['ts']}\n",
+            "Nombre: {$name}\nCorreo: {$email}\nNota: {$lead['note']}\nIdioma: {$lang}\nZoho CRM: {$lead['zoho']}\nFecha: {$lead['ts']}\n",
             'Content-Type: text/plain; charset=utf-8'
         );
     }
@@ -175,6 +183,92 @@ function eb_call_gemini(string $model, array $payload): ?string
     }
     $text = trim($text);
     return $text !== '' ? $text : null;
+}
+
+// ---------------- Zoho CRM ----------------
+function eb_zoho_access_token(): ?string
+{
+    if (!defined('EB_ZOHO_CLIENT_ID') || !defined('EB_ZOHO_CLIENT_SECRET') || !defined('EB_ZOHO_REFRESH_TOKEN')) {
+        return null;
+    }
+    $ch = curl_init('https://accounts.zoho.com/oauth/v2/token');
+    curl_setopt_array($ch, [
+        CURLOPT_POST => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 15,
+        CURLOPT_POSTFIELDS => http_build_query([
+            'refresh_token' => (string)EB_ZOHO_REFRESH_TOKEN,
+            'client_id'     => (string)EB_ZOHO_CLIENT_ID,
+            'client_secret' => (string)EB_ZOHO_CLIENT_SECRET,
+            'grant_type'    => 'refresh_token',
+        ]),
+    ]);
+    $body = curl_exec($ch);
+    $code = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    if ($body === false || $code !== 200) {
+        return null;
+    }
+    $json = json_decode((string)$body, true);
+    $token = $json['access_token'] ?? null;
+    return is_string($token) && $token !== '' ? $token : null;
+}
+
+// Crea el Lead en Zoho CRM o lo actualiza si el correo ya existe (upsert por Email).
+// Devuelve un texto corto de estado; nunca bloquea la captura del lead.
+function eb_zoho_upsert_lead(string $name, string $email, string $note, string $lang): string
+{
+    $token = eb_zoho_access_token();
+    if ($token === null) {
+        return 'no_conectado';
+    }
+    $parts = preg_split('/\s+/', trim($name)) ?: [];
+    $first = '';
+    $last  = trim($name);
+    if (count($parts) > 1) {
+        $last  = (string)array_pop($parts);
+        $first = implode(' ', $parts);
+    }
+    $record = [
+        'Last_Name'   => $last,
+        'Email'       => $email,
+        'Lead_Source' => 'Website Chatbot',
+        'Description' => trim($note . "\nIdioma del chat: " . strtoupper($lang) . "\nOrigen: chat de edgebeyond.solutions"),
+    ];
+    if ($first !== '') {
+        $record['First_Name'] = $first;
+    }
+    $payload = [
+        'data' => [$record],
+        'duplicate_check_fields' => ['Email'],
+        'trigger' => [],
+    ];
+    $ch = curl_init('https://www.zohoapis.com/crm/v8/Leads/upsert');
+    curl_setopt_array($ch, [
+        CURLOPT_POST => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 20,
+        CURLOPT_HTTPHEADER => [
+            'Content-Type: application/json',
+            'Authorization: Zoho-oauthtoken ' . $token,
+        ],
+        CURLOPT_POSTFIELDS => json_encode($payload),
+    ]);
+    $body = curl_exec($ch);
+    $code = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    if ($body === false || $code < 200 || $code >= 300) {
+        return 'error_http_' . $code;
+    }
+    $json = json_decode((string)$body, true);
+    $row  = $json['data'][0] ?? [];
+    $status = (string)($row['status'] ?? '');
+    $action = (string)($row['action'] ?? '');
+    $id     = (string)($row['details']['id'] ?? '');
+    if ($status === 'success') {
+        return ($action !== '' ? $action : 'ok') . ($id !== '' ? ':' . $id : '');
+    }
+    return 'error:' . (string)($row['code'] ?? 'desconocido');
 }
 
 // ---------------- Base de conocimiento / instrucciones ----------------
