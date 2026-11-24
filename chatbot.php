@@ -233,6 +233,7 @@ function eb_zoho_upsert_lead(string $name, string $email, string $note, string $
         'Last_Name'   => $last,
         'Email'       => $email,
         'Lead_Source' => 'Website Chatbot',
+        'Tag'         => [['name' => 'Chatbot Web']],
         'Description' => trim($note . "\nIdioma del chat: " . strtoupper($lang) . "\nOrigen: chat de edgebeyond.solutions"),
     ];
     if ($first !== '') {
