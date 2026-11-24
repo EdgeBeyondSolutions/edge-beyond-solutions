@@ -942,6 +942,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     border-radius: 10px; padding: 10px; font-size: 13px; font-family: inherit;
   }
   #eb-lead .eb-lead-ok { color: var(--eb-green); font-size: 13px; text-align: center; }
+  #eb-lead .eb-lead-err { color: #ff9c9c; font-size: 12px; text-align: center; display: none; }
   #eb-form { display: flex; gap: 8px; padding: 12px 14px; background: var(--eb-black); border-top: 1px solid rgba(255,255,255,.08); }
   #eb-input {
     flex: 1; background: #0E1620; border: 1px solid rgba(255,255,255,.18); color: var(--eb-white);
@@ -976,6 +977,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <form id="eb-lead">
       <input id="eb-lead-name" type="text" maxlength="120" autocomplete="name">
       <input id="eb-lead-email" type="email" maxlength="160" autocomplete="email">
+      <input id="eb-lead-need" type="text" maxlength="200">
+      <div id="eb-lead-err" class="eb-lead-err"></div>
       <button id="eb-lead-send" type="submit">Send</button>
     </form>
     <form id="eb-form">
@@ -1006,6 +1009,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       leadToggle: "Leave your details",
       leadName: "Your name",
       leadEmail: "Your email",
+      leadNeed: "What do you need? (optional)",
+      leadError: "Please add your name and a valid email — or write to contact@edgebeyond.solutions",
       leadSend: "Send",
       leadOk: "Thanks! We'll get back to you very soon.",
       thinking: "Thinking...",
@@ -1023,6 +1028,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       leadToggle: "Deja tus datos",
       leadName: "Tu nombre",
       leadEmail: "Tu correo",
+      leadNeed: "¿Qué necesitas? (opcional)",
+      leadError: "Agrega tu nombre y un correo válido — o escribe a contact@edgebeyond.solutions",
       leadSend: "Enviar",
       leadOk: "¡Gracias! Te contactamos muy pronto.",
       thinking: "Pensando...",
@@ -1085,6 +1092,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     $("eb-lead-toggle").textContent = s.leadToggle;
     $("eb-lead-name").placeholder = s.leadName;
     $("eb-lead-email").placeholder = s.leadEmail;
+    $("eb-lead-need").placeholder = s.leadNeed;
     $("eb-lead-send").textContent = s.leadSend;
     $("eb-lang-en").className = "eb-langbtn" + (lang === "en" ? " eb-active" : "");
     $("eb-lang-es").className = "eb-langbtn" + (lang === "es" ? " eb-active" : "");
@@ -1156,20 +1164,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     e.preventDefault();
     var name = $("eb-lead-name").value.trim();
     var email = $("eb-lead-email").value.trim();
-    if (!name || !email) return;
+    var need = $("eb-lead-need").value.trim();
+    var errBox = $("eb-lead-err");
+    function showErr() { errBox.textContent = STR[lang].leadError; errBox.style.display = "block"; }
+    if (!name || !email || email.indexOf("@") < 1) { showErr(); return; }
+    errBox.style.display = "none";
+    // Contexto para Zoho: necesidad declarada, página de origen y extracto
+    // reciente de la conversación (el servidor recorta la nota a 500 caracteres).
+    var parts = [];
+    if (need) parts.push((lang === "es" ? "Necesidad: " : "Need: ") + need);
+    parts.push((lang === "es" ? "Página: " : "Page: ") + location.href);
+    var convo = [], used = 0, i, line;
+    for (i = history.length - 1; i >= 0; i--) {
+      line = (history[i].role === "user" ? (lang === "es" ? "Visitante: " : "Visitor: ") : "Bot: ") + history[i].text;
+      if (used + line.length > 300) break;
+      convo.unshift(line); used += line.length;
+    }
+    if (convo.length) parts.push((lang === "es" ? "Conversación: " : "Conversation: ") + convo.join(" | "));
     fetch(EB_API, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "lead", name: name, email: email, lang: lang })
+      body: JSON.stringify({ action: "lead", name: name, email: email, note: parts.join("\n"), lang: lang })
     })
     .then(function (r) { return r.json(); })
     .then(function (j) {
       if (j && j.ok) {
         leadForm.innerHTML = '<div class="eb-lead-ok">' + esc(STR[lang].leadOk) + "</div>";
         addMsg(STR[lang].leadOk, "bot");
-      }
+      } else { showErr(); }
     })
-    .catch(function () {});
+    .catch(function () { showErr(); });
   });
 
   applyLang(lang);
