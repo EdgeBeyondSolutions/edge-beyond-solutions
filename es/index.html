@@ -833,13 +833,332 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   })();
 })();
 </script>
-<script src="/chatbot-widget.js"
-        data-client-id="edgebeyond"
-        data-widget-token="ebwt_7f2a9c4e1b6d4f0a"
-        data-worker-url="https://edgebeyond-chatbot.wandering-cherry-25ed.workers.dev/chat"
-        data-primary-color="#c0f447"
-        data-dark-color="#141b24"
-        data-greeting="¡Hola! Pregúntame lo que quieras sobre EdgeBeyond — servicios, precios, tiempos de entrega."
-        defer></script>
+<!-- ============================================================
+  EdgeBeyond Solutions — Widget del chatbot (robot bilingüe EN/ES)
+  Pega TODO este bloque en tus páginas HTML justo ANTES de </body>.
+  Requiere que chatbot.php esté subido en la raíz del sitio.
+  ============================================================ -->
+<style>
+  #eb-chat, #eb-chat * { box-sizing: border-box; margin: 0; padding: 0; }
+  #eb-chat {
+    position: fixed; right: 20px; bottom: 20px; z-index: 99999;
+    font-family: "Space Grotesk", "Segoe UI", Arial, sans-serif;
+    --eb-black: #06090D; --eb-obsidian: #141B24; --eb-green: #C0F447; --eb-blue: #22CDE5; --eb-white: #FFFFFF;
+  }
+  #eb-invite {
+    position: absolute; right: 4px; bottom: 84px; max-width: 230px;
+    background: var(--eb-white); color: #0B1118; font-size: 14px; font-weight: 600;
+    padding: 10px 30px 10px 14px; border-radius: 14px 14px 4px 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35); opacity: 0; transform: translateY(6px);
+    pointer-events: none; transition: opacity .35s ease, transform .35s ease;
+  }
+  #eb-invite.eb-show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  #eb-invite-close {
+    position: absolute; top: 4px; right: 8px; border: 0; background: none;
+    font-size: 15px; line-height: 1; color: #5A6B7A; cursor: pointer;
+  }
+  #eb-btn {
+    position: relative; width: 68px; height: 68px; border-radius: 50%;
+    background: var(--eb-black); border: 2px solid var(--eb-green); cursor: pointer;
+    box-shadow: 0 12px 28px rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center;
+    animation: eb-float 3.2s ease-in-out infinite;
+  }
+  #eb-btn:hover { transform: scale(1.05); }
+  @keyframes eb-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+  #eb-dot {
+    position: absolute; top: 2px; right: 2px; width: 14px; height: 14px; border-radius: 50%;
+    background: var(--eb-blue); border: 2px solid var(--eb-black);
+  }
+  #eb-panel {
+    position: absolute; right: 0; bottom: 84px; width: 372px; max-width: 92vw;
+    height: 560px; max-height: 72vh; display: none; flex-direction: column;
+    background: var(--eb-obsidian); color: var(--eb-white); border-radius: 18px;
+    border: 1px solid rgba(192,244,71,.35); box-shadow: 0 24px 60px rgba(0,0,0,.55); overflow: hidden;
+  }
+  #eb-panel.eb-open { display: flex; }
+  #eb-head {
+    display: flex; align-items: center; gap: 10px; padding: 12px 14px;
+    background: var(--eb-black); border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  #eb-head .eb-name { font-weight: 700; font-size: 15px; letter-spacing: .2px; }
+  #eb-head .eb-sub { font-size: 11px; color: var(--eb-blue); text-transform: uppercase; letter-spacing: 1.5px; }
+  #eb-head .eb-spacer { flex: 1; }
+  .eb-langbtn {
+    border: 1px solid rgba(255,255,255,.25); background: none; color: #B9C6D2;
+    font-size: 11px; font-weight: 700; padding: 4px 8px; cursor: pointer; letter-spacing: 1px;
+  }
+  .eb-langbtn:first-of-type { border-radius: 8px 0 0 8px; }
+  .eb-langbtn:last-of-type { border-radius: 0 8px 8px 0; border-left: 0; }
+  .eb-langbtn.eb-active { background: var(--eb-green); color: #0B1118; border-color: var(--eb-green); }
+  #eb-close {
+    border: 0; background: none; color: #B9C6D2; font-size: 20px; line-height: 1; cursor: pointer; padding: 2px 4px;
+  }
+  #eb-msgs { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .eb-msg { max-width: 85%; padding: 10px 13px; border-radius: 14px; font-size: 14px; line-height: 1.45; white-space: pre-wrap; word-wrap: break-word; }
+  .eb-msg a { color: var(--eb-blue); }
+  .eb-bot { background: #1C2836; align-self: flex-start; border-bottom-left-radius: 4px; }
+  .eb-user { background: var(--eb-green); color: #0B1118; align-self: flex-end; border-bottom-right-radius: 4px; font-weight: 500; }
+  .eb-typing { color: #8FA5B8; font-style: italic; }
+  #eb-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 14px 10px; }
+  .eb-chip {
+    border: 1px solid rgba(34,205,229,.55); color: var(--eb-blue); background: none;
+    font-size: 12px; padding: 6px 10px; border-radius: 999px; cursor: pointer; font-family: inherit;
+  }
+  .eb-chip:hover { background: rgba(34,205,229,.12); }
+  #eb-audit {
+    display: block; margin: 0 14px 10px; text-align: center; text-decoration: none;
+    background: var(--eb-green); color: #0B1118; font-weight: 700; font-size: 14px;
+    padding: 11px 12px; border-radius: 12px;
+  }
+  #eb-lead-toggle {
+    display: block; margin: 0 auto 10px; background: none; border: 0; cursor: pointer;
+    color: #B9C6D2; font-size: 12px; text-decoration: underline; font-family: inherit;
+  }
+  #eb-lead { display: none; padding: 0 14px 12px; flex-direction: column; gap: 8px; }
+  #eb-lead.eb-show { display: flex; }
+  #eb-lead input {
+    background: #0E1620; border: 1px solid rgba(255,255,255,.18); color: var(--eb-white);
+    border-radius: 10px; padding: 9px 11px; font-size: 13px; font-family: inherit; width: 100%;
+  }
+  #eb-lead button {
+    background: var(--eb-blue); color: #06222A; border: 0; font-weight: 700; cursor: pointer;
+    border-radius: 10px; padding: 10px; font-size: 13px; font-family: inherit;
+  }
+  #eb-lead .eb-lead-ok { color: var(--eb-green); font-size: 13px; text-align: center; }
+  #eb-form { display: flex; gap: 8px; padding: 12px 14px; background: var(--eb-black); border-top: 1px solid rgba(255,255,255,.08); }
+  #eb-input {
+    flex: 1; background: #0E1620; border: 1px solid rgba(255,255,255,.18); color: var(--eb-white);
+    border-radius: 12px; padding: 11px 12px; font-size: 14px; font-family: inherit;
+  }
+  #eb-send {
+    background: var(--eb-green); color: #0B1118; border: 0; border-radius: 12px;
+    padding: 0 16px; font-weight: 700; font-size: 14px; cursor: pointer; font-family: inherit;
+  }
+  #eb-send:disabled, #eb-input:disabled { opacity: .55; cursor: default; }
+  @media (max-width: 480px) { #eb-panel { height: 68vh; } }
+</style>
+
+<div id="eb-chat">
+  <div id="eb-invite"><span id="eb-invite-text">Need help?</span><button id="eb-invite-close" aria-label="Close">&times;</button></div>
+
+  <div id="eb-panel" role="dialog" aria-label="EdgeBeyond chat">
+    <div id="eb-head">
+      <svg width="34" height="38" viewBox="0 0 68 76" aria-hidden="true"><line x1="34" y1="8" x2="34" y2="16" stroke="#22CDE5" stroke-width="3"/><circle cx="34" cy="6" r="4" fill="#22CDE5"/><rect x="6" y="26" width="5" height="12" rx="2.5" fill="#C0F447"/><rect x="57" y="26" width="5" height="12" rx="2.5" fill="#C0F447"/><rect x="12" y="14" width="44" height="36" rx="11" fill="#141B24" stroke="#C0F447" stroke-width="3"/><circle cx="26" cy="30" r="4" fill="#22CDE5"/><circle cx="42" cy="30" r="4" fill="#22CDE5"/><path d="M26 40 Q34 46 42 40" stroke="#C0F447" stroke-width="3" fill="none" stroke-linecap="round"/><text x="34" y="68" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" letter-spacing="3" fill="#C0F447">EB</text></svg>
+      <div>
+        <div class="eb-name">EdgeBeyond</div>
+        <div class="eb-sub" id="eb-sub">AI Assistant</div>
+      </div>
+      <div class="eb-spacer"></div>
+      <button class="eb-langbtn" id="eb-lang-en" type="button">EN</button><button class="eb-langbtn" id="eb-lang-es" type="button">ES</button>
+      <button id="eb-close" type="button" aria-label="Close">&times;</button>
+    </div>
+    <div id="eb-msgs"></div>
+    <div id="eb-chips"></div>
+    <a id="eb-audit" href="https://edgebeyond.solutions/snapshot/" target="_blank" rel="noopener">Get my free audit</a>
+    <button id="eb-lead-toggle" type="button">Leave your details</button>
+    <form id="eb-lead">
+      <input id="eb-lead-name" type="text" maxlength="120" autocomplete="name">
+      <input id="eb-lead-email" type="email" maxlength="160" autocomplete="email">
+      <button id="eb-lead-send" type="submit">Send</button>
+    </form>
+    <form id="eb-form">
+      <input id="eb-input" type="text" maxlength="1000" autocomplete="off">
+      <button id="eb-send" type="submit">Send</button>
+    </form>
+  </div>
+
+  <button id="eb-btn" type="button" aria-label="Open chat">
+    <svg width="46" height="52" viewBox="0 0 68 76" aria-hidden="true"><line x1="34" y1="8" x2="34" y2="16" stroke="#22CDE5" stroke-width="3"/><circle cx="34" cy="6" r="4" fill="#22CDE5"/><rect x="6" y="26" width="5" height="12" rx="2.5" fill="#C0F447"/><rect x="57" y="26" width="5" height="12" rx="2.5" fill="#C0F447"/><rect x="12" y="14" width="44" height="36" rx="11" fill="#141B24" stroke="#C0F447" stroke-width="3"/><circle cx="26" cy="30" r="4" fill="#22CDE5"/><circle cx="42" cy="30" r="4" fill="#22CDE5"/><path d="M26 40 Q34 46 42 40" stroke="#C0F447" stroke-width="3" fill="none" stroke-linecap="round"/><text x="34" y="68" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" letter-spacing="3" fill="#C0F447">EB</text></svg>
+    <span id="eb-dot"></span>
+  </button>
+</div>
+
+<script>
+(function () {
+  var EB_API = "/chatbot.php";
+  var STR = {
+    en: {
+      invite: "Need help?",
+      sub: "AI Assistant",
+      greeting: "Hi! I'm the EdgeBeyond assistant. Ask me about our services, timelines, or how AI can get you more customers.",
+      placeholder: "Type your message...",
+      send: "Send",
+      audit: "Get my free audit",
+      auditUrl: "https://edgebeyond.solutions/snapshot/",
+      chips: ["What services do you offer?", "How much does a website cost?", "How fast can you deliver?"],
+      leadToggle: "Leave your details",
+      leadName: "Your name",
+      leadEmail: "Your email",
+      leadSend: "Send",
+      leadOk: "Thanks! We'll get back to you very soon.",
+      thinking: "Thinking...",
+      error: "Sorry, I couldn't answer just now. You can take the free audit or write to contact@edgebeyond.solutions."
+    },
+    es: {
+      invite: "¿Necesitas ayuda?",
+      sub: "Asistente IA",
+      greeting: "¡Hola! Soy el asistente de EdgeBeyond. Pregúntame por nuestros servicios, tiempos de entrega o cómo la IA puede traerte más clientes.",
+      placeholder: "Escribe tu mensaje...",
+      send: "Enviar",
+      audit: "Quiero mi auditoría gratis",
+      auditUrl: "https://edgebeyond.solutions/es/snapshot/",
+      chips: ["¿Qué servicios ofrecen?", "¿Cuánto cuesta una página web?", "¿Cuánto tardan en entregar?"],
+      leadToggle: "Deja tus datos",
+      leadName: "Tu nombre",
+      leadEmail: "Tu correo",
+      leadSend: "Enviar",
+      leadOk: "¡Gracias! Te contactamos muy pronto.",
+      thinking: "Pensando...",
+      error: "Perdón, no pude responder en este momento. Puedes hacer la auditoría gratis o escribir a contact@edgebeyond.solutions."
+    }
+  };
+
+  function detectLang() {
+    var p = window.location.pathname || "";
+    if (p === "/es" || p.indexOf("/es/") === 0) return "es";
+    var dl = (document.documentElement.lang || "").toLowerCase();
+    if (dl.indexOf("es") === 0) return "es";
+    var nl = (navigator.language || "en").toLowerCase();
+    return nl.indexOf("es") === 0 ? "es" : "en";
+  }
+
+  var lang = detectLang();
+  var history = [];
+  var greeted = false;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var panel = $("eb-panel"), msgs = $("eb-msgs"), chips = $("eb-chips"),
+      input = $("eb-input"), sendBtn = $("eb-send"), form = $("eb-form"),
+      invite = $("eb-invite"), leadForm = $("eb-lead");
+
+  function esc(s) {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function rich(s) {
+    var t = esc(s);
+    t = t.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    t = t.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+    return t;
+  }
+  function addMsg(text, who) {
+    var d = document.createElement("div");
+    d.className = "eb-msg " + (who === "user" ? "eb-user" : "eb-bot");
+    d.innerHTML = rich(text);
+    msgs.appendChild(d);
+    msgs.scrollTop = msgs.scrollHeight;
+    return d;
+  }
+  function renderChips() {
+    chips.innerHTML = "";
+    STR[lang].chips.forEach(function (c) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "eb-chip"; b.textContent = c;
+      b.addEventListener("click", function () { send(c); });
+      chips.appendChild(b);
+    });
+  }
+  function applyLang(l) {
+    lang = l;
+    var s = STR[lang];
+    $("eb-invite-text").textContent = s.invite;
+    $("eb-sub").textContent = s.sub;
+    input.placeholder = s.placeholder;
+    sendBtn.textContent = s.send;
+    var a = $("eb-audit"); a.textContent = s.audit; a.href = s.auditUrl;
+    $("eb-lead-toggle").textContent = s.leadToggle;
+    $("eb-lead-name").placeholder = s.leadName;
+    $("eb-lead-email").placeholder = s.leadEmail;
+    $("eb-lead-send").textContent = s.leadSend;
+    $("eb-lang-en").className = "eb-langbtn" + (lang === "en" ? " eb-active" : "");
+    $("eb-lang-es").className = "eb-langbtn" + (lang === "es" ? " eb-active" : "");
+    renderChips();
+  }
+  function openPanel() {
+    panel.className = "eb-open";
+    invite.className = "";
+    if (!greeted) { addMsg(STR[lang].greeting, "bot"); greeted = true; }
+    setTimeout(function () { input.focus(); }, 60);
+  }
+  function closePanel() { panel.className = ""; }
+
+  function send(text) {
+    var msg = (text || input.value || "").trim();
+    if (!msg) return;
+    input.value = "";
+    addMsg(msg, "user");
+    history.push({ role: "user", text: msg });
+    var typing = addMsg(STR[lang].thinking, "bot");
+    typing.className += " eb-typing";
+    input.disabled = true; sendBtn.disabled = true;
+    fetch(EB_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "chat", message: msg, history: history.slice(0, -1), lang: lang })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      typing.remove();
+      if (j && j.reply) {
+        addMsg(j.reply, "bot");
+        history.push({ role: "model", text: j.reply });
+      } else {
+        addMsg(STR[lang].error, "bot");
+      }
+    })
+    .catch(function () {
+      typing.remove();
+      addMsg(STR[lang].error, "bot");
+    })
+    .finally(function () {
+      input.disabled = false; sendBtn.disabled = false; input.focus();
+    });
+  }
+
+  $("eb-btn").addEventListener("click", function () {
+    if (panel.className === "eb-open") { closePanel(); } else { openPanel(); }
+  });
+  $("eb-close").addEventListener("click", closePanel);
+  $("eb-lang-en").addEventListener("click", function () { applyLang("en"); });
+  $("eb-lang-es").addEventListener("click", function () { applyLang("es"); });
+  form.addEventListener("submit", function (e) { e.preventDefault(); send(); });
+
+  var inviteClosed = false;
+  try { inviteClosed = sessionStorage.getItem("ebInviteClosed") === "1"; } catch (e) {}
+  $("eb-invite-close").addEventListener("click", function () {
+    invite.className = "";
+    try { sessionStorage.setItem("ebInviteClosed", "1"); } catch (e) {}
+  });
+  if (!inviteClosed) {
+    setTimeout(function () { if (panel.className !== "eb-open") invite.className = "eb-show"; }, 1200);
+  }
+
+  $("eb-lead-toggle").addEventListener("click", function () {
+    leadForm.className = leadForm.className === "eb-show" ? "" : "eb-show";
+  });
+  leadForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = $("eb-lead-name").value.trim();
+    var email = $("eb-lead-email").value.trim();
+    if (!name || !email) return;
+    fetch(EB_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "lead", name: name, email: email, lang: lang })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      if (j && j.ok) {
+        leadForm.innerHTML = '<div class="eb-lead-ok">' + esc(STR[lang].leadOk) + "</div>";
+        addMsg(STR[lang].leadOk, "bot");
+      }
+    })
+    .catch(function () {});
+  });
+
+  applyLang(lang);
+})();
+</script>
+<!-- ===== Fin del widget del chatbot EdgeBeyond ===== -->
+
 </body>
 </html>
