@@ -180,7 +180,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </nav>
     <div class="flex items-center gap-3">
       <a href="../index.html" class="hidden rounded-full border border-foreground/25 bg-white/5 px-3.5 py-1.5 font-mono text-xs font-semibold text-foreground backdrop-blur-sm transition-all hover:border-primary hover:bg-primary/10 hover:text-primary sm:inline-block" hreflang="en">EN</a>
-      <a href="https://calendar.app.google/AyRxZ548Lk8ce19u7" target="_blank" rel="noopener" class="hidden rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105 sm:inline-block">Comienza tu historia</a>
+      <a href="https://calendar.app.google/oV2TzbkDzcQhNi2w7" target="_blank" rel="noopener" class="hidden rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105 sm:inline-block">Comienza tu historia</a>
       <button id="navToggle" type="button" class="glass flex h-11 w-11 items-center justify-center rounded-full text-foreground md:hidden" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileNav">
         <svg id="navIconOpen" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M1 4h16M1 9h16M1 14h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
         <svg id="navIconClose" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" class="hidden"><path d="M2 2l14 14M16 2L2 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
@@ -193,7 +193,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="#turning" class="flex items-center gap-3 border-b border-border/60 px-6 py-4 text-lg font-medium text-foreground"><span class="font-mono text-xs text-primary">03</span>El punto de quiebre</a>
     <a href="#beyond" class="flex items-center gap-3 border-b border-border/60 px-6 py-4 text-lg font-medium text-foreground"><span class="font-mono text-xs text-primary">04</span>Más allá</a>
     <a href="../index.html" hreflang="en" class="flex items-center gap-3 border-b border-border/60 px-6 py-4 text-lg font-medium text-foreground"><span class="font-mono text-xs text-primary">EN</span>English</a>
-    <a href="https://calendar.app.google/AyRxZ548Lk8ce19u7" target="_blank" rel="noopener" class="flex items-center justify-center bg-primary px-6 py-4 text-base font-medium text-primary-foreground sm:hidden">Comienza tu historia</a>
+    <a href="https://calendar.app.google/oV2TzbkDzcQhNi2w7" target="_blank" rel="noopener" class="flex items-center justify-center bg-primary px-6 py-4 text-base font-medium text-primary-foreground sm:hidden">Comienza tu historia</a>
   </nav>
 </header>
 
@@ -927,6 +927,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     background: var(--eb-green); color: #0B1118; font-weight: 700; font-size: 14px;
     padding: 11px 12px; border-radius: 12px;
   }
+  #eb-call {
+    display: block; margin: 0 14px 10px; text-align: center; text-decoration: none;
+    border: 1px solid var(--eb-blue); color: var(--eb-blue); font-weight: 700; font-size: 14px;
+    padding: 10px 12px; border-radius: 12px;
+  }
   #eb-lead-toggle {
     display: block; margin: 0 auto 10px; background: none; border: 0; cursor: pointer;
     color: #B9C6D2; font-size: 12px; text-decoration: underline; font-family: inherit;
@@ -973,6 +978,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="eb-msgs"></div>
     <div id="eb-chips"></div>
     <a id="eb-audit" href="https://edgebeyond.solutions/snapshot/" target="_blank" rel="noopener">Get my free audit</a>
+    <a id="eb-call" href="https://calendar.app.google/oV2TzbkDzcQhNi2w7" target="_blank" rel="noopener">Book my free call</a>
     <button id="eb-lead-toggle" type="button">Leave your details</button>
     <form id="eb-lead">
       <input id="eb-lead-name" type="text" maxlength="120" autocomplete="name">
@@ -1005,6 +1011,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       send: "Send",
       audit: "Get my free audit",
       auditUrl: "https://edgebeyond.solutions/snapshot/",
+      call: "Book my free call",
       chips: ["What services do you offer?", "How fast can you deliver?", "How does the free audit work?"],
       leadToggle: "Leave your details",
       leadName: "Your name",
@@ -1024,6 +1031,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       send: "Enviar",
       audit: "Quiero mi auditoría gratis",
       auditUrl: "https://edgebeyond.solutions/es/snapshot/",
+      call: "Agendar mi llamada gratis",
       chips: ["¿Qué servicios ofrecen?", "¿Cuánto tardan en entregar?", "¿Cómo funciona la auditoría gratis?"],
       leadToggle: "Deja tus datos",
       leadName: "Tu nombre",
@@ -1089,6 +1097,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     input.placeholder = s.placeholder;
     sendBtn.textContent = s.send;
     var a = $("eb-audit"); a.textContent = s.audit; a.href = s.auditUrl;
+    $("eb-call").textContent = s.call;
     $("eb-lead-toggle").textContent = s.leadToggle;
     $("eb-lead-name").placeholder = s.leadName;
     $("eb-lead-email").placeholder = s.leadEmail;
