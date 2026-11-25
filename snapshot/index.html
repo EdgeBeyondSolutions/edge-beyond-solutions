@@ -37,6 +37,14 @@
   .pillar-dot{width:8px; height:8px; border-radius:100px; background:var(--border);}
   .pillar-dot.done{background:var(--primary);}
   .pillar-dot.now{background:var(--accent);}
+  .q-card{display:block; cursor:default;}
+  .q-yn{display:flex; gap:8px; margin-top:12px;}
+  .q-btn{flex:0 0 auto; padding:7px 22px; border-radius:100px; border:1px solid var(--border); background:transparent; color:var(--foreground); font-size:14px; font-weight:600; cursor:pointer; transition:all .15s;}
+  .q-btn:hover{border-color:var(--primary);}
+  .q-btn.sel{background:var(--primary); color:#141b24; border-color:var(--primary);}
+  .q-btn[data-v="0"].sel{background:var(--muted); color:var(--foreground); border-color:var(--foreground);}
+  .q-card.missing{border-color:var(--accent) !important; box-shadow:0 0 0 1px var(--accent);}
+
   .score-ring{position:relative; width:184px; height:184px; margin:0 auto;}
   .score-ring svg{transform:rotate(-90deg);}
   .score-num{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column;}
@@ -77,6 +85,11 @@
     <p class="mt-8 max-w-xl text-lg text-foreground/80">Answer 22 quick yes/no questions across 5 pillars of your digital presence. Get your score instantly on screen, plus the full written guide sent straight to your inbox.</p>
     <button type="button" id="startBtn" class="mt-10 rounded-full bg-primary px-8 py-4 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Start the audit →</button>
     <p class="mt-4 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">No credit card. No obligation. Takes about 5 minutes.</p>
+    <div class="glass mt-10 max-w-xl rounded-3xl px-6 py-5">
+      <p class="text-sm text-foreground/85">Built by <span class="font-medium text-foreground">Enrique Ballesteros</span>, founder of EdgeBeyond Solutions · San Antonio, TX</p>
+      <p class="mt-2 font-display text-base text-foreground">&ldquo;Every business reaches an edge. Yours goes beyond.&rdquo;</p>
+      <p class="mt-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Personalized, not call-center · Weeks, not months · AI-first, not bolted-on</p>
+    </div>
   </section>
 
   <!-- ===================== QUIZ SHELL ===================== -->
@@ -95,11 +108,11 @@
       <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pillar 01 · Website</p>
       <h2 class="mt-2 font-display text-3xl">First Impression &amp; Conversion</h2>
       <div class="mt-6 flex flex-col gap-3">
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Your site loads in under 3 seconds on mobile data, not just office Wi-Fi.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>A first-time visitor can tell what you do and where you're located without scrolling.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>There's a way to reach you that isn't just a phone number — a form, chat, or booking link.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>The design doesn't look like it was built more than 3-4 years ago.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Someone on a phone can tap to call you in a single tap — no pinching, no zooming.</span></label>
+        <div class="q-card glass"><span class="q-text">Your site loads in under 3 seconds on mobile data, not just office Wi-Fi.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">A first-time visitor can tell what you do and where you're located without scrolling.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">There's a way to reach you that isn't just a phone number — a form, chat, or booking link.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">The design doesn't look like it was built more than 3-4 years ago.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Someone on a phone can tap to call you in a single tap — no pinching, no zooming.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
       </div>
     </div>
 
@@ -108,11 +121,11 @@
       <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pillar 02 · Google Business Profile</p>
       <h2 class="mt-2 font-display text-3xl">Local Trust Signal</h2>
       <div class="mt-6 flex flex-col gap-3">
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Your Google Business Profile is claimed and verified under your control.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>You have more than 10 reviews.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Your average rating is 4.5 stars or higher.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>You've responded to your most recent reviews — the good ones and the bad ones.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>You've added new photos in the last 90 days.</span></label>
+        <div class="q-card glass"><span class="q-text">Your Google Business Profile is claimed and verified under your control.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">You have more than 10 reviews.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Your average rating is 4.5 stars or higher.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">You've responded to your most recent reviews — the good ones and the bad ones.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">You've added new photos in the last 90 days.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
       </div>
     </div>
 
@@ -121,10 +134,10 @@
       <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pillar 03 · Social Proof</p>
       <h2 class="mt-2 font-display text-3xl">Reviews &amp; Activity</h2>
       <div class="mt-6 flex flex-col gap-3">
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Your best reviews are visible somewhere other than Google — your site, social, or both.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>At least one of your social profiles has posted in the last 30 days.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>You have at least one video or photo testimonial from a real customer, not just text.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>You know which single platform your actual customers use most — and you're active there.</span></label>
+        <div class="q-card glass"><span class="q-text">Your best reviews are visible somewhere other than Google — your site, social, or both.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">At least one of your social profiles has posted in the last 30 days.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">You have at least one video or photo testimonial from a real customer, not just text.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">You know which single platform your actual customers use most — and you're active there.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
       </div>
     </div>
 
@@ -133,10 +146,10 @@
       <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pillar 04 · Listings</p>
       <h2 class="mt-2 font-display text-3xl">Name, Address, Phone Consistency</h2>
       <div class="mt-6 flex flex-col gap-3">
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Your business name, address and phone number match exactly across Google, Yelp, Facebook and Apple Maps.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>You've personally checked your listings in the last 12 months.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>An old, closed, or incorrect listing isn't still showing up when someone searches your name.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Your website URL is correct everywhere it appears.</span></label>
+        <div class="q-card glass"><span class="q-text">Your business name, address and phone number match exactly across Google, Yelp, Facebook and Apple Maps.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">You've personally checked your listings in the last 12 months.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">An old, closed, or incorrect listing isn't still showing up when someone searches your name.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Your website URL is correct everywhere it appears.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
       </div>
     </div>
 
@@ -145,10 +158,10 @@
       <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pillar 05 · The one most checklists skip</p>
       <h2 class="mt-2 font-display text-3xl">Response Speed &amp; AI Readiness</h2>
       <div class="mt-6 flex flex-col gap-3">
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>A new website inquiry gets a response within 5 minutes, at any hour — not just during business hours.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>A missed call automatically triggers a follow-up text, instead of simply going unanswered.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>A prospect can book or schedule without needing to call during business hours.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>You can say, with a real number, how many leads you lost last month simply because nobody answered in time.</span></label>
+        <div class="q-card glass"><span class="q-text">A new inquiry gets a first response within minutes — even after hours, not just during business hours.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">A missed call automatically triggers a follow-up text, instead of simply going unanswered.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">A prospect can book or schedule without needing to call during business hours.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">New leads get followed up automatically — not only when someone on your team remembers to do it.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Yes</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
       </div>
     </div>
 
@@ -156,6 +169,7 @@
       <button type="button" id="quizBackBtn" class="font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground">← Back</button>
       <button type="button" id="quizNextBtn" class="rounded-full bg-primary px-7 py-3.5 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Next →</button>
     </div>
+    <p id="quizHint" class="mt-4 hidden text-center text-sm text-accent"></p>
   </section>
 
   <!-- ===================== STEP — CONTACT CAPTURE ===================== -->
@@ -197,6 +211,10 @@
       </div>
       <div class="mt-6 flex justify-center"><span class="tier-badge" id="tierTitle"></span></div>
       <p class="mt-4 text-center text-foreground/80 max-w-md mx-auto" id="tierBody"></p>
+      <div class="mx-auto mt-8 max-w-md rounded-2xl px-6 py-5 text-center" style="border:1px solid var(--primary); background:color-mix(in oklab, var(--primary) 10%, transparent)">
+        <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Your biggest opportunity</p>
+        <p class="mt-1 font-display text-2xl" id="weakestName">—</p>
+      </div>
 
       <div class="mt-10 flex flex-col gap-5">
         <div><div class="bar-row"><span class="bar-label">Website</span><div class="bar-track"><div class="bar-fill" id="bar-1" style="width:0%"></div></div><span class="bar-num" id="barnum-1">0/5</span></div><p class="mt-2 text-sm text-foreground/75" id="rec-1"></p></div>
@@ -209,6 +227,14 @@
 
     <div class="mt-10 flex flex-col items-center gap-4 text-center">
       <p class="text-foreground/80" id="emailNotice">📩 Your full PDF guide is on its way to your inbox.</p>
+      <div class="glass w-full max-w-md rounded-3xl p-6 text-left">
+        <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">In your free walkthrough, we'll cover</p>
+        <ol class="mt-3 flex list-decimal flex-col gap-2 pl-5 text-foreground/85">
+          <li>Your score, pillar by pillar — what each number actually means.</li>
+          <li>Your biggest opportunity, and the exact fix for it.</li>
+          <li>A prioritized plan: what to do first — in weeks, not months.</li>
+        </ol>
+      </div>
       <a href="https://calendar.app.google/oV2TzbkDzcQhNi2w7" target="_blank" rel="noopener" class="rounded-full bg-primary px-8 py-4 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Book a free 30-minute walkthrough</a>
       <a href="https://calendar.app.google/oV2TzbkDzcQhNi2w7" target="_blank" rel="noopener" class="inline-block rounded-full border border-accent px-5 py-2.5 font-mono text-[11px] uppercase tracking-widest text-accent transition-transform hover:scale-105">Want the personalized version, graded on your actual business? Ask us about the full Digital Presence Snapshot →</a>
     </div>
@@ -230,7 +256,8 @@
   var PILLAR_COUNTS = {1:5, 2:5, 3:4, 4:4, 5:4};
   var PILLAR_NAMES = {1:'Website', 2:'Google Business Profile', 3:'Social Proof', 4:'Listings', 5:'AI Readiness'};
   var currentPillar = 1;
-  var checks = {}; // checks["1-0"] = true
+  var answers = {}; // answers["1-0"] = true/false
+  var HINT_TEXT = 'Answer every question to continue — "No" counts as an answer.';
 
   var steps = {
     intro: document.getElementById('step-intro'),
@@ -264,22 +291,44 @@
     document.getElementById('quizNextBtn').textContent = n === 5 ? 'See results →' : 'Next →';
   }
 
-  // wire up checkbox cards
+  // wire up yes/no cards
   document.querySelectorAll('.quiz-pillar').forEach(function(pillarEl){
     var p = pillarEl.getAttribute('data-pillar');
     var cards = pillarEl.querySelectorAll('.q-card');
     cards.forEach(function(card, idx){
-      card.addEventListener('click', function(){
-        var key = p + '-' + idx;
-        checks[key] = !checks[key];
-        card.classList.toggle('checked', checks[key]);
-        card.style.borderColor = checks[key] ? 'var(--primary)' : '';
-        card.style.backgroundColor = checks[key] ? 'color-mix(in oklab, var(--primary) 10%, transparent)' : '';
+      var btns = card.querySelectorAll('.q-btn');
+      btns.forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var val = btn.getAttribute('data-v') === '1';
+          answers[p + '-' + idx] = val;
+          card.classList.remove('missing');
+          card.classList.add('answered');
+          btns.forEach(function(b){ b.classList.toggle('sel', b === btn); });
+          card.style.borderColor = val ? 'var(--primary)' : '';
+          card.style.backgroundColor = val ? 'color-mix(in oklab, var(--primary) 10%, transparent)' : '';
+        });
       });
     });
   });
 
+  function unansweredIn(p){
+    var missing = [];
+    for(var i=0; i<PILLAR_COUNTS[p]; i++){ if(typeof answers[p+'-'+i] === 'undefined') missing.push(i); }
+    return missing;
+  }
+
   document.getElementById('quizNextBtn').addEventListener('click', function(){
+    var missing = unansweredIn(currentPillar);
+    var hint = document.getElementById('quizHint');
+    if(missing.length){
+      var cards = document.querySelectorAll('.quiz-pillar[data-pillar="' + currentPillar + '"] .q-card');
+      missing.forEach(function(i){ if(cards[i]) cards[i].classList.add('missing'); });
+      hint.textContent = HINT_TEXT;
+      hint.classList.remove('hidden');
+      hint.scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+    hint.classList.add('hidden');
     if(currentPillar < 5){
       currentPillar++;
       renderPillar(currentPillar);
@@ -302,7 +351,7 @@
   function pillarScore(p){
     var total = PILLAR_COUNTS[p];
     var count = 0;
-    for(var i=0; i<total; i++){ if(checks[p+'-'+i]) count++; }
+    for(var i=0; i<total; i++){ if(answers[p+'-'+i] === true) count++; }
     return count;
   }
 
@@ -364,6 +413,14 @@
     tierEl.style.backgroundColor = 'var(--primary)';
     tierEl.style.color = '#141b24';
     document.getElementById('tierBody').textContent = tier.body;
+
+    var WEAKEST_NAMES = {1:'Website', 2:'Google Business Profile', 3:'Social Proof', 4:'Listings', 5:'AI Readiness'};
+    var weakest = 1, weakestRatio = Infinity;
+    [1,2,3,4,5].forEach(function(p){
+      var r = pillarScore(p) / PILLAR_COUNTS[p];
+      if(r < weakestRatio){ weakestRatio = r; weakest = p; }
+    });
+    document.getElementById('weakestName').textContent = WEAKEST_NAMES[weakest];
 
     [1,2,3,4,5].forEach(function(p){
       var s = pillarScore(p);

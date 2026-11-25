@@ -846,8 +846,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     --eb-black: #06090D; --eb-obsidian: #141B24; --eb-green: #C0F447; --eb-blue: #22CDE5; --eb-white: #FFFFFF;
   }
   #eb-invite {
-    position: absolute; right: 6px; bottom: 86px; width: max-content; max-width: 78vw;
-    white-space: nowrap;
+    position: absolute; right: 6px; bottom: 86px; width: 252px; max-width: 78vw;
+    white-space: normal; line-height: 1.35; text-align: left;
     background: linear-gradient(135deg, #FFFFFF 0%, #EDF6FA 100%); color: #0B1118;
     font-size: 15px; font-weight: 600; letter-spacing: .2px;
     padding: 13px 38px 13px 18px; border-radius: 18px 18px 6px 18px;
@@ -962,7 +962,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </style>
 
 <div id="eb-chat">
-  <div id="eb-invite"><span id="eb-invite-text">Need help?</span><button id="eb-invite-close" aria-label="Close">&times;</button></div>
+  <div id="eb-invite"><span id="eb-invite-text">What does your next customer see before they call you?</span><button id="eb-invite-close" aria-label="Close">&times;</button></div>
 
   <div id="eb-panel" role="dialog" aria-label="EdgeBeyond chat">
     <div id="eb-head">
@@ -1004,7 +1004,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var EB_API = "/chatbot.php";
   var STR = {
     en: {
-      invite: "Need help?",
+      invite: "What does your next customer see before they call you?",
       sub: "AI Assistant",
       greeting: "Hi! I'm the EdgeBeyond assistant. Ask me about our services, timelines, or how AI can get you more customers.",
       placeholder: "Type your message...",
@@ -1024,7 +1024,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       error: "Sorry, I couldn't answer just now. You can take the free audit or write to contact@edgebeyond.solutions."
     },
     es: {
-      invite: "¿Necesitas ayuda?",
+      invite: "¿Qué ve tu próximo cliente antes de llamarte?",
       sub: "Asistente IA",
       greeting: "¡Hola! Soy el asistente de EdgeBeyond. Pregúntame por nuestros servicios, tiempos de entrega o cómo la IA puede traerte más clientes.",
       placeholder: "Escribe tu mensaje...",

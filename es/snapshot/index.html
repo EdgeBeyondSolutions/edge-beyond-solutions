@@ -37,6 +37,14 @@
   .pillar-dot{width:8px; height:8px; border-radius:100px; background:var(--border);}
   .pillar-dot.done{background:var(--primary);}
   .pillar-dot.now{background:var(--accent);}
+  .q-card{display:block; cursor:default;}
+  .q-yn{display:flex; gap:8px; margin-top:12px;}
+  .q-btn{flex:0 0 auto; padding:7px 22px; border-radius:100px; border:1px solid var(--border); background:transparent; color:var(--foreground); font-size:14px; font-weight:600; cursor:pointer; transition:all .15s;}
+  .q-btn:hover{border-color:var(--primary);}
+  .q-btn.sel{background:var(--primary); color:#141b24; border-color:var(--primary);}
+  .q-btn[data-v="0"].sel{background:var(--muted); color:var(--foreground); border-color:var(--foreground);}
+  .q-card.missing{border-color:var(--accent) !important; box-shadow:0 0 0 1px var(--accent);}
+
   .score-ring{position:relative; width:184px; height:184px; margin:0 auto;}
   .score-ring svg{transform:rotate(-90deg);}
   .score-num{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column;}
@@ -77,6 +85,11 @@
     <p class="mt-8 max-w-xl text-lg text-foreground/80">Responde 22 preguntas rápidas de sí/no en 5 pilares de tu presencia digital. Obtén tu puntaje al instante en pantalla, más la guía completa enviada directo a tu correo.</p>
     <button type="button" id="startBtn" class="mt-10 rounded-full bg-primary px-8 py-4 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Comenzar la auditoría →</button>
     <p class="mt-4 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Sin tarjeta de crédito. Sin compromiso. Toma unos 5 minutos.</p>
+    <div class="glass mt-10 max-w-xl rounded-3xl px-6 py-5">
+      <p class="text-sm text-foreground/85">Creado por <span class="font-medium text-foreground">Enrique Ballesteros</span>, fundador de EdgeBeyond Solutions · San Antonio, TX</p>
+      <p class="mt-2 font-display text-base text-foreground">&ldquo;Every business reaches an edge. Yours goes beyond.&rdquo;</p>
+      <p class="mt-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Personalizado, no call-center · Semanas, no meses · IA primero, no añadida</p>
+    </div>
   </section>
 
   <!-- ===================== CUESTIONARIO ===================== -->
@@ -95,11 +108,11 @@
       <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pilar 01 · Sitio Web</p>
       <h2 class="mt-2 font-display text-3xl">Primera Impresión y Conversión</h2>
       <div class="mt-6 flex flex-col gap-3">
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Tu sitio carga en menos de 3 segundos con datos móviles, no solo con el wifi de la oficina.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Un visitante por primera vez puede saber qué haces y dónde estás ubicado sin hacer scroll.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Hay una forma de contactarte que no sea solo un número de teléfono — un formulario, chat, o enlace para agendar.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>El diseño no se ve como si se hubiera hecho hace más de 3-4 años.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Alguien desde su celular puede llamarte con un solo toque — sin hacer zoom ni pellizcar la pantalla.</span></label>
+        <div class="q-card glass"><span class="q-text">Tu sitio carga en menos de 3 segundos con datos móviles, no solo con el wifi de la oficina.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Un visitante por primera vez puede saber qué haces y dónde estás ubicado sin hacer scroll.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Hay una forma de contactarte que no sea solo un número de teléfono — un formulario, chat, o enlace para agendar.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">El diseño no se ve como si se hubiera hecho hace más de 3-4 años.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Alguien desde su celular puede llamarte con un solo toque — sin hacer zoom ni pellizcar la pantalla.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
       </div>
     </div>
 
@@ -108,11 +121,11 @@
       <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pilar 02 · Google Business Profile</p>
       <h2 class="mt-2 font-display text-3xl">Señal de Confianza Local</h2>
       <div class="mt-6 flex flex-col gap-3">
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Tu perfil de Google Business está reclamado y verificado bajo tu control.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Tienes más de 10 reseñas.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Tu calificación promedio es de 4.5 estrellas o más.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Has respondido tus reseñas más recientes — tanto las buenas como las malas.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Has agregado fotos nuevas en los últimos 90 días.</span></label>
+        <div class="q-card glass"><span class="q-text">Tu perfil de Google Business está reclamado y verificado bajo tu control.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Tienes más de 10 reseñas.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Tu calificación promedio es de 4.5 estrellas o más.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Has respondido tus reseñas más recientes — tanto las buenas como las malas.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Has agregado fotos nuevas en los últimos 90 días.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
       </div>
     </div>
 
@@ -121,10 +134,10 @@
       <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pilar 03 · Prueba Social</p>
       <h2 class="mt-2 font-display text-3xl">Reseñas y Actividad</h2>
       <div class="mt-6 flex flex-col gap-3">
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Tus mejores reseñas son visibles en algún lugar además de Google — tu sitio, redes sociales, o ambos.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Al menos uno de tus perfiles sociales ha publicado en los últimos 30 días.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Tienes al menos un testimonio en video o foto de un cliente real, no solo texto.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Sabes cuál es la única plataforma que más usan tus clientes reales — y estás activo ahí.</span></label>
+        <div class="q-card glass"><span class="q-text">Tus mejores reseñas son visibles en algún lugar además de Google — tu sitio, redes sociales, o ambos.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Al menos uno de tus perfiles sociales ha publicado en los últimos 30 días.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Tienes al menos un testimonio en video o foto de un cliente real, no solo texto.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Sabes cuál es la única plataforma que más usan tus clientes reales — y estás activo ahí.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
       </div>
     </div>
 
@@ -133,10 +146,10 @@
       <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pilar 04 · Directorios</p>
       <h2 class="mt-2 font-display text-3xl">Consistencia de Nombre, Dirección y Teléfono</h2>
       <div class="mt-6 flex flex-col gap-3">
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>El nombre, dirección y teléfono de tu negocio coinciden exactamente en Google, Yelp, Facebook y Apple Maps.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Has revisado tus directorios personalmente en los últimos 12 meses.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Un listado viejo, cerrado o incorrecto no sigue apareciendo cuando alguien busca tu nombre.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>La URL de tu sitio web está correcta en todos los lugares donde aparece.</span></label>
+        <div class="q-card glass"><span class="q-text">El nombre, dirección y teléfono de tu negocio coinciden exactamente en Google, Yelp, Facebook y Apple Maps.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Has revisado tus directorios personalmente en los últimos 12 meses.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Un listado viejo, cerrado o incorrecto no sigue apareciendo cuando alguien busca tu nombre.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">La URL de tu sitio web está correcta en todos los lugares donde aparece.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
       </div>
     </div>
 
@@ -145,10 +158,10 @@
       <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Pilar 05 · El que casi nadie evalúa</p>
       <h2 class="mt-2 font-display text-3xl">Velocidad de Respuesta y Preparación para IA</h2>
       <div class="mt-6 flex flex-col gap-3">
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Una nueva consulta desde tu sitio web recibe respuesta en menos de 5 minutos, a cualquier hora — no solo en horario de oficina.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Una llamada perdida dispara automáticamente un mensaje de texto de seguimiento, en vez de quedar sin respuesta.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Un prospecto puede agendar sin necesidad de llamar en horario de oficina.</span></label>
-        <label class="q-card glass"><span class="q-box border border-foreground"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Puedes decir, con un número real, cuántos leads perdiste el mes pasado simplemente porque nadie contestó a tiempo.</span></label>
+        <div class="q-card glass"><span class="q-text">Una nueva consulta recibe una primera respuesta en minutos — también fuera de horario, no solo en horario de oficina.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Una llamada perdida dispara automáticamente un mensaje de texto de seguimiento, en vez de quedar sin respuesta.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">Un prospecto puede agendar sin necesidad de llamar en horario de oficina.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
+        <div class="q-card glass"><span class="q-text">El seguimiento a los leads nuevos sucede de forma automática — no solo cuando alguien de tu equipo se acuerda de hacerlo.</span><span class="q-yn"><button type="button" class="q-btn" data-v="1">Sí</button><button type="button" class="q-btn" data-v="0">No</button></span></div>
       </div>
     </div>
 
@@ -156,6 +169,7 @@
       <button type="button" id="quizBackBtn" class="font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground">← Atrás</button>
       <button type="button" id="quizNextBtn" class="rounded-full bg-primary px-7 py-3.5 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Siguiente →</button>
     </div>
+    <p id="quizHint" class="mt-4 hidden text-center text-sm text-accent"></p>
   </section>
 
   <!-- ===================== PASO — CAPTURA DE DATOS ===================== -->
@@ -197,6 +211,10 @@
       </div>
       <div class="mt-6 flex justify-center"><span class="tier-badge" id="tierTitle"></span></div>
       <p class="mt-4 text-center text-foreground/80 max-w-md mx-auto" id="tierBody"></p>
+      <div class="mx-auto mt-8 max-w-md rounded-2xl px-6 py-5 text-center" style="border:1px solid var(--primary); background:color-mix(in oklab, var(--primary) 10%, transparent)">
+        <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Tu mayor oportunidad</p>
+        <p class="mt-1 font-display text-2xl" id="weakestName">—</p>
+      </div>
 
       <div class="mt-10 flex flex-col gap-5">
         <div><div class="bar-row"><span class="bar-label">Sitio Web</span><div class="bar-track"><div class="bar-fill" id="bar-1" style="width:0%"></div></div><span class="bar-num" id="barnum-1">0/5</span></div><p class="mt-2 text-sm text-foreground/75" id="rec-1"></p></div>
@@ -209,6 +227,14 @@
 
     <div class="mt-10 flex flex-col items-center gap-4 text-center">
       <p class="text-foreground/80" id="emailNotice">📩 Tu guía completa en PDF va en camino a tu correo.</p>
+      <div class="glass w-full max-w-md rounded-3xl p-6 text-left">
+        <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">En tu llamada gratuita veremos</p>
+        <ol class="mt-3 flex list-decimal flex-col gap-2 pl-5 text-foreground/85">
+          <li>Tu puntaje, pilar por pilar — qué significa realmente cada número.</li>
+          <li>Tu mayor oportunidad, y la corrección exacta para ella.</li>
+          <li>Un plan priorizado: qué hacer primero — en semanas, no en meses.</li>
+        </ol>
+      </div>
       <a href="https://calendar.app.google/oV2TzbkDzcQhNi2w7" target="_blank" rel="noopener" class="rounded-full bg-primary px-8 py-4 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Agenda una llamada gratis de 30 minutos</a>
       <a href="https://calendar.app.google/oV2TzbkDzcQhNi2w7" target="_blank" rel="noopener" class="inline-block rounded-full border border-accent px-5 py-2.5 font-mono text-[11px] uppercase tracking-widest text-accent transition-transform hover:scale-105">¿Quieres la versión personalizada, calificada sobre tu negocio real? Pregúntanos por el Digital Presence Snapshot completo →</a>
     </div>
@@ -229,7 +255,8 @@
 
   var PILLAR_COUNTS = {1:5, 2:5, 3:4, 4:4, 5:4};
   var currentPillar = 1;
-  var checks = {};
+  var answers = {}; // answers["1-0"] = true/false
+  var HINT_TEXT = 'Responde todas las preguntas para continuar — "No" también es una respuesta.';
 
   var steps = {
     intro: document.getElementById('step-intro'),
@@ -267,17 +294,39 @@
     var p = pillarEl.getAttribute('data-pillar');
     var cards = pillarEl.querySelectorAll('.q-card');
     cards.forEach(function(card, idx){
-      card.addEventListener('click', function(){
-        var key = p + '-' + idx;
-        checks[key] = !checks[key];
-        card.classList.toggle('checked', checks[key]);
-        card.style.borderColor = checks[key] ? 'var(--primary)' : '';
-        card.style.backgroundColor = checks[key] ? 'color-mix(in oklab, var(--primary) 10%, transparent)' : '';
+      var btns = card.querySelectorAll('.q-btn');
+      btns.forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var val = btn.getAttribute('data-v') === '1';
+          answers[p + '-' + idx] = val;
+          card.classList.remove('missing');
+          card.classList.add('answered');
+          btns.forEach(function(b){ b.classList.toggle('sel', b === btn); });
+          card.style.borderColor = val ? 'var(--primary)' : '';
+          card.style.backgroundColor = val ? 'color-mix(in oklab, var(--primary) 10%, transparent)' : '';
+        });
       });
     });
   });
 
+  function unansweredIn(p){
+    var missing = [];
+    for(var i=0; i<PILLAR_COUNTS[p]; i++){ if(typeof answers[p+'-'+i] === 'undefined') missing.push(i); }
+    return missing;
+  }
+
   document.getElementById('quizNextBtn').addEventListener('click', function(){
+    var missing = unansweredIn(currentPillar);
+    var hint = document.getElementById('quizHint');
+    if(missing.length){
+      var cards = document.querySelectorAll('.quiz-pillar[data-pillar="' + currentPillar + '"] .q-card');
+      missing.forEach(function(i){ if(cards[i]) cards[i].classList.add('missing'); });
+      hint.textContent = HINT_TEXT;
+      hint.classList.remove('hidden');
+      hint.scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+    hint.classList.add('hidden');
     if(currentPillar < 5){
       currentPillar++;
       renderPillar(currentPillar);
@@ -300,7 +349,7 @@
   function pillarScore(p){
     var total = PILLAR_COUNTS[p];
     var count = 0;
-    for(var i=0; i<total; i++){ if(checks[p+'-'+i]) count++; }
+    for(var i=0; i<total; i++){ if(answers[p+'-'+i] === true) count++; }
     return count;
   }
 
@@ -362,6 +411,14 @@
     tierEl.style.backgroundColor = 'var(--primary)';
     tierEl.style.color = '#141b24';
     document.getElementById('tierBody').textContent = tier.body;
+
+    var WEAKEST_NAMES = {1:'Sitio web', 2:'Perfil de Google', 3:'Redes sociales', 4:'Directorios en línea', 5:'Preparación para IA'};
+    var weakest = 1, weakestRatio = Infinity;
+    [1,2,3,4,5].forEach(function(p){
+      var r = pillarScore(p) / PILLAR_COUNTS[p];
+      if(r < weakestRatio){ weakestRatio = r; weakest = p; }
+    });
+    document.getElementById('weakestName').textContent = WEAKEST_NAMES[weakest];
 
     [1,2,3,4,5].forEach(function(p){
       var s = pillarScore(p);
