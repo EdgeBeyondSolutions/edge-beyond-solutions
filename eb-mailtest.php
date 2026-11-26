@@ -40,5 +40,13 @@ $results['V5_from_html_corto'] = @mail($to, $subject . ' V5', '<html><body><p>Ho
 $h6 = 'From: EdgeBeyond Solutions <contact@edgebeyond.solutions>' . "\r\n" . 'Content-Type: text/plain; charset=utf-8';
 $results['V6_from_texto'] = @mail($to, $subject . ' V6', 'Hola Prueba, gracias por escribirnos.', $h6);
 
+// V7: sin From, pero con Reply-To a contact@
+$h7 = "MIME-Version: 1.0\r\n" . "Content-Type: text/html; charset=utf-8\r\n"
+    . 'Reply-To: contact@edgebeyond.solutions';
+$results['V7_replyto_sin_from'] = @mail($to, $subject . ' V7', $es, $h7);
+
+// V9: sin From, con parametro -f (sobre remitente)
+$results['V9_menos_f'] = @mail($to, $subject . ' V9', $es, $h4, '-fcontact@edgebeyond.solutions');
+
 header('Content-Type: application/json');
 echo json_encode($results);
