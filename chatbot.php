@@ -274,6 +274,43 @@ function eb_zoho_upsert_lead(string $name, string $email, string $note, string $
 }
 
 
+
+// ---------------- Envio por API de Brevo (HTTPS) ----------------
+// El hosting bloquea TODA salida SMTP (sonda 2026-11-26: 587/465 timeout,
+// 25 refused), asi que la bienvenida sale por la API HTTPS de Brevo como
+// contact@edgebeyond.solutions, con el dominio autenticado (DKIM).
+// La llave vive en chatbot-config.php (EB_BREVO_API_KEY), capturada con
+// la pagina de instalacion unica.
+function eb_brevo_send(string $to, string $subject, string $html): bool
+{
+    if (!defined('EB_BREVO_API_KEY') || (string)EB_BREVO_API_KEY === '' || !function_exists('curl_init')) {
+        return false;
+    }
+    $payload = [
+        'sender' => ['name' => 'EdgeBeyond Solutions', 'email' => 'contact@edgebeyond.solutions'],
+        'to' => [['email' => $to]],
+        'replyTo' => ['email' => 'contact@edgebeyond.solutions'],
+        'subject' => $subject,
+        'htmlContent' => $html,
+    ];
+    $ch = curl_init('https://api.brevo.com/v3/smtp/email');
+    curl_setopt_array($ch, [
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => json_encode($payload),
+        CURLOPT_HTTPHEADER => [
+            'api-key: ' . EB_BREVO_API_KEY,
+            'Content-Type: application/json',
+            'Accept: application/json',
+        ],
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 20,
+    ]);
+    curl_exec($ch);
+    $code = (int)curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+    curl_close($ch);
+    return $code === 201 || $code === 200;
+}
+
 // ---------------- Envio SMTP autenticado (Spacemail) ----------------
 // El correo del dominio vive en Spacemail (MX mx1/mx2.spacemail.com) y el
 // servidor web NO puede enviar como @edgebeyond.solutions con mail()
@@ -388,6 +425,9 @@ EBWELCOME_EN;
     $headers = "MIME-Version: 1.0\r\n"
         . "Content-Type: text/html; charset=utf-8\r\n"
         . 'Reply-To: contact@edgebeyond.solutions';
+    if (eb_brevo_send($email, $subject, $html)) {
+        return 'sent_brevo';
+    }
     if (eb_smtp_send($email, $subject, $html)) {
         return 'sent_smtp';
     }
