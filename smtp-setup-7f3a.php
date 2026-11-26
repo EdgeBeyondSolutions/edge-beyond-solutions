@@ -1,9 +1,10 @@
 <?php
 // ============================================================
 // EdgeBeyond — Instalación ÚNICA del SMTP de la bienvenida.
-// Guarda las constantes EB_SMTP_* en chatbot-config.php (fuera de
-// la raíz web), prueba el login contra Spacemail y SE BORRA SOLA
-// cuando el login es correcto. Acceso con clave en la URL.
+// Prueba los transportes de Spacemail (587 STARTTLS y 465 SSL),
+// guarda las constantes EB_SMTP_* en chatbot-config.php (fuera de
+// la raíz web) y SE BORRA SOLA cuando un login funciona.
+// Acceso con clave en la URL.
 // ============================================================
 declare(strict_types=1);
 
@@ -34,9 +35,9 @@ function eb_cfg_set(string $file, string $name, string $value): void
     file_put_contents($file, $src);
 }
 
-function eb_smtp_login_ok(string $user, string $pass): string
+function eb_smtp_try(string $user, string $pass, int $port, string $mode): string
 {
-    $fp = @fsockopen('ssl://smtp.spacemail.com', 465, $errno, $errstr, 20);
+    $fp = @fsockopen(($mode === 'ssl' ? 'ssl://' : '') . 'smtp.spacemail.com', $port, $errno, $errstr, 25);
     if ($fp === false) {
         return 'conexion_fallida: ' . $errstr;
     }
@@ -54,16 +55,26 @@ function eb_smtp_login_ok(string $user, string $pass): string
         fwrite($fp, $c . "\r\n");
         return substr($read(), 0, 3);
     };
-    $r = substr($read(), 0, 3);
-    if ($r === '220' && $send('EHLO edgebeyond.solutions') === '250' && $send('AUTH LOGIN') === '334'
-        && $send(base64_encode($user)) === '334') {
-        $auth = $send(base64_encode($pass));
-        @fwrite($fp, "QUIT\r\n");
+    if (substr($read(), 0, 3) !== '220' || $send('EHLO edgebeyond.solutions') !== '250') {
         fclose($fp);
-        return $auth === '235' ? 'ok' : 'auth_rechazada_' . $auth;
+        return 'saludo_fallido';
     }
+    if ($mode === 'starttls') {
+        if ($send('STARTTLS') !== '220'
+            || @stream_socket_enable_crypto($fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT) !== true
+            || $send('EHLO edgebeyond.solutions') !== '250') {
+            fclose($fp);
+            return 'starttls_fallido';
+        }
+    }
+    if ($send('AUTH LOGIN') !== '334' || $send(base64_encode($user)) !== '334') {
+        fclose($fp);
+        return 'auth_no_ofrecido';
+    }
+    $auth = $send(base64_encode($pass));
+    @fwrite($fp, "QUIT\r\n");
     fclose($fp);
-    return 'flujo_inesperado';
+    return $auth === '235' ? 'ok' : 'auth_rechazada_' . $auth;
 }
 
 $msg = '';
@@ -72,20 +83,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($pass === '') {
         $msg = 'Escribe la contraseña del buzón.';
     } else {
-        $check = eb_smtp_login_ok('contact@edgebeyond.solutions', $pass);
-        if ($check === 'ok') {
+        $user = 'contact@edgebeyond.solutions';
+        $results = [];
+        $winner = null;
+        foreach ([[587, 'starttls'], [465, 'ssl']] as [$port, $mode]) {
+            $r = eb_smtp_try($user, $pass, $port, $mode);
+            $results[] = 'puerto ' . $port . ' (' . $mode . '): ' . $r;
+            if ($r === 'ok') {
+                $winner = [$port, $mode];
+                break;
+            }
+        }
+        if ($winner !== null) {
+            [$port, $mode] = $winner;
             eb_cfg_set($configFile, 'EB_SMTP_HOST', 'smtp.spacemail.com');
-            eb_cfg_set($configFile, 'EB_SMTP_USER', 'contact@edgebeyond.solutions');
+            eb_cfg_set($configFile, 'EB_SMTP_USER', $user);
             eb_cfg_set($configFile, 'EB_SMTP_PASS', $pass);
+            eb_cfg_set($configFile, 'EB_SMTP_PORT', (string)$port);
+            eb_cfg_set($configFile, 'EB_SMTP_MODE', $mode);
             @unlink(__FILE__);
             echo '<!DOCTYPE html><html><body style="font-family:Arial;padding:40px;background:#141b24;color:#fff;">'
                 . '<h2 style="color:#c0f447;">¡SMTP configurado!</h2>'
-                . '<p>El login con contact@edgebeyond.solutions funcionó y las constantes quedaron guardadas en chatbot-config.php. Esta página se borró sola.</p>'
+                . '<p>El login con contact@edgebeyond.solutions funcionó por el puerto ' . $port . ' (' . $mode . ') y las constantes quedaron guardadas en chatbot-config.php. Esta página se borró sola.</p>'
                 . '</body></html>';
             exit;
         }
-        $msg = 'El servidor de correo rechazó ese login (' . htmlspecialchars($check, ENT_QUOTES, 'UTF-8')
-            . '). Revisa la contraseña del buzón contact@edgebeyond.solutions y vuelve a intentarlo — no se guardó nada nuevo.';
+        $msg = 'Ningún transporte aceptó el login — ' . htmlspecialchars(implode(' · ', $results), ENT_QUOTES, 'UTF-8')
+            . '. No se guardó nada.';
     }
 }
 ?>
@@ -93,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html><head><meta charset="utf-8"><title>EdgeBeyond — SMTP</title></head>
 <body style="font-family:Arial;padding:40px;background:#141b24;color:#fff;">
 <h2 style="color:#c0f447;">EdgeBeyond — Correo de bienvenida (SMTP)</h2>
-<p>Buzón remitente: <strong>contact@edgebeyond.solutions</strong> (Spacemail, smtp.spacemail.com:465).</p>
+<p>Buzón remitente: <strong>contact@edgebeyond.solutions</strong> (Spacemail). La página prueba el puerto 587 (STARTTLS) y el 465 (SSL).</p>
 <?php if ($msg !== '') { echo '<p style="color:#ffb3b3;">' . $msg . '</p>'; } ?>
 <form method="post">
 <input type="hidden" name="k" value="eb-smtp-26">

@@ -280,12 +280,17 @@ function eb_zoho_upsert_lead(string $name, string $email, string $note, string $
 // ("Relaying not permitted", verificado 2026-11-26). La via que si entrega
 // es SMTP autenticado con el buzon contact@ (constantes EB_SMTP_* en
 // chatbot-config.php, capturadas con la pagina de instalacion unica).
-function eb_smtp_send(string $to, string $subject, string $html): bool
+// EB_SMTP_MODE: 'ssl' (puerto 465) o 'starttls' (puerto 587); la pagina de
+// instalacion guarda el transporte que haya funcionado.
+function eb_smtp_connect()
 {
     if (!defined('EB_SMTP_HOST') || !defined('EB_SMTP_USER') || !defined('EB_SMTP_PASS')) {
         return false;
     }
-    $fp = @fsockopen('ssl://' . EB_SMTP_HOST, 465, $errno, $errstr, 20);
+    $host = (string)EB_SMTP_HOST;
+    $port = defined('EB_SMTP_PORT') ? (int)EB_SMTP_PORT : 465;
+    $mode = defined('EB_SMTP_MODE') ? (string)EB_SMTP_MODE : 'ssl';
+    $fp = @fsockopen(($mode === 'ssl' ? 'ssl://' : '') . $host, $port, $errno, $errstr, 25);
     if ($fp === false) {
         return false;
     }
@@ -299,17 +304,42 @@ function eb_smtp_send(string $to, string $subject, string $html): bool
         }
         return $out;
     };
-    $cmd = function (string $c, array $okCodes) use ($fp, $read): bool {
+    $raw = function (string $c) use ($fp, $read): string {
         fwrite($fp, $c . "\r\n");
-        $r = $read();
-        return in_array(substr($r, 0, 3), $okCodes, true);
+        return substr($read(), 0, 3);
     };
-    $ok = substr($read(), 0, 3) === '220'
-        && $cmd('EHLO edgebeyond.solutions', ['250'])
-        && $cmd('AUTH LOGIN', ['334'])
-        && $cmd(base64_encode((string)EB_SMTP_USER), ['334'])
-        && $cmd(base64_encode((string)EB_SMTP_PASS), ['235'])
-        && $cmd('MAIL FROM:<' . EB_SMTP_USER . '>', ['250'])
+    if (substr($read(), 0, 3) !== '220' || $raw('EHLO edgebeyond.solutions') !== '250') {
+        fclose($fp);
+        return false;
+    }
+    if ($mode === 'starttls') {
+        if ($raw('STARTTLS') !== '220'
+            || @stream_socket_enable_crypto($fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT) !== true
+            || $raw('EHLO edgebeyond.solutions') !== '250') {
+            fclose($fp);
+            return false;
+        }
+    }
+    if ($raw('AUTH LOGIN') !== '334'
+        || $raw(base64_encode((string)EB_SMTP_USER)) !== '334'
+        || $raw(base64_encode((string)EB_SMTP_PASS)) !== '235') {
+        fclose($fp);
+        return false;
+    }
+    return [$fp, $raw, $read];
+}
+
+function eb_smtp_send(string $to, string $subject, string $html): bool
+{
+    $conn = eb_smtp_connect();
+    if ($conn === false) {
+        return false;
+    }
+    [$fp, $raw, $read] = $conn;
+    $cmd = function (string $c, array $okCodes) use ($raw): bool {
+        return in_array($raw($c), $okCodes, true);
+    };
+    $ok = $cmd('MAIL FROM:<' . EB_SMTP_USER . '>', ['250'])
         && $cmd('RCPT TO:<' . $to . '>', ['250', '251'])
         && $cmd('DATA', ['354']);
     if ($ok) {
