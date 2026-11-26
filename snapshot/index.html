@@ -396,22 +396,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var PILLAR_RECS = {
     1: {
       strong: "Your website is doing its job as a first impression — keep an eye on load speed as you add content.",
+      mid: "Your website covers the basics, but a visitor still has to work to find the next step — sharpen the headline, the proof and the call to action so the page sells, not just informs.",
       weak: "Priority fix: tighten your homepage so a visitor instantly knows what you do, where you are, and how to reach you — this is the single highest-leverage page on the audit."
     },
     2: {
       strong: "Your Google Business Profile is a working trust signal — keep responding to new reviews and posting photos.",
+      mid: "Your Google Business Profile exists and does part of the job — complete every field, add fresh photos and keep reviews coming so it works as hard as your storefront.",
       weak: "Priority fix: claim or clean up your Google Business Profile and actively collect reviews — this is usually the fastest, cheapest win available."
     },
     3: {
       strong: "Your reputation is visible beyond Google, which most competitors never manage.",
+      mid: "You have some visible proof, but it's scattered — bring your reviews together on your site and post consistently so a prospect sees a business that's alive.",
       weak: "Priority fix: pull your best reviews onto your own site and social channels, and post something — anything — in the next 30 days."
     },
     4: {
       strong: "Your business information is consistent across the places people look you up.",
+      mid: "You're listed in the main places, but small inconsistencies creep in over time — a quick pass to align name, address and phone everywhere protects your ranking.",
       weak: "Priority fix: audit your listings on Google, Yelp, Facebook and Apple Maps for mismatched name, address or phone — inconsistency quietly hurts your ranking."
     },
     5: {
       strong: "You're responding fast enough to actually convert the leads you're already generating.",
+      mid: "You respond, but not always fast enough to win the lead — even one automated first reply after hours would catch the prospects who currently slip away.",
       weak: "Priority fix: this is almost always the highest-ROI fix on the list — an automated instant-response system (AI agent, missed-call text-back) recovers leads you're currently losing silently."
     }
   };
@@ -460,7 +465,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       document.getElementById('bar-'+p).style.width = (s/max*100) + '%';
       document.getElementById('barnum-'+p).textContent = s + '/' + max;
       var isStrong = s >= Math.ceil(max * 0.8);
-      document.getElementById('rec-'+p).textContent = isStrong ? PILLAR_RECS[p].strong : PILLAR_RECS[p].weak;
+      document.getElementById('rec-'+p).textContent = isStrong ? PILLAR_RECS[p].strong : ((s/max) >= 0.4 ? PILLAR_RECS[p].mid : PILLAR_RECS[p].weak);
     });
   }
 

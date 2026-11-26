@@ -394,22 +394,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var PILLAR_RECS = {
     1: {
       strong: "Tu sitio web está cumpliendo su función como primera impresión — vigila la velocidad de carga conforme agregues contenido.",
+      mid: "Tu sitio cubre lo básico, pero el visitante todavía tiene que esforzarse para encontrar el siguiente paso — afina el titular, la prueba y el llamado a la acción para que la página venda, no solo informe.",
       weak: "Corrección prioritaria: ajusta tu página principal para que un visitante sepa de inmediato qué haces, dónde estás y cómo contactarte — es la página de mayor impacto en toda la auditoría."
     },
     2: {
       strong: "Tu perfil de Google Business es una señal de confianza que funciona — sigue respondiendo reseñas nuevas y publicando fotos.",
+      mid: "Tu perfil de Google Business existe y cumple en parte — completa cada campo, agrega fotos recientes y mantén el flujo de reseñas para que trabaje tanto como tu local.",
       weak: "Corrección prioritaria: reclama o limpia tu perfil de Google Business y recolecta reseñas activamente — suele ser la victoria más rápida y barata disponible."
     },
     3: {
       strong: "Tu reputación es visible más allá de Google, algo que la mayoría de tus competidores nunca logra.",
+      mid: "Tienes algo de prueba visible, pero está dispersa — junta tus reseñas en tu sitio y publica con constancia para que el prospecto vea un negocio vivo.",
       weak: "Corrección prioritaria: lleva tus mejores reseñas a tu propio sitio y redes sociales, y publica algo — lo que sea — en los próximos 30 días."
     },
     4: {
       strong: "La información de tu negocio es consistente en los lugares donde la gente te busca.",
+      mid: "Estás en los directorios principales, pero con el tiempo se cuelan pequeñas inconsistencias — una revisión rápida para alinear nombre, dirección y teléfono en todos lados protege tu posicionamiento.",
       weak: "Corrección prioritaria: revisa tus directorios en Google, Yelp, Facebook y Apple Maps buscando nombre, dirección o teléfono que no coincidan — la inconsistencia perjudica tu posicionamiento silenciosamente."
     },
     5: {
       strong: "Estás respondiendo lo suficientemente rápido para convertir los leads que ya estás generando.",
+      mid: "Respondes, pero no siempre a la velocidad que gana al lead — una sola respuesta automática fuera de horario atraparía a los prospectos que hoy se te escapan.",
       weak: "Corrección prioritaria: esta es casi siempre la corrección de mayor retorno de toda la lista — un sistema de respuesta instantánea automatizado (agente de IA, texto de seguimiento a llamadas perdidas) recupera leads que hoy estás perdiendo en silencio."
     }
   };
@@ -458,7 +463,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       document.getElementById('bar-'+p).style.width = (s/max*100) + '%';
       document.getElementById('barnum-'+p).textContent = s + '/' + max;
       var isStrong = s >= Math.ceil(max * 0.8);
-      document.getElementById('rec-'+p).textContent = isStrong ? PILLAR_RECS[p].strong : PILLAR_RECS[p].weak;
+      document.getElementById('rec-'+p).textContent = isStrong ? PILLAR_RECS[p].strong : ((s/max) >= 0.4 ? PILLAR_RECS[p].mid : PILLAR_RECS[p].weak);
     });
   }
 
