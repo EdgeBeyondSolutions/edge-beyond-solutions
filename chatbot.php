@@ -243,7 +243,7 @@ function eb_zoho_upsert_lead(string $name, string $email, string $note, string $
     $payload = [
         'data' => [$record],
         'duplicate_check_fields' => ['Email'],
-        'trigger' => [],
+        'trigger' => ['workflow'],
     ];
     $ch = curl_init('https://www.zohoapis.com/crm/v8/Leads/upsert');
     curl_setopt_array($ch, [
