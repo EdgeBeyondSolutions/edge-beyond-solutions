@@ -34,9 +34,9 @@ function eb_cfg_set(string $file, string $name, string $value): void
     file_put_contents($file, $src);
 }
 
-function eb_brevo_key_ok(string $key): int
+function eb_brevo_probe(string $key, string $url): int
 {
-    $ch = curl_init('https://api.brevo.com/v3/account');
+    $ch = curl_init($url);
     curl_setopt_array($ch, [
         CURLOPT_HTTPHEADER => ['api-key: ' . $key, 'Accept: application/json'],
         CURLOPT_RETURNTRANSFER => true,
@@ -46,6 +46,22 @@ function eb_brevo_key_ok(string $key): int
     $code = (int)curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
     curl_close($ch);
     return $code;
+}
+
+// La llave es restringida (solo Transactional email): /v3/account da 403
+// aunque la llave sea valida. Se valida contra un endpoint transaccional;
+// 401 = llave inexistente, cualquier otro codigo = la llave existe.
+function eb_brevo_key_ok(string $key): int
+{
+    $code = eb_brevo_probe($key, 'https://api.brevo.com/v3/smtp/templates?limit=1');
+    if ($code === 401) {
+        return 401;
+    }
+    if ($code >= 200 && $code < 500) {
+        return 200;
+    }
+    $acct = eb_brevo_probe($key, 'https://api.brevo.com/v3/account');
+    return $acct === 401 ? 401 : 200;
 }
 
 $msg = '';
