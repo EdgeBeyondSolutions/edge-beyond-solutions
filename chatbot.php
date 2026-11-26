@@ -273,6 +273,63 @@ function eb_zoho_upsert_lead(string $name, string $email, string $note, string $
     return 'error:' . (string)($row['code'] ?? 'desconocido');
 }
 
+
+// ---------------- Envio SMTP autenticado (Spacemail) ----------------
+// El correo del dominio vive en Spacemail (MX mx1/mx2.spacemail.com) y el
+// servidor web NO puede enviar como @edgebeyond.solutions con mail()
+// ("Relaying not permitted", verificado 2026-11-26). La via que si entrega
+// es SMTP autenticado con el buzon contact@ (constantes EB_SMTP_* en
+// chatbot-config.php, capturadas con la pagina de instalacion unica).
+function eb_smtp_send(string $to, string $subject, string $html): bool
+{
+    if (!defined('EB_SMTP_HOST') || !defined('EB_SMTP_USER') || !defined('EB_SMTP_PASS')) {
+        return false;
+    }
+    $fp = @fsockopen('ssl://' . EB_SMTP_HOST, 465, $errno, $errstr, 20);
+    if ($fp === false) {
+        return false;
+    }
+    $read = function () use ($fp): string {
+        $out = '';
+        while (($line = fgets($fp, 512)) !== false) {
+            $out .= $line;
+            if (isset($line[3]) && $line[3] === ' ') {
+                break;
+            }
+        }
+        return $out;
+    };
+    $cmd = function (string $c, array $okCodes) use ($fp, $read): bool {
+        fwrite($fp, $c . "\r\n");
+        $r = $read();
+        return in_array(substr($r, 0, 3), $okCodes, true);
+    };
+    $ok = substr($read(), 0, 3) === '220'
+        && $cmd('EHLO edgebeyond.solutions', ['250'])
+        && $cmd('AUTH LOGIN', ['334'])
+        && $cmd(base64_encode((string)EB_SMTP_USER), ['334'])
+        && $cmd(base64_encode((string)EB_SMTP_PASS), ['235'])
+        && $cmd('MAIL FROM:<' . EB_SMTP_USER . '>', ['250'])
+        && $cmd('RCPT TO:<' . $to . '>', ['250', '251'])
+        && $cmd('DATA', ['354']);
+    if ($ok) {
+        $headers = 'From: EdgeBeyond Solutions <' . EB_SMTP_USER . '>' . "\r\n"
+            . 'To: <' . $to . '>' . "\r\n"
+            . 'Subject: =?UTF-8?B?' . base64_encode($subject) . '?=' . "\r\n"
+            . 'Date: ' . date('r') . "\r\n"
+            . "MIME-Version: 1.0\r\n"
+            . "Content-Type: text/html; charset=utf-8\r\n"
+            . 'Reply-To: ' . EB_SMTP_USER . "\r\n\r\n";
+        $body = wordwrap(str_replace(["\r\n", "\r"], "\n", $html), 200, "\r\n");
+        $body = preg_replace('/^\./m', '..', $body);
+        fwrite($fp, $headers . $body . "\r\n.\r\n");
+        $ok = substr($read(), 0, 3) === '250';
+    }
+    @fwrite($fp, "QUIT\r\n");
+    fclose($fp);
+    return $ok;
+}
+
 // ---------------- Correo de bienvenida al lead ----------------
 // Sustituye la alerta de Zoho: en la edicion gratuita de Zoho las notificaciones
 // no pueden dirigirse al correo del lead, asi que la bienvenida sale de aqui,
@@ -301,6 +358,9 @@ EBWELCOME_EN;
     $headers = "MIME-Version: 1.0\r\n"
         . "Content-Type: text/html; charset=utf-8\r\n"
         . 'Reply-To: contact@edgebeyond.solutions';
+    if (eb_smtp_send($email, $subject, $html)) {
+        return 'sent_smtp';
+    }
     $ok = @mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $html, $headers);
     return $ok ? 'sent' : 'failed';
 }
