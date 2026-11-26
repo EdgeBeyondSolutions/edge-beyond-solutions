@@ -294,9 +294,12 @@ EBWELCOME_ES;
 EBWELCOME_EN;
     }
     $html = str_replace('${Leads.First Name}', $first, $html);
+    // SIN encabezado From: el servidor RECHAZA mail() si el From es @edgebeyond.solutions
+    // (verificado 2026-11-26 con 9 variantes: sin From envia; con From o con -f, no).
+    // El correo sale de la direccion del servidor, pero el Reply-To lleva las
+    // respuestas del lead a contact@edgebeyond.solutions.
     $headers = "MIME-Version: 1.0\r\n"
         . "Content-Type: text/html; charset=utf-8\r\n"
-        . 'From: EdgeBeyond Solutions <contact@edgebeyond.solutions>' . "\r\n"
         . 'Reply-To: contact@edgebeyond.solutions';
     $ok = @mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $html, $headers);
     return $ok ? 'sent' : 'failed';
