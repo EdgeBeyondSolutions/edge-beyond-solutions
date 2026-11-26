@@ -13,6 +13,43 @@ if (($_GET['k'] ?? '') !== 'eb-smtp-26' && ($_POST['k'] ?? '') !== 'eb-smtp-26')
     exit;
 }
 
+
+// Sonda de transporte (sin credenciales): conexion, saludo, EHLO y STARTTLS.
+if (($_GET['probe'] ?? '') === '1') {
+    header('Content-Type: text/plain');
+    foreach ([[587, 'starttls'], [465, 'ssl'], [25, 'plain']] as [$port, $mode]) {
+        $fp = @fsockopen(($mode === 'ssl' ? 'ssl://' : '') . 'smtp.spacemail.com', $port, $errno, $errstr, 15);
+        if ($fp === false) {
+            echo "puerto $port ($mode): CONEXION_FALLIDA: $errstr\n";
+            continue;
+        }
+        $read = function () use ($fp): string {
+            $out = '';
+            while (($line = fgets($fp, 512)) !== false) {
+                $out .= $line;
+                if (isset($line[3]) && $line[3] === ' ') {
+                    break;
+                }
+            }
+            return $out;
+        };
+        $greet = substr($read(), 0, 3);
+        fwrite($fp, "EHLO edgebeyond.solutions\r\n");
+        $ehlo = $read();
+        $extra = '';
+        if ($mode === 'starttls') {
+            fwrite($fp, "STARTTLS\r\n");
+            $st = substr($read(), 0, 3);
+            $crypto = @stream_socket_enable_crypto($fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+            $extra = " starttls=$st crypto=" . var_export($crypto, true);
+        }
+        echo "puerto $port ($mode): saludo=$greet ehlo=" . substr(str_replace("\n", ' ', $ehlo), 0, 90) . "$extra\n";
+        @fwrite($fp, "QUIT\r\n");
+        fclose($fp);
+    }
+    exit;
+}
+
 $configFile = __DIR__ . '/../chatbot-config.php';
 if (!file_exists($configFile)) {
     $configFile = __DIR__ . '/chatbot-config.php';
