@@ -274,6 +274,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var currentPillar = 1;
   var answers = {}; // answers["1-0"] = true/false
   var HINT_TEXT = 'Responde todas las preguntas para continuar — "No" también es una respuesta.';
+  var PILLAR_NAMES = {1:'Sitio web', 2:'Perfil de Google', 3:'Redes sociales', 4:'Directorios en línea', 5:'Preparación para IA'};
+  var EB_LANG = 'es';
+  function ebTrack(event, data){
+    window.dataLayer = window.dataLayer || [];
+    var d = {event: event, lang: EB_LANG};
+    if(data){ for(var k in data){ d[k] = data[k]; } }
+    window.dataLayer.push(d);
+  }
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    var a = (t && t.closest) ? t.closest('a[href*="calendar.app.google"]') : null;
+    if(a){ ebTrack('booking_click', {link_url: a.href}); }
+  });
 
   var steps = {
     intro: document.getElementById('step-intro'),
@@ -288,6 +301,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   document.getElementById('startBtn').addEventListener('click', function(){
+    ebTrack('audit_started');
     showStep('quiz');
     renderPillar(1);
   });
@@ -344,6 +358,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       return;
     }
     hint.classList.add('hidden');
+    ebTrack('audit_pillar_completed', {pillar_number: currentPillar, pillar_name: PILLAR_NAMES[currentPillar]});
     if(currentPillar < 5){
       currentPillar++;
       renderPillar(currentPillar);
@@ -468,6 +483,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     var total = totalScore();
     var tier = tierFor(total);
+    ebTrack('audit_completed', {score_total: total, score_tier: tier.title});
 
     var payload = {
       form_key: FORM_KEY,

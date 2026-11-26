@@ -276,6 +276,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var answers = {}; // answers["1-0"] = true/false
   var HINT_TEXT = 'Answer every question to continue — "No" counts as an answer.';
 
+  var EB_LANG = 'en';
+  function ebTrack(event, data){
+    window.dataLayer = window.dataLayer || [];
+    var d = {event: event, lang: EB_LANG};
+    if(data){ for(var k in data){ d[k] = data[k]; } }
+    window.dataLayer.push(d);
+  }
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    var a = (t && t.closest) ? t.closest('a[href*="calendar.app.google"]') : null;
+    if(a){ ebTrack('booking_click', {link_url: a.href}); }
+  });
+
   var steps = {
     intro: document.getElementById('step-intro'),
     quiz: document.getElementById('step-quiz'),
@@ -289,6 +302,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   document.getElementById('startBtn').addEventListener('click', function(){
+    ebTrack('audit_started');
     showStep('quiz');
     renderPillar(1);
   });
@@ -346,6 +360,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       return;
     }
     hint.classList.add('hidden');
+    ebTrack('audit_pillar_completed', {pillar_number: currentPillar, pillar_name: PILLAR_NAMES[currentPillar]});
     if(currentPillar < 5){
       currentPillar++;
       renderPillar(currentPillar);
@@ -470,6 +485,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     var total = totalScore();
     var tier = tierFor(total);
+    ebTrack('audit_completed', {score_total: total, score_tier: tier.title});
 
     var payload = {
       form_key: FORM_KEY,
