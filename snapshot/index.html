@@ -70,6 +70,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media (max-width:480px){
     .bar-row{grid-template-columns:1fr auto; row-gap:8px;}
     .bar-row .bar-track{grid-column:1 / -1; order:3;}
+    .cc-row{flex-direction:column;}
+    .cc-row input{flex:none; width:100%;}
   }
 </style>
 </head>
@@ -90,7 +92,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <picture><source srcset="../logo-mark-color.webp" type="image/webp"><img src="../logo-mark-color.png" alt="" aria-hidden="true" class="h-6 w-8 shrink-0 object-contain"></picture>
     <span class="text-lg font-medium tracking-tight">Edge<span class="text-edge">Beyond</span></span>
   </a>
-  <a href="../" class="rounded-full border border-foreground/25 bg-white/5 px-3.5 py-1.5 font-mono text-xs font-semibold text-foreground backdrop-blur-sm transition-all hover:border-primary hover:bg-primary/10 hover:text-primary">← Back to site</a>
+  <a href="../" class="rounded-full border border-foreground/25 bg-white/5 px-3.5 py-1.5 font-mono text-xs font-semibold text-foreground backdrop-blur-sm transition-all hover:border-primary hover:bg-primary/10 hover:text-primary" style="border-color:rgba(240,244,248,.5);background:rgba(255,255,255,.12)">← Back to site</a>
 </header>
 
 <main class="mx-auto max-w-3xl px-6 pb-32">
@@ -182,11 +184,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
 
-    <div class="mt-10 flex items-center justify-between">
+    <p id="quizHint" class="mt-10 hidden text-center text-sm text-accent"></p>
+    <div class="mt-5 flex items-center justify-between">
       <button type="button" id="quizBackBtn" class="font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground">← Back</button>
       <button type="button" id="quizNextBtn" class="rounded-full bg-primary px-7 py-3.5 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-105">Next →</button>
     </div>
-    <p id="quizHint" class="mt-4 hidden text-center text-sm text-accent"></p>
   </section>
 
   <!-- ===================== STEP — CONTACT CAPTURE ===================== -->
@@ -200,7 +202,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <input id="cEmail" name="email" type="email" required placeholder="Your email" class="rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
       <input id="cBusiness" name="business" type="text" required placeholder="Business name" class="rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
       <input id="cWebsite" name="website" type="text" inputmode="url" autocapitalize="off" autocorrect="off" placeholder="Your website (optional)" class="rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
-      <div class="flex gap-4">
+      <div class="flex gap-4 cc-row">
         <input id="cCity" name="city" type="text" placeholder="City (optional)" class="flex-1 rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
         <input id="cCountry" name="country" type="text" placeholder="Country (optional)" class="flex-1 rounded-full bg-white/5 px-5 py-3.5 text-foreground outline-none placeholder:text-foreground/70 border border-border">
       </div>

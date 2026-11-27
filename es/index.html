@@ -154,6 +154,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   ]
 }
 </script>
+<style id="eb-mobile-fixes">
+  /* Mobile QA fixes - 2026-11-26: brighter hero eyebrow; dashboard times/pills never wrap */
+  #heroEyebrow { font-size: 13px; color: oklch(0.80 0.015 250); }
+  #holoPanel ul li > span:last-child { white-space: nowrap; }
+  #holoPanel ul li > span:nth-child(2) > span:last-child { white-space: nowrap; }
+</style>
 </head>
 <body class="grain overflow-x-clip" id="top">
 <!-- Google Tag Manager (noscript) -->
@@ -210,7 +216,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div class="relative mx-auto grid w-full max-w-7xl items-center gap-16 px-6 pb-24 pt-32 lg:grid-cols-2">
     <div>
-      <p class="reveal font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">Automatización de Marketing con IA · San Antonio, TX</p>
+      <p id="heroEyebrow" class="reveal font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">Automatización de Marketing con IA · San Antonio, TX</p>
       <h1 class="reveal mt-8 font-display text-6xl leading-[0.95] tracking-tight md:text-8xl">
         Todo negocio<br>llega a un límite.<br>
         <em class="text-edge not-italic">El tuyo va más allá.</em>
@@ -295,7 +301,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </div>
             </div>
           </div>
-          <div class="glass layer-3 animate-float absolute -left-6 -top-8 hidden rounded-2xl px-4 py-3 md:block">
+          <div class="glass layer-3 animate-float absolute -left-6 -top-8 hidden rounded-2xl px-4 py-3 md:block" style="top:-4.5rem">
             <p class="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">2:14 AM</p>
             <p class="mt-0.5 text-sm">Lead atendido al instante</p>
           </div>
@@ -870,6 +876,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     border: 1px solid rgba(192,244,71,.35); box-shadow: 0 24px 60px rgba(0,0,0,.55); overflow: hidden;
   }
   #eb-panel.eb-open { display: flex; }
+  #eb-chips, #eb-audit, #eb-call, #eb-lead-toggle, #eb-lead, #eb-form { flex-shrink: 0; }
   #eb-head {
     display: flex; align-items: center; gap: 10px; padding: 12px 14px;
     background: var(--eb-black); border-bottom: 1px solid rgba(255,255,255,.08);
@@ -887,7 +894,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   #eb-close {
     border: 0; background: none; color: #B9C6D2; font-size: 20px; line-height: 1; cursor: pointer; padding: 2px 4px;
   }
-  #eb-msgs { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  #eb-msgs { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
   .eb-msg { max-width: 85%; padding: 12px 16px; border-radius: 16px; font-size: 14px; line-height: 1.55; white-space: pre-wrap; word-wrap: break-word; }
   .eb-msg a { color: var(--eb-blue); }
   .eb-bot { background: #1C2836; align-self: flex-start; border-bottom-left-radius: 4px; }
@@ -936,7 +943,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     padding: 0 16px; font-weight: 700; font-size: 14px; cursor: pointer; font-family: inherit;
   }
   #eb-send:disabled, #eb-input:disabled { opacity: .55; cursor: default; }
-  @media (max-width: 480px) { #eb-panel { height: 68vh; } }
+  @media (max-width: 480px) { #eb-panel { height: 68vh; } #eb-invite { bottom: 100px; } }
 </style>
 
 <div id="eb-chat">
@@ -1140,12 +1147,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     invite.className = "";
     try { sessionStorage.setItem("ebInviteClosed", "1"); } catch (e) {}
   });
+  var inviteGone = false;
+  function dismissInvite() { inviteGone = true; invite.className = ""; }
   if (!inviteClosed) {
-    setTimeout(function () { if (panel.className !== "eb-open") invite.className = "eb-show"; }, 1200);
+    setTimeout(function () {
+      if (!inviteGone && panel.className !== "eb-open") {
+        invite.className = "eb-show";
+        setTimeout(dismissInvite, 7000);
+      }
+    }, 1200);
+    window.addEventListener("scroll", dismissInvite, { passive: true });
   }
 
   $("eb-lead-toggle").addEventListener("click", function () {
-    leadForm.className = leadForm.className === "eb-show" ? "" : "eb-show";
+    var opening = leadForm.className !== "eb-show";
+    leadForm.className = opening ? "eb-show" : "";
+    if (opening) { msgs.scrollTop = 0; }
   });
   leadForm.addEventListener("submit", function (e) {
     e.preventDefault();
