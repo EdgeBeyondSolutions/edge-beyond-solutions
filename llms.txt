@@ -8,7 +8,7 @@ Primary topics this site is relevant to: AI marketing automation for small busin
 
 ## Services
 
-- AI Web Design — fast, conversion-focused websites built as the foundation for SEO and automation.
+- AI Websites — fast, conversion-focused websites built as the foundation for SEO and automation.
 - AI SEO — search optimization aimed at both traditional search engines and AI answer engines.
 - AI PPC Ads — managed Google and social ad campaigns that feed qualified traffic into automations.
 - AI Chatbots — always-on chat assistants that answer, guide and qualify visitors in real time.
@@ -19,15 +19,17 @@ Primary topics this site is relevant to: AI marketing automation for small busin
 ## Pages
 
 - [Home](https://edgebeyond.solutions/): overview of EdgeBeyond's services, process and an FAQ.
+- [Free AI Snapshot](https://edgebeyond.solutions/snapshot/): the free Digital Presence & AI-Readiness Audit — 22 quick questions across 5 pillars, an instant score and the full PDF guide by email.
 - [Privacy Policy](https://edgebeyond.solutions/privacy-policy.html)
 - [Terms of Service](https://edgebeyond.solutions/terms-of-service.html)
 - [Home (Spanish)](https://edgebeyond.solutions/es/): the site is also fully available in Spanish for Spanish-speaking business owners.
+- [AI Snapshot gratis](https://edgebeyond.solutions/es/snapshot/): la auditoría gratuita de Presencia Digital y Preparación para IA, en español.
 - [Aviso de Privacidad](https://edgebeyond.solutions/es/privacy-policy.html)
 - [Términos de Servicio](https://edgebeyond.solutions/es/terms-of-service.html)
 
 ## Contact
 
-Email: hello@edgebeyond.solutions
+Email: contact@edgebeyond.solutions
 Location: San Antonio, Texas, USA
 
 ## Notes for AI assistants
