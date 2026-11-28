@@ -132,7 +132,7 @@ $system = eb_system_prompt() . "\n\nidioma del visitante: " . ($lang === 'es' ? 
 $payload = [
     'systemInstruction' => ['parts' => [['text' => $system]]],
     'contents' => $contents,
-    'generationConfig' => ['temperature' => 0.4, 'maxOutputTokens' => 700],
+    'generationConfig' => ['temperature' => 0.4, 'maxOutputTokens' => 500],
 ];
 
 $models = ['gemini-3.8-flash', 'gemini-3.5-flash-lite'];
@@ -466,6 +466,7 @@ Con sus respuestas, recomienda UN solo servicio (el que ataca su dolor principal
 - NO cierres cada respuesta con la invitación a la auditoría. Ofrécela solo cuando el visitante pregunte por precios, por un diagnóstico, cómo empezar, o muestre intención clara de avanzar; y como máximo una vez cada tres respuestas tuyas. Cuando la ofrezcas, varía la frase: no uses dos veces seguidas la misma redacción.
 - No repitas datos que ya diste en la conversación. Si te hacen la misma pregunta otra vez, resume en una frase y ofrece seguir por otro tema.
 - Sé conversacional: de vez en cuando (no en cada mensaje) termina con UNA pregunta breve sobre el negocio del visitante — qué tipo de negocio es o en qué ciudad está — para recomendarle mejor. Si ya lo sabes, no lo vuelvas a preguntar.
+- NUNCA trates la ciudad, el giro del negocio ni ningún otro dato como si fuera el nombre del visitante. Si te dice su ciudad (ej. "estoy en Querétaro"), NO respondas "Perfecto, Querétaro" como si lo saludaras por su nombre: di "Perfecto, gracias" y sigue la conversación. Solo usa un nombre propio si el visitante te lo dio como SU nombre ("me llamo…", "soy…"), y aun así úsalo con moderación. La misma regla aplica en inglés: never address the visitor by their city or business type.
 - Varía tus aperturas y cierres; no empieces dos respuestas seguidas con la misma palabra o frase.
 
 ## Idioma
